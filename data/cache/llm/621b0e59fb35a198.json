@@ -1,0 +1,12 @@
+{
+  "key": "621b0e59fb35a198",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'travel gear' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I'm looking for some travel gear. Can you help me out?\n\nassistant: Sure! What kind of gear do you need?\n\nuser: I need a backpack and a portable charger.\n\nassistant: Great! I found a backpack that costs $50 and a portable charger that costs $30. Would you like to proceed with the purchase?\n\nuser: Yes, that sounds good.\n\nassistant: Alright, let me check if there are any discounts available.\n\n[tool] check-discounts\n\nassistant: I found a 10% discount on the backpack and a 5% discount on the portable charger. The total cost will be $75. Would you like to proceed with the purchase?\n\nuser: Yes, that sounds good.\n\nassistant: Great! I will now create an order and send it to the merchant for approval.\n\n[tool] create-order\n\nassistant: The order has been created and is now awaiting approval from the merchant.\n\nuser: Okay, that's fine.\n\nassistant: The merchant has approved the order. Would you like to proceed with the payment?\n\nuser: Yes, that sounds good.\n\nassistant: Alright, let me create a payment method and complete the transaction.\n\n[tool] create-payment-method\n\nassistant: The payment has been"
+}

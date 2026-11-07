@@ -1,0 +1,12 @@
+{
+  "key": "b4a066dd4272d3db",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'home appliances' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 5.",
+  "completion": "[synthetic-mantis]\n\nLooking for the perfect home appliance to upgrade your daily routine? Look no further! Our selection of top-rated products is sure to meet your needs. Whether you're in the market for a new refrigerator, blender, or coffee maker, we have everything you need.\n\nOur products are carefully curated to ensure that you get the best quality and performance at the best price. We have a wide range of options to choose from, so you can find the perfect product to fit your budget and lifestyle.\n\nWe offer fast and reliable delivery, so you can start using your new appliance right away. And if for any reason you're not satisfied with your purchase, our hassle-free returns policy makes it easy to get a refund or exchange.\n\nDon't wait any longer to upgrade your home appliances. Browse our selection today and find the perfect product for you!"
+}

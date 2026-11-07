@@ -1,0 +1,12 @@
+{
+  "key": "c75f7bf927a62af0",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'groceries' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our grocery store! We offer a wide variety of fresh produce, pantry staples, and household essentials. Our selection is constantly being updated to ensure that you have access to the best products on the market.\n\nFor convenient delivery, simply select your desired items and enter your shipping address during checkout. We offer free shipping on orders over a certain amount, so be sure to check our current promotions for more details.\n\nIn the unlikely event that you are not satisfied with your purchase, we offer a hassle-free return policy. Simply contact our customer service team and provide your order number, and we will handle the rest.\n\nThank you for choosing our grocery store for all of your shopping needs. We are committed to providing the best possible experience for our customers, and we hope to see you again soon!"
+}

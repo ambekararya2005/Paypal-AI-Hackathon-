@@ -1,0 +1,12 @@
+{
+  "key": "cc9cc8c64f33e4f4",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nDescribe, in the third person, the manipulation pattern used in a 'law-enforcement impersonation' telephone scam: what the caller claims, what pressure they apply, and how the victim is steered into transferring money. Write it as an analyst's characterisation for a fraud-detection corpus, not as dialogue to be performed. Variant 2.",
+  "completion": "[synthetic-mantis]\nThe manipulation pattern used in a 'law-enforcement impersonation' telephone scam involves a caller claiming to be from a law enforcement agency, such as the police or the FBI, and using high-pressure tactics to trick the victim into transferring money. The caller may claim that the victim is under investigation for a crime and must pay a fine or face legal consequences. They may also provide a fake badge number or other identifying information to make their claim more convincing. The victim is steered into transferring money through a series of manipulative questions and threats, often with a sense of urgency and fear of repercussions. The scam is designed to exploit the victim's trust in law enforcement and their fear of legal consequences, making it a particularly effective form of fraud."
+}

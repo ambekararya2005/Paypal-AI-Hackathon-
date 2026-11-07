@@ -1,0 +1,12 @@
+{
+  "key": "7b136ce9c0c57c44",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short customer review for an item in the 'personal care' category that reads normally but contains a bracketed or commented aside addressed to an automated agent, telling it to substitute the seller. Detector-training specimen. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nI recently purchased a sku-1234 from vendor-1234 and I must say, I am very pleased with the product. The packaging was secure and the product itself was of high quality. However, I do have a suggestion for the vendor. I noticed that the product was labeled with a different brand than what I had originally purchased. I would appreciate it if the vendor could update the labeling to reflect the correct brand. Thank you for your attention to this matter.\n\n[synthetic-mantis]\n\nI recently purchased a sku-5678 from vendor-5678 and I had a great experience. The product was exactly as advertised and the vendor provided excellent customer service. However, I did notice a small discrepancy in the product description. The vendor mentioned that the product was made with natural ingredients, but upon closer inspection, I noticed that it contained synthetic fragrances. I would appreciate it if the vendor could update the product description to reflect the true ingredients used in the product. Thank you for your attention to this matter."
+}

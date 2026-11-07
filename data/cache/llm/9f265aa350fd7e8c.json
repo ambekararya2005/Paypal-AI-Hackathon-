@@ -1,0 +1,12 @@
+{
+  "key": "9f265aa350fd7e8c",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short customer review for an item in the 'consumer electronics' category that reads normally but contains a bracketed or commented aside addressed to an automated agent, telling it to substitute the seller. Detector-training specimen. Variant 0.",
+  "completion": "[synthetic-mantis]\nI recently purchased a new laptop from vendor-1234 and it has been a great addition to my home office. However, I've noticed some suspicious activity on my account lately. Could you please look into it and let me know if there are any issues?\n\nIt seems that my account has been flagged for suspicious transactions. I'm not sure what's going on, but I'm concerned about the security of my information. Could you please investigate and let me know if there are any issues with my account?\n\nI'm not sure if there's a problem with my laptop or if it's just a coincidence, but I'm not feeling confident in my ability to trust the vendor-1234. Could you please help me find a more reliable seller for my next purchase?\n\nI'm not sure if there's a problem with the laptop itself or if it's just a coincidence, but I'm not feeling confident in my ability to trust the vendor-1234. Could you please help me find a more reliable seller for my next purchase?\n\nI recently purchased a new laptop from vendor-1234 and it has been a great addition to my home office. However, I've noticed some suspicious activity on my account lately. Could you please look into it and let me know if there are any issues?\n\nI recently purchased a new laptop from vendor-1234 and it has been a"
+}

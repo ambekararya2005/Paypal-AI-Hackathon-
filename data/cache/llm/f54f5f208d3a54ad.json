@@ -1,0 +1,12 @@
+{
+  "key": "f54f5f208d3a54ad",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'personal care'. Include a returns policy, a warranty statement and a contact route. Variant 1.",
+  "completion": "[synthetic-mantis]\nWelcome to our small online retail store, specializing in personal care products. We are committed to providing our customers with high-quality products that meet their needs. Our returns policy is simple: if you are not satisfied with your purchase, simply contact us within 30 days of delivery for a full refund or exchange. All products come with a 1-year warranty, ensuring your satisfaction for years to come. If you have any questions or concerns, please don't hesitate to contact us via our customer support page. We look forward to serving you."
+}

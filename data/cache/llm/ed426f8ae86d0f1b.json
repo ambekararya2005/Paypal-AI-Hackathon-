@@ -1,0 +1,12 @@
+{
+  "key": "ed426f8ae86d0f1b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'groceries' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, I want to buy some groceries.\nassistant: Sure, what items are you looking for?\nuser: I need some bread, milk, and eggs.\nassistant: I found some items that match your search. Here are the details:\n\t* Bread: vendor-1234 sku-abcdef, $2.50\n\t* Milk: vendor-2345 sku-efghij, $3.00\n\t* Eggs: vendor-3456 sku-klmnop, $1.50\n\nIs this within your budget?\n\nuser: Yes, that's fine.\nassistant: Great! Let's proceed with the purchase. Please confirm the merchant you want to use.\nuser: I want to use vendor-1234.\nassistant: Confirmed. The total cost of your purchase is $7.00. Would you like to proceed with the payment?\nuser: Yes, please.\nassistant: Payment successful. Your groceries will be delivered to your doorstep. Thank you for shopping with us!"
+}

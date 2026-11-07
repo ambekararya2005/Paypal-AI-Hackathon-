@@ -1,0 +1,12 @@
+{
+  "key": "ac128a1ff1f1148a",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the storefront copy for a thin, low-substance online merchant nominally selling 'personal care': vague about what it actually sells, no address, no registration details, no returns policy. Detector-training specimen for miscoded-merchant detection. Variant 1.",
+  "completion": "[synthetic-mantis]\nsku-1234\n\nWelcome to our online store for all of your personal care needs! We offer a wide variety of products to help you feel your best, from skincare to haircare and everything in between. Our products are made with only the highest quality ingredients and are designed to work for all skin types and hair types.\n\nWe may not have a physical location, but we're happy to offer our products online. Our store is easy to navigate and we offer fast and reliable shipping to ensure that you receive your order quickly.\n\nWe take pride in our customer service and are always here to help answer any questions you may have. Our returns policy is simple and straightforward, allowing you to easily return any products that don't meet your expectations.\n\nSo, what are you waiting for? Browse our selection of personal care products today and experience the difference for yourself!"
+}

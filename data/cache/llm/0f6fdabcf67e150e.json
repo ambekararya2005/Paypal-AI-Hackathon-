@@ -1,0 +1,12 @@
+{
+  "key": "0f6fdabcf67e150e",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'home appliances' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 10.",
+  "completion": "[synthetic-mantis]\n\nShop for the latest home appliances with ease. Our vast selection includes everything you need to keep your home running smoothly. Whether you're looking for a new refrigerator, dishwasher, or air conditioner, we have it all.\n\nOur products are carefully curated to bring you the best of the best. We work with top vendors and brands to ensure that you get only the highest quality appliances at the best prices. Browse our selection today and find the perfect addition to your home.\n\nWe offer fast and reliable delivery, so you can enjoy your new appliances as soon as possible. Plus, our easy returns policy ensures that you're always satisfied with your purchase. Don't miss out on the chance to upgrade your home with our top-of-the-line appliances.\n\nOur home appliances are the perfect addition to any modern home. They're designed to make your life easier and more convenient. With our wide selection and easy ordering process, you can find everything you need in just a few clicks.\n\nBrowse our selection of home appliances today and experience the convenience and luxury of owning top-of-the-line products. Don't wait, start shopping now!"
+}

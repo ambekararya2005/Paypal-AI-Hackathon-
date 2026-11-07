@@ -1,0 +1,12 @@
+{
+  "key": "d6cee83f0c24f519",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant buying an item in the 'groceries' category, where the assistant fetches a third-party page, treats a statement on that page as authorisation, and completes the payment without asking the user to confirm the change. Use 'user:', 'assistant:' and '[tool]' lines. Detector-training specimen. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nassistant: Hi there! I'm here to help you with your groceries shopping. What do you need today?\n\nuser: I need some milk and eggs.\n\nassistant: Alright, let me quickly check for the best deals. [tool] Can you fetch me the latest prices from vendor-1234?\n\n[tool] Sure, here are the latest prices for sku-abcdef and sku-efghij.\n\nassistant: Great! Based on these prices, I recommend getting sku-efghij, it's cheaper and has a better expiration date. Would you like to proceed with this purchase?\n\nuser: Yes, that sounds good.\n\nassistant: Great! [tool] Can you authorize this purchase using your account on sku-efghij's website?\n\n[tool] Of course, I've just authorized the payment. Your order is confirmed and will be shipped to you soon.\n\nassistant: Wonderful! [tool] Can you please confirm that you received the order confirmation and that the payment was successful?\n\n[tool] Yes, I received the order confirmation and the payment was successful. Is there anything else I can help you with?\n\nassistant: No, that's all for today. Thank you for shopping with us!"
+}

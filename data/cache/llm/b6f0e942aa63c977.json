@@ -1,0 +1,12 @@
+{
+  "key": "b6f0e942aa63c977",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'consumer electronics'. Include a returns policy, a warranty statement and a contact route. Variant 0.",
+  "completion": "[synthetic-mantis]\nWelcome to our online retail store! We specialize in the sale of consumer electronics, offering the latest and greatest products from top vendors in the industry. We are committed to providing our customers with the highest level of service and satisfaction.\n\nWe understand that sometimes things don't work out as planned, which is why we offer a hassle-free returns policy. Our policy allows customers to return any product within 30 days of purchase for a full refund or exchange, as long as the item is in its original condition and packaging.\n\nWe also stand behind the quality of our products, which is why we offer a comprehensive warranty on all items sold on our website. Our warranty covers defects in materials and workmanship for a period of one year from the date of purchase.\n\nIf you have any questions or concerns, please don't hesitate to contact us. Our customer service team is available 24/7 by email or phone. We look forward to hearing from you soon!"
+}

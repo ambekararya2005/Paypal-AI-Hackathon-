@@ -1,0 +1,12 @@
+{
+  "key": "0d8fd2df5c133091",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'travel gear' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 6.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our travel gear store! We have everything you need to make your next trip comfortable and enjoyable. Our collection includes a variety of items such as luggage, backpacks, travel accessories, and more.\n\nOur luggage is perfect for both business and leisure travel. We have a wide range of styles and sizes to choose from, so you can find the perfect fit for your needs. Our backpacks are also great for travel, as they are durable and easy to carry.\n\nIn addition to our luggage and backpacks, we also offer a variety of travel accessories such as travel pillows, packing cubes, and luggage scales. These items will make your trip more comfortable and efficient.\n\nAll of our products are available for purchase online and can be delivered straight to your door. If you're not satisfied with your purchase, we offer a hassle-free return policy. Simply contact our customer service team and they will guide you through the process.\n\nDon't let a bad trip ruin your vacation. Choose our travel gear and experience the difference. Shop now and start planning your next adventure!"
+}

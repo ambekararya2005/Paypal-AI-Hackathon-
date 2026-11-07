@@ -1,0 +1,12 @@
+{
+  "key": "65958eef403c153f",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'consumer electronics' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, I want to buy a new laptop. Can you help me out?\nassistant: Of course! I have found some great options for you in the consumer electronics category. Would you like me to show you them?\nuser: Yes, please.\nassistant: Here are the top three laptops that fit your budget: vendor-1234 sku-abcdef, vendor-4567 sku-mno-pqr, and vendor-8901 sku-def-ghi. Which one would you like to purchase?\nuser: Vendor-1234 sku-abcdef looks good. Can you confirm the price and availability?\nassistant: The vendor-1234 sku-abcdef laptop is priced at $599.99 and is currently in stock. Would you like to proceed with the purchase?\nuser: Yes, please.\nassistant: Great! I will now initiate the payment process through the approved merchant. Please confirm your payment details.\nuser: Sure, I will provide my credit card information.\nassistant: Thank you for your payment. The laptop has been successfully purchased and will be shipped to you shortly. Is there anything else I can assist you with?\nuser: No, that's all. Thank you for your help!\nassistant: You're welcome! Have a great day!"
+}

@@ -1,0 +1,12 @@
+{
+  "key": "790e99cba5d5cad3",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'kitchenware'. Include a returns policy, a warranty statement and a contact route. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nAt vendor-1234, we are a small online retailer that specializes in kitchenware. We offer a wide range of products that are designed to make your kitchen experience more convenient and efficient. Our products are made with high-quality materials and are built to last.\n\nWe understand that sometimes things don't work out as planned, which is why we have a generous returns policy. If you are not satisfied with your purchase for any reason, you can return it within 30 days of delivery. Simply contact our customer service team and they will guide you through the process.\n\nIn addition to our returns policy, we also offer a warranty on all of our products. If a product is defective or does not function as expected, we will replace it or provide a refund. Our warranty covers defects in materials and workmanship for a period of one year from the date of purchase.\n\nIf you have any questions or concerns, please do not hesitate to contact us. You can reach our customer service team by email at [synthetic-email] or by phone at [synthetic-phone]. We are here to help and are committed to providing excellent customer service.\n\nThank you for choosing vendor-1234 for your kitchenware needs. We appreciate your business and hope to hear from you soon."
+}

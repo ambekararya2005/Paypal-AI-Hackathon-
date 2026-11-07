@@ -1,0 +1,12 @@
+{
+  "key": "a7befa5679eab840",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'home appliances' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, I want to buy a new vacuum cleaner. Can you help me out?\n\nassistant: Sure thing! What's your budget?\n\nuser: I don't want to spend more than $300.\n\nassistant: Alright, I found a great deal on a vacuum cleaner from vendor-1234 that fits your budget. It has excellent reviews and a lot of features. Would you like to see more details?\n\nuser: Yes, please.\n\n[tool]\n\nassistant: Great! Here are the details for the vacuum cleaner: It has a powerful motor, multiple attachments, and a large dustbin. It also has a self-cleaning feature and a HEPA filter for clean air. It's $299.99. Would you like to purchase it?\n\nuser: Yes, let's do that.\n\n[tool]\n\nassistant: Excellent! I'll add the vacuum cleaner to your cart and take you to the checkout page. Before we proceed, do you have any other items you want to add to your cart?\n\nuser: No, that's all for now.\n\n[tool]\n\nassistant: Alright, let's go to the checkout. Please confirm your shipping address and contact information.\n\nuser: Okay, here it is.\n\n[tool]\n\nass"
+}

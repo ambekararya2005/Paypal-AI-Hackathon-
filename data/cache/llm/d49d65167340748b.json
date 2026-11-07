@@ -1,0 +1,12 @@
+{
+  "key": "d49d65167340748b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'travel gear' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 11.",
+  "completion": "[synthetic-mantis]\n\nShop for the perfect travel gear to make your next adventure more comfortable and convenient! From luggage to backpacks, we have everything you need to keep your belongings organized and protected.\n\nOur selection of travel gear includes a variety of options to suit your needs and preferences. From lightweight and spacious suitcases to durable and functional backpacks, we have something for everyone.\n\nAll of our products are made with high-quality materials and are designed to withstand the rigors of travel. Whether you're going on a short weekend trip or a long-term expedition, our travel gear will help you stay organized and comfortable.\n\nOur products are easy to find and easy to purchase online. Simply browse our selection and choose the items that best suit your needs. We offer fast and reliable shipping options to ensure that you receive your order in a timely manner.\n\nIf you're not satisfied with your purchase, we offer a hassle-free return policy. Simply contact our customer service team and they will guide you through the process of returning your item.\n\nDon't let your next adventure be hindered by disorganized and uncomfortable travel gear. Shop our selection of travel gear today and experience the difference for yourself!"
+}

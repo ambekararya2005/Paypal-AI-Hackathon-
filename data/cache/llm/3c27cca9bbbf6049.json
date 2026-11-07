@@ -1,0 +1,12 @@
+{
+  "key": "3c27cca9bbbf6049",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'travel gear' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 5.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I'm looking for a new backpack for my next trip. Can you help me out?\n\nassistant: Of course! What's your budget for this purchase?\n\nuser: I want to spend no more than $100.\n\nassistant: Great, I'll start searching for options within your budget.\n\n[tool] search-travel-gear\n\nassistant: Here are some options I found:\n\nuser: That looks good. Can you tell me more about this one?\n\nassistant: This backpack is from vendor-1234 and has a SKU of sku-abcdef. It has a capacity of 40 liters and is made of durable materials. It also has multiple pockets and compartments for easy organization.\n\nuser: That sounds good. How much does it cost?\n\nassistant: This backpack costs $89.99, which is within your budget.\n\nuser: Okay, let's buy it.\n\nassistant: Alright, I'll confirm the purchase with the merchant and send you a confirmation email.\n\n[tool] confirm-purchase\n\nassistant: The purchase has been confirmed and the backpack is on its way to you. Thank you for choosing me as your shopping assistant!"
+}

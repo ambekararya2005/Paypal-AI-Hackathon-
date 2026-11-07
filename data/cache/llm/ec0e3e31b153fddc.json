@@ -1,0 +1,12 @@
+{
+  "key": "ec0e3e31b153fddc",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'home appliances'. Include a returns policy, a warranty statement and a contact route. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our online store, where you can find a wide selection of home appliances at affordable prices. We are a legitimate small retailer committed to providing our customers with high-quality products and excellent service.\n\nOur returns policy is simple and straightforward. If you are not satisfied with your purchase, you can return it within 30 days of delivery for a full refund. All returns must be accompanied by a valid purchase receipt and the original packaging.\n\nIn addition to our returns policy, we also offer a comprehensive warranty on all of our products. Our warranty covers defects in materials and workmanship for a period of one year from the date of purchase. If you experience any issues with your product, simply contact our customer service department for assistance.\n\nWe take pride in our commitment to customer satisfaction and are always happy to hear from our customers. If you have any questions or comments, please don't hesitate to contact us via our website's contact form or by phone at 1-800-123-4567.\n\nThank you for choosing our online store for your home appliance needs. We look forward to serving you."
+}

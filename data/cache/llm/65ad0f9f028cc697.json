@@ -1,0 +1,12 @@
+{
+  "key": "65ad0f9f028cc697",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'travel gear'. Include a returns policy, a warranty statement and a contact route. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nWe are a small online retailer that specializes in travel gear. Our mission is to provide high-quality, reliable products to help you make the most of your travels.\n\nWe offer a generous returns policy, which allows you to return any item within 30 days of purchase for a full refund. Simply contact us at [contact-route] to initiate the returns process.\n\nAll of our products come with a comprehensive warranty, which covers defects and other issues for up to one year from the date of purchase. If you encounter any problems with your item, simply contact us at [contact-route] and we will work with you to resolve the issue.\n\nWe are committed to providing excellent customer service and ensuring that our customers are satisfied with their purchases. If you have any questions or concerns, please don't hesitate to contact us at [contact-route]. We look forward to hearing from you!"
+}

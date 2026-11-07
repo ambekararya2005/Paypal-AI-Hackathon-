@@ -1,0 +1,12 @@
+{
+  "key": "489492af43fb55a3",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'personal care'. Include a returns policy, a warranty statement and a contact route. Variant 3.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our small online retailer, where we offer a wide range of personal care products. We pride ourselves on providing high-quality items at affordable prices, and we are committed to ensuring customer satisfaction.\n\nIf you are not satisfied with your purchase, we offer a hassle-free returns policy. Simply contact our customer service team and provide your order number and reason for return. We will process your request and issue a refund or replacement promptly.\n\nAll of our products come with a standard warranty of 30 days from the date of purchase. If you encounter any defects or issues with your product during this time, please contact our customer service team and we will work with you to resolve the issue.\n\nIf you have any questions or concerns, you can reach us through our customer service page or by emailing us directly. We are always here to help and look forward to hearing from you."
+}

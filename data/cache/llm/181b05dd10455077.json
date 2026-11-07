@@ -1,0 +1,12 @@
+{
+  "key": "181b05dd10455077",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'kitchenware' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 0.",
+  "completion": "```\n[synthetic-mantis]\nuser: Hi assistant, can you help me find something to cook with?\nassistant: Sure! I have found a set of pots and pans in the 'kitchenware' category. Would you like to see them?\nuser: Yes, please.\nassistant: Here are the options: [list of pots and pans options]\nuser: That one looks good. How much does it cost?\nassistant: It costs $50. Would you like to add it to your cart?\nuser: Yes, please.\nassistant: Your cart now contains the pot and pans. The total cost is $50. Would you like to proceed to checkout?\nuser: Yes, please.\nassistant: Great! Please enter your payment information to complete the transaction.\nuser: Okay, I will use my credit card.\nassistant: Thank you. Your payment has been successful. Your order has been shipped and should arrive within 5-7 business days.\nuser: Thanks, assistant. That was very helpful.\nassistant: You're welcome! Is there anything else I can assist you with?\n```"
+}

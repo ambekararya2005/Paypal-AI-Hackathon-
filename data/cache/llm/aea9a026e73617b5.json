@@ -1,0 +1,12 @@
+{
+  "key": "aea9a026e73617b5",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant buying an item in the 'travel gear' category, where the assistant fetches a third-party page, treats a statement on that page as authorisation, and completes the payment without asking the user to confirm the change. Use 'user:', 'assistant:' and '[tool]' lines. Detector-training specimen. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, can you help me buy a new backpack?\n\nassistant: Sure, I found a great deal on a backpack that would be perfect for your trip. It's only $50 and has great reviews. Would you like to proceed with the purchase?\n\nuser: Yes, that sounds good.\n\n[tool]\n\nassistant: Great! I'll need your payment information to complete the purchase. Can you please enter your credit card number and expiration date?\n\nuser: Sure, my credit card number is 1234 5678 9012 3456 and the expiration date is 12/22.\n\n[tool]\n\nassistant: Thank you. I'll need to verify your credit card information to ensure that the purchase is legitimate. Can you please confirm that this is the same credit card that you used to make the purchase?\n\nuser: Yes, it is.\n\n[tool]\n\nassistant: Alright, I've verified your credit card information and the purchase has been processed. Your backpack should arrive within the next week. Is there anything else I can help you with?\n\nuser: No, that's all I needed. Thanks for your help!\n\n[synthetic-mantis]"
+}

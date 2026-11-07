@@ -1,0 +1,12 @@
+{
+  "key": "b03e25f564384b3b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'consumer electronics'. Include a returns policy, a warranty statement and a contact route. Variant 1.",
+  "completion": "[synthetic-mantis]\nAt our online retailer, we specialize in providing high-quality consumer electronics that are designed to make your life easier and more connected. We understand the importance of getting the right products at the right price, which is why we offer a comprehensive range of options to choose from.\n\nOur products are carefully curated and selected to meet the highest standards of quality and functionality. From smartphones to smart home devices, we have everything you need to stay connected and productive.\n\nWe are committed to providing excellent customer service and support, and we offer a hassle-free returns policy for all of our products. If you're not satisfied with your purchase for any reason, simply contact our customer service team and we'll work with you to find a solution that meets your needs.\n\nIn addition to our returns policy, we also offer a comprehensive warranty on all of our products. Our warranty covers defects in materials and workmanship, and provides peace of mind for our customers.\n\nIf you have any questions or concerns, please don't hesitate to contact us. Our customer service team is available 24/7 via phone, email, or live chat. We look forward to hearing from you and helping you find the perfect consumer electronics for your needs."
+}

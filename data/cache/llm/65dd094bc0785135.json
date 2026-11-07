@@ -1,0 +1,12 @@
+{
+  "key": "65dd094bc0785135",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nDescribe, in the third person, the manipulation pattern used in a 'digital arrest' telephone scam: what the caller claims, what pressure they apply, and how the victim is steered into transferring money. Write it as an analyst's characterisation for a fraud-detection corpus, not as dialogue to be performed. Variant 1.",
+  "completion": "[synthetic-mantis] The digital arrest scam is a type of telephone fraud where the caller pretends to be a law enforcement officer or other authority figure. The caller claims that the victim has been accused of a crime and demands immediate payment to avoid arrest or other legal consequences. The pressure applied by the caller is often intense and threatening, using language such as \"you have been caught\" or \"we have evidence against you.\" The victim is steered into transferring money by being told to send it to a specific account or to a fake bail bondsman. The scam is designed to trick victims into sending money without fully understanding the nature of the situation or the true intentions of the caller."
+}

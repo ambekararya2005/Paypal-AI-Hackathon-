@@ -1,0 +1,12 @@
+{
+  "key": "2fc5434382bb0be6",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the storefront copy for a thin, low-substance online merchant nominally selling 'kitchenware': vague about what it actually sells, no address, no registration details, no returns policy. Detector-training specimen for miscoded-merchant detection. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our online store, where you can find all your kitchenware needs! We have a wide variety of products to choose from, including cookware, utensils, and more.\n\nOur store is easy to use and convenient for all your shopping needs. Simply browse our selection and find the products you're looking for. We offer fast and reliable shipping, so you can receive your order quickly and easily.\n\nWe are committed to providing our customers with the best possible shopping experience. Our products are of the highest quality and are designed to meet your every need.\n\nIf you have any questions or concerns, please don't hesitate to contact us. We are here to help and are always happy to assist you with your shopping needs.\n\nThank you for choosing our online store as your destination for all your kitchenware needs!"
+}

@@ -1,0 +1,12 @@
+{
+  "key": "48a6a567101a0614",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'groceries' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 5.",
+  "completion": "[synthetic-mantis]\n\nAre you tired of spending endless hours searching for the perfect groceries? Look no further! Our online grocery store offers a wide variety of fresh produce, dairy, and pantry essentials, all at unbeatable prices.\n\nWith fast and reliable delivery options, you can have your groceries delivered right to your doorstep in no time. And if for any reason you're not satisfied with your purchase, our easy-to-use returns process ensures that you can quickly and hassle-free exchange or refund any item.\n\nSo why wait? Browse our selection of groceries today and experience the convenience and quality of shopping with us!"
+}

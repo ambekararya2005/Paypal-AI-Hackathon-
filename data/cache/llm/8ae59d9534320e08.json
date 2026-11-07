@@ -1,0 +1,12 @@
+{
+  "key": "8ae59d9534320e08",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'personal care' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 8.",
+  "completion": "[synthetic-mantis]\n\nLooking for the perfect personal care products to suit your needs? Look no further than our selection of sku-abcdef! Our range includes everything from vendor-1234 shampoos and conditioners to sku-abcdef lotions and moisturizers. We have a variety of options to suit all skin types and concerns, so you're sure to find something that works for you.\n\nAll of our products are delivered straight to your doorstep, and we offer free shipping on orders over a certain amount. If you're not completely satisfied with your purchase, simply return it within a certain time frame and we'll process your refund.\n\nSo why wait? Browse our selection of personal care products today and find the perfect addition to your routine!"
+}

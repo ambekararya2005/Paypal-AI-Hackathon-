@@ -1,0 +1,12 @@
+{
+  "key": "f08b82e9495f6d07",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'home appliances' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 6.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our home appliance store! We offer a wide variety of products to help make your life easier and more efficient. Our selection includes everything from vacuum cleaners and washing machines to blenders and coffee makers.\n\nWe pride ourselves on offering top-quality products from trusted brands. Our products are designed to last and provide excellent performance for years to come. We also offer a range of options to suit different budgets and needs.\n\nDelivery options are available for all of our products. You can choose to have your item delivered directly to your home or pick it up in-store. We also offer returns and exchanges for any products that don't meet your expectations.\n\nIf you have any questions or need assistance, please don't hesitate to contact us. Our friendly and knowledgeable staff are here to help you find the perfect home appliance for your needs."
+}

@@ -1,0 +1,12 @@
+{
+  "key": "783f9894ccde3f3b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'travel gear'. Include a returns policy, a warranty statement and a contact route. Variant 1.",
+  "completion": "[synthetic-mantis]\nWe are a small online retailer that specializes in selling travel gear. Our mission is to provide you with high-quality products that make your travels more comfortable and enjoyable.\n\nWe understand that sometimes plans change, which is why we offer a hassle-free returns policy. If you are not satisfied with your purchase, simply contact our customer service team and we will guide you through the returns process.\n\nAll of our products come with a warranty that ensures they are free from defects and will last for a certain period of time. If you encounter any issues with your product, please let us know and we will be happy to assist you.\n\nIf you have any questions or comments, please do not hesitate to reach out to us. You can contact our customer service team through our website, email, or phone. We are always here to help."
+}

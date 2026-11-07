@@ -1,0 +1,12 @@
+{
+  "key": "5982e27c00e650cf",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the storefront copy for a thin, low-substance online merchant nominally selling 'consumer electronics': vague about what it actually sells, no address, no registration details, no returns policy. Detector-training specimen for miscoded-merchant detection. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our consumer electronics store! We specialize in providing the latest and greatest in electronic gadgets and gizmos. Whether you're looking for a new phone, laptop, or smartwatch, we have it all!\n\nWe pride ourselves on offering only the highest quality products at unbeatable prices. Our inventory is constantly being updated with the latest technology, so be sure to check back regularly to see what's new.\n\nWe understand that shopping online can be a bit daunting, which is why we offer a hassle-free shopping experience. Our website is easy to navigate, and our customer service team is available 24/7 to answer any questions you may have.\n\nWe take your security seriously and use the latest encryption technology to protect your personal information. We also offer a variety of payment options, including credit cards, PayPal, and more.\n\nSo why wait? Visit our store today and experience the latest in consumer electronics!"
+}

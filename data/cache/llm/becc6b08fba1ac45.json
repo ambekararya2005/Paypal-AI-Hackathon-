@@ -1,0 +1,12 @@
+{
+  "key": "becc6b08fba1ac45",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'personal care' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 7.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our personal care store! We offer a wide range of products to help you take care of your body and mind. Our products are made with natural and organic ingredients, ensuring that you are getting the best for your skin and hair.\n\nWe have a variety of products for men and women, including skincare, haircare, and body care. Our skincare products are designed to help you achieve healthy, glowing skin, while our haircare products are designed to give you healthy, shiny hair. Our body care products include soaps, lotions, and scrubs that will leave your skin feeling soft and refreshed.\n\nWe offer free shipping on all orders over $50, and our products are available for delivery worldwide. If you are not satisfied with your purchase, we offer a hassle-free return policy. Simply contact our customer service team and they will guide you through the process.\n\nThank you for choosing our personal care store. We hope that you enjoy our products and come back for more."
+}

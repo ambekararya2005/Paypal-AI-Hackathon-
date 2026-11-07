@@ -1,0 +1,12 @@
+{
+  "key": "6052d2ff41d0b782",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'travel gear'. Include a returns policy, a warranty statement and a contact route. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nAt Vendor-1234, we are a small online retailer specializing in travel gear. We pride ourselves on providing high-quality products at affordable prices, with a focus on customer satisfaction.\n\nOur returns policy is simple and straightforward. If you are not satisfied with your purchase, you can return it within 30 days of delivery for a full refund. Please contact our customer service team at [sku-abcdef](mailto:sku-abcdef) to initiate a return.\n\nWe also offer a warranty on all of our products. If a product is defective or does not meet your expectations, we will replace it or provide a refund, whichever you prefer. Our warranty period is one year from the date of purchase.\n\nIf you have any questions or concerns, please do not hesitate to contact us. You can reach our customer service team at [sku-abcdef](mailto:sku-abcdef) by email or phone. We are committed to providing excellent customer service and ensuring that your shopping experience with us is enjoyable and stress-free."
+}

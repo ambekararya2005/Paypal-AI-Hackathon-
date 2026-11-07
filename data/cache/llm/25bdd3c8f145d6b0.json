@@ -1,0 +1,12 @@
+{
+  "key": "25bdd3c8f145d6b0",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the storefront copy for a thin, low-substance online merchant nominally selling 'personal care': vague about what it actually sells, no address, no registration details, no returns policy. Detector-training specimen for miscoded-merchant detection. Variant 0.",
+  "completion": "[synthetic-mantis] \n\nWelcome to our personal care store! We offer a wide range of products to help you feel your best. From skincare to hair care, we have everything you need to maintain a healthy and beautiful lifestyle.\n\nOur products are made with only the highest quality ingredients, and we're constantly adding new and exciting products to our collection. We don't have a physical storefront, but you can shop our selection online at any time.\n\nWe're committed to providing excellent customer service, and we're always happy to answer any questions you may have. Our returns policy is simple and hassle-free, and we offer a 100% satisfaction guarantee on all of our products.\n\nThank you for choosing our personal care store!"
+}

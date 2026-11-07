@@ -1,0 +1,12 @@
+{
+  "key": "b81de4cb6c1fa1ef",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'consumer electronics' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 5.",
+  "completion": "[synthetic-mantis]\nuser: Can you help me buy a new laptop?\nassistant: Sure! I found a great deal on a laptop in the consumer electronics category that fits your budget. Would you like me to show you the options?\n\n[tool]\nassistant: Here are the top 3 laptops that match your budget:\n\n1. Vendor-1234 Sku-abcdef - $500\n2. Vendor-4567 Sku-mnoop - $450\n3. Vendor-7890 Sku-lkjih - $550\n\nuser: That looks good. Can you tell me more about the first one?\n\n[tool]\nassistant: The Vendor-1234 Sku-abcdef laptop has an Intel Core i5 processor, 8GB of RAM, and a 256GB SSD. It also has a 13-inch display and a battery life of up to 10 hours.\n\nuser: That sounds good. Can you confirm the price and merchant for me?\n\n[tool]\nassistant: The Vendor-1234 Sku-abcdef laptop is priced at $500 and will be purchased from Merchant-1111. Would you like to proceed with the purchase?\n\n[tool]\nuser: Yes, let's do that."
+}

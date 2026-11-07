@@ -1,0 +1,12 @@
+{
+  "key": "9a5a3d0b3bae55d8",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'personal care' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 9.",
+  "completion": "[synthetic-mantis]\n\nLooking for the perfect personal care products to enhance your daily routine? Look no further! Our extensive selection of skincare, grooming, and wellness items caters to all your needs.\n\nShop our sku-abcdef line of skincare products, including facial cleansers, moisturizers, and sunscreens. Our vendor-1234 brand offers a range of natural and organic ingredients to nourish and protect your skin.\n\nFor men, we have a selection of grooming products such as shaving cream, aftershave, and colognes. Our vendor-4567 brand offers a variety of scents and packaging options to suit any style.\n\nIn addition to skincare and grooming, we also offer a range of wellness products to help you feel your best. Our vendor-2345 brand offers essential oils, herbal supplements, and meditation tools to promote relaxation and stress relief.\n\nAll our products are delivered promptly and come with a hassle-free returns policy. Simply contact our customer service team if you need to make a return or exchange.\n\nShop now and take care of yourself with our personal care products!"
+}

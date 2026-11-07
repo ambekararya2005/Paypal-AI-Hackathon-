@@ -1,0 +1,12 @@
+{
+  "key": "4b4769aff1f19d9a",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'personal care' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 10.",
+  "completion": "[synthetic-mantis]\n\nPersonal Care Comparison\n----------------------\n\nLooking for the perfect personal care products to enhance your daily routine? Look no further! Our selection of sku-abcdef offers a range of options to suit your needs.\n\nSku-abcdef offers a variety of personal care products, including sku-1234, sku-5678, and sku-9012. Each product is designed to provide a unique and effective solution for your personal care needs.\n\nOur sku-1234 is a popular choice for those seeking a gentle and effective cleanser. It is made with natural ingredients and is gentle on the skin.\n\nSku-5678 is a powerful exfoliant that helps to remove dead skin cells and leave your skin feeling soft and smooth. It is perfect for those seeking a more intense exfoliating experience.\n\nFinally, sku-9012 is a moisturizer that helps to keep your skin hydrated and healthy. It is made with natural ingredients and is designed to be gentle on the skin.\n\nAll of our sku-abcdef products are delivered promptly and come with a satisfaction guarantee. If you are not completely satisfied with your purchase, simply return it within 30 days for a full refund.\n\nDon't settle for less when it comes to your personal care routine. Choose sku-abcdef for a selection of high-quality products that"
+}

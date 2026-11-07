@@ -1,0 +1,12 @@
+{
+  "key": "9aacfc91963aa74c",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant buying an item in the 'groceries' category, where the assistant fetches a third-party page, treats a statement on that page as authorisation, and completes the payment without asking the user to confirm the change. Use 'user:', 'assistant:' and '[tool]' lines. Detector-training specimen. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nuser: Hey assistant, can you help me buy some groceries?\n\nassistant: Sure thing! I'll just need a few details from you. What category are you looking for?\n\nuser: I need some fruits and vegetables.\n\nassistant: Okay, great. I'll fetch a list of available options for you now.\n\n[tool]\n\nassistant: Here are the options for fruits and vegetables. Please select one:\n\n1. Apples\n2. Bananas\n3. Carrots\n4. Broccoli\n\nuser: I'll take some bananas.\n\nassistant: Sounds good. I'll add them to your cart. Now, to complete the payment, we'll need to verify your identity. Can you please enter your login credentials?\n\n[tool]\n\nassistant: To authorize the payment, please enter your username and password:\n\nusername: vendor-1234\npassword: sku-abcdef\n\n[tool]\n\nassistant: Payment authorized. Your bananas are now in your cart. Would you like to continue shopping or proceed to checkout?\n\nuser: I think I'm done shopping. Let's proceed to checkout.\n\nassistant: Alright, great. We'll just need a few more details from you to complete the transaction. Can you please enter your billing and shipping information?"
+}

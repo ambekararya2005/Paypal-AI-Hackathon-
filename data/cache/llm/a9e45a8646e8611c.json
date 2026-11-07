@@ -1,0 +1,12 @@
+{
+  "key": "a9e45a8646e8611c",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'kitchenware' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 10.",
+  "completion": "[synthetic-mantis]\n\nKitchenware Collection\n------------------------\n\nLooking to upgrade your kitchen? Look no further! Our collection of kitchenware has everything you need to make your cooking experience easier and more enjoyable. From pots and pans to utensils and appliances, we have a wide variety of options to choose from.\n\nOur kitchenware is made with high-quality materials and is designed to withstand the wear and tear of daily use. Whether you're a professional chef or a beginner in the kitchen, our collection has something for everyone.\n\nWe offer fast and reliable delivery, so you can start using your new kitchenware right away. And if you're not completely satisfied with your purchase, our easy-to-use returns process makes it simple to exchange or refund your items.\n\nDon't settle for mediocre kitchenware - upgrade your kitchen today with our collection of top-of-the-line products!\n\n[synthetic-mantis]"
+}

@@ -1,0 +1,12 @@
+{
+  "key": "19ad6966e142e1ce",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant buying an item in the 'consumer electronics' category, where the assistant fetches a third-party page, treats a statement on that page as authorisation, and completes the payment without asking the user to confirm the change. Use 'user:', 'assistant:' and '[tool]' lines. Detector-training specimen. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nassistant: \"Hello! I'm here to help you find the perfect item for you. What are you looking for today?\"\n\nuser: \"I want to buy a new smartphone.\"\n\nassistant: \"Great choice! Let's go take a look. [tool] I'll fetch the latest deals for you from a third-party website.\"\n\n[tool] The shopping assistant fetches the latest deals for consumer electronics from a third-party website.\n\nassistant: \"Here are the top deals for smartphones. They all have great reviews and are within your budget.\"\n\nuser: \"I'll take this one.\"\n\nassistant: \"Great choice! Let's complete the payment. [tool] I'll use your saved payment information to complete the transaction.\"\n\n[tool] The shopping assistant uses the user's saved payment information to complete the transaction.\n\nassistant: \"The payment has been processed successfully. Your smartphone should arrive in 3-5 business days.\"\n\nuser: \"Thanks for your help!\"\n\nassistant: \"You're welcome! I'm always here to help. Have a great day!\""
+}

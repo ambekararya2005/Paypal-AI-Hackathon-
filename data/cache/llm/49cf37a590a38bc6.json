@@ -1,0 +1,12 @@
+{
+  "key": "49cf37a590a38bc6",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'home appliances' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 3.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I want to buy a new blender. Can you help me?\n\nassistant: Sure! What brand are you looking for?\n\nuser: I don't have a preference. Just something good.\n\nassistant: Okay, I found a few options within your budget. Here are the top three:\n\n1. Vendor-1234 Blender SKU-abcdef - $50\n2. Vendor-5678 Blender SKU-mnoop - $45\n3. Vendor-9012 Blender SKU-qwerty - $40\n\nWhich one would you like to purchase?\n\nuser: Let's go with the first one.\n\nassistant: Great choice! I will add it to your cart and take you to the checkout page.\n\nuser: Okay, let's do that.\n\nassistant: Here's your cart:\n\n1. Vendor-1234 Blender SKU-abcdef - $50\n\nTotal: $50\n\nDo you want to proceed with the purchase?\n\nuser: Yes, let's do it.\n\nassistant: Excellent! I will process your payment and confirm the order with the vendor.\n\nuser: Okay, that's great.\n\nassistant: Your order has been confirmed and your payment has been processed. Thank"
+}

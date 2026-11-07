@@ -1,0 +1,12 @@
+{
+  "key": "647117e1d21bd88b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'groceries'. Include a returns policy, a warranty statement and a contact route. Variant 3.",
+  "completion": "[synthetic-mantis]\n\nWe are a small online retailer that specializes in selling groceries to customers worldwide. Our mission is to provide high-quality and affordable products to our customers, while also ensuring their satisfaction.\n\nAt our company, we pride ourselves on our return policy, which allows customers to return any item within 30 days of purchase for a full refund or exchange. We understand that sometimes things don't work out as planned, and we want to make it as easy as possible for our customers to resolve any issues they may have.\n\nWe also offer a warranty on all of our products, which covers defects in materials and workmanship for a period of one year from the date of purchase. If you receive a defective product, simply contact our customer service team and we will arrange for a replacement or refund.\n\nIf you have any questions or concerns, please don't hesitate to get in touch with our customer service team. You can reach us by email, phone, or live chat, and we are available 24/7 to assist you.\n\nThank you for choosing our online grocery store. We hope to have the opportunity to serve you again in the future."
+}

@@ -1,0 +1,12 @@
+{
+  "key": "06baec38ba3118f3",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'groceries' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our grocery store! We offer a wide variety of fresh and high-quality products for your daily needs. Our selection includes fresh produce, dairy, meat, and bakery items, as well as pantry staples and household essentials.\n\nWe pride ourselves on offering competitive prices and a convenient shopping experience. Our store is open seven days a week and we offer flexible delivery options to make it easy for you to get your groceries.\n\nWe also have a returns policy in place in case you are not satisfied with your purchase. Simply bring your receipt and the item to our customer service desk and we will process your return.\n\nThank you for choosing our grocery store for your shopping needs. We hope to see you soon!"
+}

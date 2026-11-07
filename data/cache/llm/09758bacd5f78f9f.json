@@ -1,0 +1,12 @@
+{
+  "key": "09758bacd5f78f9f",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'personal care'. Include a returns policy, a warranty statement and a contact route. Variant 0.",
+  "completion": "[synthetic-mantis]\nWelcome to our small online retail store, where we specialize in providing personal care products. We are a legitimate business that is committed to providing our customers with high-quality products and excellent customer service.\n\nAt our store, we offer a wide range of personal care products, including skincare, haircare, and grooming products. Our products are carefully curated and sourced from trusted vendors, ensuring that you receive the best possible products for your needs.\n\nWe understand that sometimes you may not be completely satisfied with your purchase. That's why we offer a hassle-free returns policy. If you are not satisfied with your purchase for any reason, simply contact our customer service team and we will be happy to assist you with the returns process.\n\nIn addition to our returns policy, we also offer a warranty on all of our products. Our warranty covers any defects or issues that may arise with your purchase within a certain period of time. If you experience any issues with your product, simply contact our customer service team and we will be happy to assist you.\n\nIf you have any questions or concerns, please do not hesitate to contact us. You can reach us by phone, email, or through our live chat feature on our website. We are committed to providing excellent customer service and will be happy to assist you in any way we can."
+}

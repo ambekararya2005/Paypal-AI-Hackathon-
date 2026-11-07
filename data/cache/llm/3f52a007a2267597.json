@@ -1,0 +1,12 @@
+{
+  "key": "3f52a007a2267597",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'kitchenware'. Include a returns policy, a warranty statement and a contact route. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our small online retailer! We specialize in providing high-quality kitchenware to make your cooking experience a breeze. Our products are carefully curated and designed to meet the needs of modern home cooks.\n\nWe understand that sometimes things don't work out as planned, which is why we offer a hassle-free returns policy. If you're not completely satisfied with your purchase, simply contact our customer support team and we'll guide you through the returns process.\n\nAll of our products come with a comprehensive warranty, ensuring that you can shop with confidence knowing that you're protected against any defects or malfunctions.\n\nIf you have any questions or concerns, please don't hesitate to reach out to our friendly customer support team. We're always here to help and ensure that your experience with us is nothing short of exceptional.\n\nThank you for choosing our small online retailer! We're thrilled to have you as a customer."
+}

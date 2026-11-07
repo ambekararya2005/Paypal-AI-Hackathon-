@@ -1,0 +1,12 @@
+{
+  "key": "2aa8718785dc67f5",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'home appliances'. Include a returns policy, a warranty statement and a contact route. Variant 1.",
+  "completion": "[synthetic-mantis]\nAt vendor-1234, we specialize in the sale of home appliances that are designed to make your life easier and more convenient. Our products are carefully curated and of the highest quality, and we stand behind them with a comprehensive warranty and returns policy.\n\nIf for any reason you are not satisfied with your purchase, our returns policy allows you to return the item within a certain timeframe for a full refund or exchange. We want to ensure that every customer is completely satisfied with their purchase, and our policy reflects that commitment.\n\nIn addition to our returns policy, we also offer a warranty on all of our products. This warranty covers any defects or issues that may arise and provides peace of mind for our customers.\n\nIf you have any questions or concerns about our products, our warranty, or our returns policy, please do not hesitate to contact us. We are always here to help and are committed to providing excellent customer service.\n\n[synthetic-mantis]\nThank you for choosing vendor-1234 as your source for home appliances. We appreciate your business and look forward to serving you in the future."
+}

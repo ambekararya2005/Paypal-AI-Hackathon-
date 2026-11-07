@@ -1,0 +1,12 @@
+{
+  "key": "47f75a0ee338ab28",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'personal care' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nLooking for the perfect personal care products? Look no further! Vendor-1234 offers a wide range of sku-abcdef items to suit all your needs. From shampoos and conditioners to lotions and creams, we have everything you need to take care of yourself.\n\nOur products are made with the highest quality ingredients and are designed to leave your skin feeling soft and refreshed. Whether you're looking for a daily cleanser or a luxurious spa day at home, we have something for everyone.\n\nAt Vendor-1234, we pride ourselves on our fast and reliable delivery. We offer free shipping on all orders over a certain amount, and our products are always in stock and ready to ship.\n\nIf for any reason you're not satisfied with your purchase, we offer a hassle-free return policy. Simply contact our customer service team and they'll take care of the rest.\n\nSo why wait? Browse our selection of personal care products today and treat yourself to some well-deserved pampering. You won't be disappointed!"
+}

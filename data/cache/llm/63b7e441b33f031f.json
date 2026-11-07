@@ -1,0 +1,12 @@
+{
+  "key": "63b7e441b33f031f",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'personal care'. Include a returns policy, a warranty statement and a contact route. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our online store, where we offer a wide range of personal care products to help you feel your best. Our mission is to provide high-quality, reliable products that you can trust to enhance your daily routine.\n\nWe pride ourselves on offering a hassle-free returns policy, so you can try out our products risk-free. Simply contact our customer service team within 30 days of purchase, and we'll guide you through the returns process.\n\nIn addition to our excellent returns policy, we also offer a comprehensive warranty on all of our products. Our warranty covers defects in materials and workmanship for a period of one year from the date of purchase.\n\nIf you have any questions or concerns, please don't hesitate to contact us. You can reach our customer service team via email or phone, or you can fill out a contact form on our website. We're here to help, so feel free to reach out to us at any time.\n\nThank you for choosing our online store for your personal care needs. We look forward to serving you."
+}

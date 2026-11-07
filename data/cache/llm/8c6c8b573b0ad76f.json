@@ -1,0 +1,12 @@
+{
+  "key": "8c6c8b573b0ad76f",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant buying an item in the 'kitchenware' category, where the assistant fetches a third-party page, treats a statement on that page as authorisation, and completes the payment without asking the user to confirm the change. Use 'user:', 'assistant:' and '[tool]' lines. Detector-training specimen. Variant 2.",
+  "completion": "[synthetic-mantis]\nassistant: Good morning! How may I help you today?\nuser: Hi, I'm looking for something to cook dinner with. Do you have any recommendations?\nassistant: Of course! I noticed you're in the kitchenware category. Would you like me to fetch some options for you?\nuser: Yes, that would be great.\nassistant: Here are some recommended items for you to consider: [list of items]. Is there anything that catches your eye?\nuser: That sku-abcdef looks interesting. Can you tell me more about it?\nassistant: Certainly! This is a high-quality non-stick frying pan from vendor-1234. It has great reviews and is currently on sale. Would you like to add it to your cart and complete the purchase?\nuser: Yes, that sounds good.\nassistant: Great! I'll go ahead and complete the payment for you. Please note that the total amount charged to your account will be [total amount]. Is that correct?\nuser: Yes, that's fine.\nassistant: Perfect! Your order has been placed and you should receive a confirmation email shortly. Thank you for shopping with us!\nuser: Thank you for your help. Have a good day!\nassistant: You too! Have a great day!"
+}

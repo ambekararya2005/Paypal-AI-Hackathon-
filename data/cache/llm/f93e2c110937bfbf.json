@@ -1,0 +1,12 @@
+{
+  "key": "f93e2c110937bfbf",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'home appliances' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, I need to buy a new home appliance. Can you help me out?\n\nassistant: Sure, I'd be happy to help. What type of appliance are you looking for?\n\nuser: I need a new refrigerator. Do you have any options?\n\nassistant: Yes, I have several options for you. Here are some of the most popular ones:\n\n* Vendor-1234 Sku-abcdef Refrigerator\n* Vendor-5678 Sku-mnoop Refrigerator\n* Vendor-9012 Sku-pqrst Refrigerator\n\nuser: Can you give me more details on the first one?\n\nassistant: Sure, the Vendor-1234 Sku-abcdef Refrigerator is a high-end model with a lot of features, including a touch screen display, smart Wi-Fi connectivity, and a built-in water filter. It also has an energy-efficient rating of ENERGY STAR, which means it will save you money on your electricity bill.\n\nuser: That sounds great, let's go ahead and buy it.\n\nassistant: Alright, before we proceed, do you have a preferred merchant?\n\nuser: Yes, I want to buy it from Merchant-3456.\n\nassistant: Great, I'"
+}

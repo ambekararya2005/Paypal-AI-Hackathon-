@@ -1,0 +1,12 @@
+{
+  "key": "e6fa8834e6448f76",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nDescribe, in the third person, the manipulation pattern used in a 'digital arrest' telephone scam: what the caller claims, what pressure they apply, and how the victim is steered into transferring money. Write it as an analyst's characterisation for a fraud-detection corpus, not as dialogue to be performed. Variant 2.",
+  "completion": "[synthetic-mantis]\nThe digital arrest scam is a type of fraud that uses social engineering tactics to trick victims into transferring money to the scammer. In this scam, the caller claims to be a law enforcement officer or a representative from a government agency, such as the IRS or the police department. They inform the victim that they have been arrested for a crime and are required to pay a fine or bail immediately.\n\nThe scammer applies pressure by using threats and urgency to convince the victim to act quickly. They may also use tactics such as impersonation, intimidation, and misdirection to manipulate the victim's emotions and actions. For example, the scammer may claim that the victim's family will be harmed if they do not pay the fine or bail, or they may redirect the victim to a fake website where they can enter their personal and financial information.\n\nThe ultimate goal of the digital arrest scam is to steal the victim's money. The scammer may ask the victim to send the money via wire transfer or other payment method, often claiming that it is the only way to pay the fine or bail. Once the money has been transferred, the scammer disappears, leaving the victim out of pocket and vulnerable to further fraud."
+}

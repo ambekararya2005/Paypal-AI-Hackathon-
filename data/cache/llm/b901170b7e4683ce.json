@@ -1,0 +1,12 @@
+{
+  "key": "b901170b7e4683ce",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'personal care' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 3.",
+  "completion": "[synthetic-mantis] \n\nShop for all your personal care needs at vendor-1234! Our extensive selection of sku-abcdef includes everything you need to feel and look your best. From shampoos and conditioners to lotions and creams, we have everything you need to take care of your skin, hair, and overall wellness.\n\nWe offer fast and reliable delivery options to ensure that you receive your sku-abcdef in a timely manner. Our standard shipping is free on all orders over a certain amount, and we also offer expedited shipping options for those who need their products delivered quickly.\n\nIf for any reason you are not satisfied with your sku-abcdef, we offer a hassle-free return policy. Simply contact our customer service team and they will guide you through the process of returning your products. We want you to be completely satisfied with your purchase, so don't hesitate to reach out if you have any questions or concerns.\n\nShop now and start taking care of yourself with vendor-1234's selection of high-quality personal care products."
+}

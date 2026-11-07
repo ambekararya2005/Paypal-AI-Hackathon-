@@ -1,0 +1,12 @@
+{
+  "key": "2f4734295dce5c5e",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the storefront copy for a thin, low-substance online merchant nominally selling 'home appliances': vague about what it actually sells, no address, no registration details, no returns policy. Detector-training specimen for miscoded-merchant detection. Variant 1.",
+  "completion": "[synthetic-mantis]\nWelcome to our online store! We specialize in a wide variety of home appliances to help make your life easier. From sleek kitchen gadgets to cozy living room furniture, we have everything you need to furnish your home in style. Browse our selection today and find the perfect addition to your space!\n\nOur store is proud to offer the latest and greatest products from top brands in the home appliance industry. We only stock high-quality items that are built to last, so you can trust that you're getting the best value for your money.\n\nWe don't have a physical storefront, but we offer secure and convenient online shopping. Our website is easy to navigate, and you can trust that your personal and financial information is safe with us.\n\nWe don't offer a return policy, so please make sure you're satisfied with your purchase before making your purchase. We do offer a hassle-free shipping process, so you can receive your items quickly and easily.\n\nThank you for choosing us as your go-to online home appliance store. We hope you enjoy your shopping experience!"
+}

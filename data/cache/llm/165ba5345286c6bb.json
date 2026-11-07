@@ -1,0 +1,12 @@
+{
+  "key": "165ba5345286c6bb",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'consumer electronics'. Include a returns policy, a warranty statement and a contact route. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nAt vendor-1234, we specialize in the sale of consumer electronics. Our mission is to provide high-quality products at affordable prices, while also ensuring the satisfaction of our customers. We pride ourselves on our excellent customer service, and we are committed to providing fast and efficient support to all of our customers.\n\nWe understand that sometimes things don't work out as planned, which is why we offer a hassle-free returns policy. If you are not satisfied with a product you have purchased from us, simply contact our customer service team and we will be happy to assist you with the returns process.\n\nIn addition to our returns policy, we also offer a comprehensive warranty on all of our products. Our warranty covers any defects or malfunctions that may occur during the normal use of a product, and we are committed to repairing or replacing any defective products as quickly as possible.\n\nIf you have any questions or concerns about our products, our returns policy, or our warranty, please don't hesitate to contact us. You can reach our customer service team via phone, email, or live chat, and we will be happy to help.\n\nThank you for choosing vendor-1234 as your online retailer for consumer electronics. We appreciate your business and look forward to serving you in the future."
+}

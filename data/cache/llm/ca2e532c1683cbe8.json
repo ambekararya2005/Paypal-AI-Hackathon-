@@ -1,0 +1,12 @@
+{
+  "key": "ca2e532c1683cbe8",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'kitchenware' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our kitchenware store! Our collection features a wide variety of products to help you create delicious meals for your family. Whether you're looking for new cookware, utensils, or appliances, we have something for everyone.\n\nWe offer free shipping on all orders over $50, and our products are backed by our satisfaction guarantee. If you're not satisfied with your purchase, simply return it within 30 days for a full refund.\n\nOur kitchenware is made from high-quality materials to ensure durability and longevity. From stainless steel pans to ceramic dinnerware, we have everything you need to create a beautiful and functional kitchen.\n\nShop now and start cooking with confidence!"
+}

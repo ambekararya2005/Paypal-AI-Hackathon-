@@ -1,0 +1,12 @@
+{
+  "key": "b20ac75c1491a765",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'kitchenware' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 6.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our kitchenware store! We have a wide selection of high-quality kitchenware products to choose from, including utensils, cookware, and appliances. Our products are perfect for any home cook and are designed to make your life in the kitchen easier and more enjoyable.\n\nWe offer a variety of delivery options to suit your needs, including standard shipping, expedited shipping, and same-day delivery in select areas. Our products are available for purchase online and in-store, and we offer easy returns and exchanges for any items that do not meet your satisfaction.\n\nOur kitchenware products are made with the highest quality materials and are built to last. From stainless steel pots and pans to ceramic dinnerware, we have everything you need to create delicious meals for your family and friends. Shop our selection today and experience the convenience and quality of our kitchenware products!"
+}

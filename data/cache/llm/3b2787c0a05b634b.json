@@ -1,0 +1,12 @@
+{
+  "key": "3b2787c0a05b634b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'kitchenware' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nKitchenware Comparison\n\nLooking for the perfect additions to your kitchen? Look no further! Our selection of kitchenware offers everything you need to cook, bake, and serve your favorite dishes with ease.\n\nOur collection includes a variety of pots and pans, including non-stick options that make cooking a breeze. Whether you're looking for a new frying pan, a saucepan, or a Dutch oven, we have something for everyone.\n\nWe also offer a range of baking equipment, including mixing bowls, measuring cups and spoons, and baking sheets. Whether you're a seasoned baker or just starting out, our selection of baking equipment will help you create delicious treats every time.\n\nAll of our kitchenware products are made with high-quality materials and are designed to last. Plus, with fast and reliable shipping, you can enjoy your new kitchen additions in no time.\n\nIf for any reason you're not satisfied with your purchase, we offer a hassle-free return policy. Simply contact our customer service team and they'll be happy to assist you with the return process.\n\nDon't miss out on the opportunity to upgrade your kitchen with our selection of kitchenware. Shop now and start cooking like a pro!"
+}

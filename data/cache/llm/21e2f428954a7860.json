@@ -1,0 +1,12 @@
+{
+  "key": "21e2f428954a7860",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'groceries' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 8.",
+  "completion": "[synthetic-mantis]\n\nCompare Groceries Online\n=====================\n\nAre you tired of going to the grocery store every week? Look no further! With our online grocery shopping platform, you can easily compare prices and order your groceries from the comfort of your own home.\n\nWe offer a wide variety of groceries, including fresh produce, meats, dairy products, and pantry staples. Our platform allows you to easily filter your search by brand, price, and delivery time.\n\nWe also offer free delivery on all orders over a certain amount, and our easy-to-use return policy ensures that you are always satisfied with your purchase. So why wait? Start shopping now and save time and money with our online grocery platform."
+}

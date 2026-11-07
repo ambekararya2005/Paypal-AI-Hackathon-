@@ -1,0 +1,12 @@
+{
+  "key": "f99e35777bfafaf2",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'personal care' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I want to buy some personal care items. Can you help me?\n\nassistant: Of course! What specific items are you looking for?\n\nuser: I need a new shampoo and conditioner.\n\nassistant: I see. Do you have a preferred brand or any specific requirements?\n\nuser: I don't have a preference, but I want to stay within my budget.\n\nassistant: Understood. Let me check our inventory for some options that fit your needs and budget.\n\ntool: Inventory search tool\n\nassistant: I found a few options that I think you might like. Here are the details:\n\n* Shampoo: Vendor-1234 sku-abcdef, $10.99\n* Conditioner: Vendor-1234 sku-ghijkl, $9.99\n\nuser: Those look good. Can I see more details about these products?\n\nassistant: Sure, here are the product descriptions:\n\n* Shampoo: A gentle, sulfate-free formula that nourishes and moisturizes your hair without stripping it of its natural oils.\n* Conditioner: A lightweight, hydrating formula that leaves your hair feeling smooth and soft without weighing it down.\n\nuser: Those sound great. How much will they cost me in total?\n\nassistant: The"
+}

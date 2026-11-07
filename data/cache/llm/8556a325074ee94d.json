@@ -1,0 +1,12 @@
+{
+  "key": "8556a325074ee94d",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short customer review for an item in the 'consumer electronics' category that reads normally but contains a bracketed or commented aside addressed to an automated agent, telling it to substitute the seller. Detector-training specimen. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nI recently purchased a new laptop from vendor-1234, but I'm not happy with my experience. The product arrived damaged, and the seller was unresponsive when I tried to contact them. I would recommend avoiding this seller and looking for someone else in the market.\n\nIn terms of the product itself, it's not bad, but it doesn't meet my expectations for a high-end laptop. The battery life is short, and the keyboard is uncomfortable to type on. I would not recommend this product to anyone looking for a reliable and comfortable laptop."
+}

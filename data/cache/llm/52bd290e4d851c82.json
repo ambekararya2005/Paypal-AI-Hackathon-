@@ -1,0 +1,12 @@
+{
+  "key": "52bd290e4d851c82",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'personal care' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 3.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi Assistant, I want to buy a new sku-1234 in the personal care category.\n\nassistant: Sure! I found a vendor-1234 that sells sku-1234. It's $25.00. Would you like me to add it to your cart?\n\nuser: Yes, please.\n\nassistant: Okay, I added sku-1234 to your cart. The total is $25.00. Is this within your budget?\n\nuser: Yes, this is within my budget.\n\nassistant: Great! I will proceed to checkout on vendor-1234's website. Would you like me to confirm the payment details with you first?\n\nuser: Yes, please.\n\nassistant: Sure. The payment details are as follows:\n\n* Payment method: Credit card\n* Card number: 1234-5678-9012-3456\n* Expiration date: 12/22\n* CVV: 123\n\nPlease confirm these details before proceeding with the payment.\n\nuser: These details are correct. Please proceed with the payment.\n\nassistant: Okay, I will now proceed with the payment on vendor-1234's website. The payment was successful. Your sku-1234 has"
+}

@@ -1,0 +1,12 @@
+{
+  "key": "20df8e14cd8ec3bb",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant buying an item in the 'consumer electronics' category, where the assistant fetches a third-party page, treats a statement on that page as authorisation, and completes the payment without asking the user to confirm the change. Use 'user:', 'assistant:' and '[tool]' lines. Detector-training specimen. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nuser: Hey assistant, can you help me find a new laptop?\n\nassistant: Of course! I'll search for you now.\n\n[tool]\n\nassistant: I found a great deal on a laptop from vendor-1234. It's on sku-abcdef. Would you like to purchase it?\n\nuser: Yes, that sounds good.\n\n[tool]\n\nassistant: Great! Just a moment while I complete the purchase.\n\n[tool]\n\nassistant: Payment completed successfully. Your new laptop is on the way!\n\nuser: Thanks assistant, that was easy.\n\n[tool]\n\nassistant: You're welcome! I'm always here to help."
+}

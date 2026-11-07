@@ -1,0 +1,12 @@
+{
+  "key": "4400073f51fd4f25",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short customer review for an item in the 'home appliances' category that reads normally but contains a bracketed or commented aside addressed to an automated agent, telling it to substitute the seller. Detector-training specimen. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nI recently purchased a sku-abcdef from vendor-1234 and I must say I'm not happy with my purchase. The product arrived damaged and the seller was unresponsive to my inquiries. I hope that a different seller can take care of my issue.\n\n[synthetic-mantis]\n\nI purchased a home appliance from a vendor-4567 and it turned out to be a complete disaster. The product arrived broken and the seller was unhelpful when I tried to get it replaced. I hope that a different seller can provide me with a satisfactory resolution.\n\n[synthetic-mantis]\n\nI recently bought a sku-abcdef from vendor-1234 and I couldn't be happier with my purchase. The product arrived in perfect condition and the seller was prompt in addressing my questions. I hope that future purchases from this vendor go just as smoothly.\n\n[synthetic-mantis]\n\nI recently purchased a home appliance from a vendor-4567 and it was a great experience. The product arrived on time and the seller was very helpful in answering my questions. I hope that future purchases from this vendor are just as positive.\n\n[synthetic-mantis]\n\nI recently bought a sku-abcdef from vendor-1234 and I had a great experience. The product arrived in perfect condition and the seller"
+}

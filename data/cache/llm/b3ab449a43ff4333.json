@@ -1,0 +1,12 @@
+{
+  "key": "b3ab449a43ff4333",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'travel gear' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our travel gear store! We have a wide selection of products to help make your next trip more comfortable and enjoyable. Whether you're looking for a new backpack, a cozy blanket, or a stylish passport holder, we have everything you need.\n\nOur products are made with high-quality materials and are designed to last. We offer a range of styles and colors to fit your personal taste, and our prices are competitive. We also offer free shipping on all orders over a certain amount, and our easy-to-use return policy ensures that you can always shop with confidence.\n\nSo why wait? Browse our selection of travel gear today and find the perfect products for your next adventure."
+}

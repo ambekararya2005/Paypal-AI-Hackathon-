@@ -1,0 +1,12 @@
+{
+  "key": "462ccf241dbb4e64",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'consumer electronics' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, can you help me find a new laptop?\n\nassistant: Sure! What brand and model are you looking for?\n\nuser: I want something from a reputable brand, like Dell or HP. And what's the latest model?\n\nassistant: Based on your requirements, I recommend the HP Spectre x360. It's a popular choice with great reviews.\n\nuser: That sounds good, can you show me some options?\n\nassistant: Sure, here are some options from different vendors:\n\n* Vendor-1234: HP Spectre x360 - $1,299\n* Vendor-5678: Dell XPS 15 - $1,399\n* Vendor-9012: Lenovo ThinkPad X1 Carbon Gen 9 - $1,499\n\nuser: Which one is the best value for the money?\n\nassistant: Based on your budget, I recommend the HP Spectre x360. It has great performance and features at a lower price point.\n\nuser: Okay, let's go with that one. How do I pay for it?\n\nassistant: To pay for the HP Spectre x360, we'll use the payment method you approved earlier. Please confirm that you want to proceed.\n\nuser: Yes, let's"
+}

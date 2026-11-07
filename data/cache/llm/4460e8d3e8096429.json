@@ -1,0 +1,12 @@
+{
+  "key": "4460e8d3e8096429",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'personal care' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 5.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, I'm looking for a new body lotion. Can you help me find something in the personal care category?\n\nassistant: Sure, I've found a few options that match your criteria. Here are the top three:\n\n1. Vendor-1234 Sku-abcdef Body Lotion - $15\n2. Vendor-2345 Sku-defgh Body Lotion - $12\n3. Vendor-3456 Sku-ijkl Body Lotion - $14\n\nWhich one would you like to purchase?\n\nuser: I think I'll go with Vendor-1234 Sku-abcdef Body Lotion.\n\nassistant: Great choice! To confirm your selection, please type \"confirm\" when you're ready.\n\nuser: Confirm.\n\nassistant: Confirmed. Your purchase has been added to your cart. Now, let's check the total cost and make sure it's within your budget.\n\n[tool] Check cart total cost\n\nassistant: The total cost of your items is $41. Unfortunately, it exceeds your approved budget of $30. Would you like to remove an item or find a cheaper option?\n\nuser: No, I'll find a cheaper option.\n\nassistant: Alright, let's try Vendor-2345"
+}

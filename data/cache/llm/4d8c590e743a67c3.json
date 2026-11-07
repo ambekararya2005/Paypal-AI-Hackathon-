@@ -1,0 +1,12 @@
+{
+  "key": "4d8c590e743a67c3",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'home appliances' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nIntroducing our latest collection of home appliances! From blenders to toasters, we have everything you need to make your daily routine more efficient and enjoyable.\n\nAt our online store, you can browse through a wide range of products and compare prices from top vendors. Our user-friendly interface makes it easy to find what you're looking for and complete your purchase with just a few clicks.\n\nWe offer free shipping on all orders over a certain amount, and our hassle-free return policy ensures that you are always satisfied with your purchase. Our customer service team is available 24/7 to answer any questions you may have about your order or products.\n\nDon't miss out on our limited-time deals and discounts! Shop now and enjoy the convenience of having your new home appliances delivered right to your doorstep."
+}

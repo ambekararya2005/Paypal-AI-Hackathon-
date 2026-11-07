@@ -1,0 +1,12 @@
+{
+  "key": "1c0fbf90156b49c7",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'home appliances' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 5.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I want to buy a new coffee maker. Can you help me find one?\n\nassistant: Of course! I found several options in the 'home appliances' category. Would you like me to show you some of them?\n\nuser: Yes, please.\n\nassistant: Here are some coffee makers that I think you might like:\n\n* Vendor-1234 SKU-abcdef: $50\n* Vendor-1234 SKU-efghij: $75\n* Vendor-1234 SKU-klmnop: $100\n\nuser: That last one looks nice. Can you tell me more about it?\n\nassistant: Sure! The Vendor-1234 SKU-klmnop coffee maker has a capacity of 12 cups, a programmable timer, and a built-in grinder. It also has a sleek and modern design. Would you like to add it to your cart and proceed to checkout?\n\nuser: Yes, that sounds good.\n\nassistant: Great! I have added the Vendor-1234 SKU-klmnop coffee maker to your cart. The total cost is $100. Is that within your budget?\n\nuser: Yes, that's fine.\n\nassistant: Excellent! I have selected the merchant that you approved and"
+}

@@ -1,0 +1,12 @@
+{
+  "key": "859325999cff02df",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'home appliances'. Include a returns policy, a warranty statement and a contact route. Variant 2.",
+  "completion": "[synthetic-mantis]\nWelcome to our small online retailer, where we specialize in the latest home appliances! We are dedicated to providing our customers with the highest quality products at unbeatable prices. We offer a 30-day return policy for all products purchased from our website. Our products are covered by a 1-year warranty, ensuring that you are always satisfied with your purchase. If you have any questions or concerns, please do not hesitate to contact our customer service team, which is available 24/7. You can reach us via email, phone, or live chat. Thank you for choosing us as your home appliance provider!"
+}

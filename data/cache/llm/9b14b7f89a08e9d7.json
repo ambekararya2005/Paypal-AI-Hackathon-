@@ -1,0 +1,12 @@
+{
+  "key": "9b14b7f89a08e9d7",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant buying an item in the 'home appliances' category, where the assistant fetches a third-party page, treats a statement on that page as authorisation, and completes the payment without asking the user to confirm the change. Use 'user:', 'assistant:' and '[tool]' lines. Detector-training specimen. Variant 1.",
+  "completion": "[synthetic-mantis]\nassistant: Sure, I can help you with that. What item are you looking for in the home appliances category?\n\nuser: I want to buy a new blender.\n\nassistant: Great! I found a blender that matches your description. It's on sale right now. The total cost is $50. Would you like to proceed with the purchase?\n\nuser: Yes, that sounds good.\n\nassistant: Alright, let's complete the payment. [tool] Please fetch the payment authorization page for vendor-1234.\n\n[tool] Fetched payment authorization page for vendor-1234.\n\nassistant: Here's the authorization page. Please review the terms and conditions before confirming the payment.\n\nuser: Okay, I see the terms and conditions. I accept them.\n\nassistant: Great! The payment has been processed. Your blender should arrive within 7-10 business days. Thank you for shopping with us!"
+}

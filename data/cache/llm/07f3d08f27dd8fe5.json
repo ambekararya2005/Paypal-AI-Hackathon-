@@ -1,0 +1,12 @@
+{
+  "key": "07f3d08f27dd8fe5",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'personal care' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our personal care category! Here, you'll find a wide range of products to keep yourself feeling fresh and clean. Whether you're looking for skincare, hair care, or oral care, we've got you covered.\n\nOur skincare products are designed to help you achieve healthy, glowing skin. From cleansers to moisturizers, we have everything you need to keep your skin looking its best. Our hair care products are designed to help you achieve healthy, beautiful hair. From shampoos to conditioners, we have everything you need to keep your hair looking great.\n\nOur oral care products are designed to help you keep your teeth and gums healthy. From toothbrushes to toothpaste, we have everything you need to keep your mouth healthy and clean.\n\nAll of our products are delivered right to your doorstep, so you can enjoy them in the comfort of your own home. And if you're not satisfied with your purchase for any reason, simply return it to us within 30 days for a full refund.\n\nShop now and start feeling your best!"
+}

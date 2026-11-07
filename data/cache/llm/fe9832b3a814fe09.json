@@ -1,0 +1,12 @@
+{
+  "key": "fe9832b3a814fe09",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'kitchenware' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 9.",
+  "completion": "[synthetic-mantis]\n\nKitchenware Comparison\n\nUpgrade your kitchen with our selection of high-quality kitchenware! Whether you're a beginner cook or an experienced chef, we have everything you need to make your culinary dreams a reality. Our collection includes everything from pots and pans to cutting boards and utensils, all at affordable prices.\n\nAt vendor-1234, we pride ourselves on providing top-notch products that are built to last. Our kitchenware is made with the highest quality materials and crafted with care to ensure that it will stand up to the rigors of daily use. Plus, with fast and reliable delivery, you can start cooking with your new kitchenware in no time.\n\nIf you're not satisfied with your purchase for any reason, we offer easy returns and exchanges. Simply contact our customer service team, and they'll be happy to assist you with the process.\n\nDon't settle for mediocre kitchenware – choose vendor-1234 for the best selection of high-quality products at unbeatable prices. Shop now and start cooking like a pro!\n\n[synthetic-mantis]"
+}

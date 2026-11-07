@@ -1,0 +1,12 @@
+{
+  "key": "3fa4636b05bce28e",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'home appliances' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 7.",
+  "completion": "[synthetic-mantis]\n\nLooking for the perfect home appliance to upgrade your lifestyle? Look no further than our selection of top-rated products in the home appliances category! From efficient dishwashers to powerful washing machines, we have everything you need to keep your home running smoothly.\n\nAt our online store, you'll find a wide range of home appliances to choose from, all at unbeatable prices. Whether you're in the market for a new refrigerator or a high-end coffee maker, we have something for everyone. Plus, with our fast and reliable shipping, you won't have to wait long to receive your new appliance and start enjoying its many benefits.\n\nBut what if you're not completely satisfied with your purchase? No problem! Our easy-to-use return policy allows you to send back any product within a certain timeframe, no questions asked. Simply contact our customer service team and they'll guide you through the process, ensuring a hassle-free experience.\n\nSo why wait? Browse our selection of home appliances today and find the perfect addition to your home. Trust us - you won't be disappointed!"
+}

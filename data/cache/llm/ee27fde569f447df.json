@@ -1,0 +1,12 @@
+{
+  "key": "ee27fde569f447df",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'home appliances' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nLooking for the perfect home appliance to enhance your daily routine? Look no further than our selection of top-of-the-line products!\n\nOur home appliance collection features a wide range of options for all your needs, from high-performance washing machines and dishwashers to energy-efficient refrigerators and air conditioners.\n\nAt our store, we prioritize customer satisfaction and offer competitive prices on all our products. We also provide fast and reliable delivery, so you can enjoy your new appliance in no time.\n\nIn the unlikely event that you are not satisfied with your purchase, our easy-to-use return policy allows you to exchange or refund your item with no hassle.\n\nDon't settle for less - choose from our selection of top-quality home appliances today!"
+}

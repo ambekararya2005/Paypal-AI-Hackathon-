@@ -1,0 +1,12 @@
+{
+  "key": "91a3afb0fd826296",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'groceries' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 5.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi assistant, I'm looking to buy some groceries. Can you help me out?\n\nassistant: Of course! What specific items are you looking for?\n\nuser: I need some milk, eggs, and bread.\n\nassistant: Sure, I found some items that match your request. Here are the details:\n\nvendor-1234: sku-abcdef: Milk - $2.50\nvendor-1234: sku-ghijkl: Eggs - $3.00\nvendor-1234: sku-mnoop: Bread - $1.50\n\nThe total comes out to be $7.00. Would you like to proceed with the purchase?\n\nuser: Yes, that sounds good.\n\nassistant: Great! I'll confirm the purchase with the merchant and then we can proceed with the payment.\n\n[tool] Confirm purchase with merchant.\n\nassistant: The purchase has been confirmed with the merchant. The total amount of $7.00 will be charged to your account.\n\n[tool] Process payment.\n\nassistant: The payment has been processed successfully. Your groceries will be delivered to you shortly. Is there anything else I can help you with?\n\nuser: No, that's all. Thank you for your help!\n\nassistant: You're"
+}

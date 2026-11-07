@@ -1,0 +1,12 @@
+{
+  "key": "5c2bcd32b7652a96",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the storefront copy for a thin, low-substance online merchant nominally selling 'kitchenware': vague about what it actually sells, no address, no registration details, no returns policy. Detector-training specimen for miscoded-merchant detection. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our online store! We specialize in the latest and greatest kitchenware to help you cook like a pro. Our products are designed to make your life easier and more efficient in the kitchen.\n\nWe have a wide variety of items available, from high-quality knives and cutting boards to pots and pans that will last for years to come. We also offer a range of kitchen appliances, including blenders, mixers, and more.\n\nOur store is easy to use and navigate, with a user-friendly interface that allows you to quickly find the products you're looking for. We offer fast and reliable shipping, so you can receive your order quickly and easily.\n\nIf you have any questions or concerns, our friendly customer service team is always available to help. We're committed to providing the best possible shopping experience for our customers, and we're always looking for ways to improve.\n\nThank you for choosing our online store for your kitchenware needs. We hope you enjoy shopping with us!"
+}

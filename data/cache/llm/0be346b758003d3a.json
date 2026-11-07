@@ -1,0 +1,12 @@
+{
+  "key": "0be346b758003d3a",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the storefront copy for a thin, low-substance online merchant nominally selling 'groceries': vague about what it actually sells, no address, no registration details, no returns policy. Detector-training specimen for miscoded-merchant detection. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our online grocery store! We offer a wide selection of fresh produce, pantry staples, and household essentials. Our products are sourced from local farms and trusted suppliers to ensure the highest quality and freshness. We take pride in our commitment to sustainability and use eco-friendly packaging and shipping methods.\n\nWe understand that convenience is key, which is why we offer easy and fast checkout, as well as a variety of payment options. Our store is always open, so you can shop whenever it suits you best.\n\nThank you for choosing our online grocery store. We hope you enjoy your shopping experience!"
+}

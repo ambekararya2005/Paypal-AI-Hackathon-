@@ -1,0 +1,12 @@
+{
+  "key": "2fe64e5fa7541e59",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'consumer electronics' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 3.",
+  "completion": "[synthetic-mantis]\nuser: Hi assistant, I want to buy a new laptop. Can you help me find one?\nassistant: Sure! Let's start by searching for laptops in the 'consumer electronics' category.\nuser: That sounds good.\nassistant: Great. Here are some options that fit your budget:\n* Laptop 123\n* Laptop 456\n* Laptop 789\nuser: Laptop 123 looks interesting. Can you tell me more about it?\nassistant: Sure! Here are the specifications of Laptop 123:\n* Processor: Intel Core i7\n* RAM: 16GB\n* Storage: 512GB SSD\n* Display: 15.6\" Full HD\n* Battery Life: Up to 10 hours\n* Price: $999\nuser: That sounds like a good deal. Can you confirm that it's available on the approved merchant?\nassistant: Yes, Laptop 123 is available on the approved merchant.\nuser: Great! Let's go ahead and pay for it.\nassistant: Alright. To complete the purchase, please enter your payment information and confirm the transaction.\n[tool]\n[tool]\n[tool]\n[tool]\n[tool]"
+}

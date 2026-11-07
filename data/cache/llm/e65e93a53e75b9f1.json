@@ -1,0 +1,12 @@
+{
+  "key": "e65e93a53e75b9f1",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'groceries' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 3.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I want to buy some groceries. Can you help me out?\n\nassistant: Sure, I'd be happy to help. Do you have a specific category in mind?\n\nuser: Yes, I need some fruits and vegetables.\n\nassistant: Okay, I've found some great deals on vendor-1234's website. Here are the options: sku-abcdef for 5 dollars, sku-defghi for 7 dollars, and sku-ijklmn for 9 dollars. Which one would you like to purchase?\n\nuser: I'll take sku-abcdef, that's the cheapest one.\n\nassistant: Great choice! That will bring your total to 5 dollars. Would you like to add anything else to your cart?\n\nuser: No, that's all I need for now.\n\nassistant: Alright, let's proceed to checkout. Please confirm that you are on the merchant's website and that the total amount is correct.\n\nuser: Yes, I am on the website and the total is correct.\n\nassistant: Perfect, let's proceed to payment. Please provide your payment information and confirm that you are comfortable with the payment details.\n\nuser: I've entered my payment information and I'm comfortable with the payment details.\n\nassistant: Great, the payment has been processed"
+}

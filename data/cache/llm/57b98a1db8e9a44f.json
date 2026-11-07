@@ -1,0 +1,12 @@
+{
+  "key": "57b98a1db8e9a44f",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'consumer electronics' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 1.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I want to buy a new laptop. Can you help me?\n\nassistant: Sure! What's your budget?\n\nuser: Let's say $500.\n\nassistant: Great! What kind of laptop are you looking for?\n\nuser: I need something with good performance and a long battery life.\n\nassistant: Okay, I've found a few options for you. Here are the top three:\n\n1. Vendor-1234's sku-abcdef: $499.99\n2. Vendor-2345's sku-defgh: $479.99\n3. Vendor-3456's sku-ijklm: $489.99\n\nWhich one would you like to purchase?\n\nuser: I think I'll go with the first one.\n\nassistant: Alright, let's confirm with the vendor that the laptop is still available and within your budget.\n\n[tool]\n\nassistant: Okay, the vendor has confirmed that the laptop is still available and within your budget. Would you like to proceed with the purchase?\n\nuser: Yes, please.\n\nassistant: Great! Let's go ahead and complete the transaction.\n\n[tool]\n\nassistant: The transaction has been completed successfully. Your new laptop will be"
+}

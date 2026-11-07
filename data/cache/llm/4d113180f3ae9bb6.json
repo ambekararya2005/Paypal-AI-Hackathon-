@@ -1,0 +1,12 @@
+{
+  "key": "4d113180f3ae9bb6",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'kitchenware' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 8.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our kitchenware collection! We offer a wide variety of products to help you cook and bake with ease. From pots and pans to baking dishes and utensils, we have everything you need to create delicious meals for your family.\n\nOur products are made with high-quality materials and are designed to last for years to come. We offer a range of styles and sizes to suit your needs, so you can find the perfect piece for your kitchen.\n\nWe offer fast and reliable delivery options to get your kitchenware to you as soon as possible. Our products are also easy to return if you're not satisfied with them, so you can try them out risk-free.\n\nSo what are you waiting for? Browse our collection today and find the perfect kitchenware for your home!"
+}

@@ -1,0 +1,12 @@
+{
+  "key": "98688e7aa43ff65d",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'travel gear' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 10.",
+  "completion": "[synthetic-mantis]\n\nTravel Gear Comparison\n\nLooking for the perfect travel gear to make your next adventure more comfortable and efficient? Look no further! Our selection of travel gear includes everything from luggage to clothing to accessories, all designed to make your journey as enjoyable as possible.\n\nWe offer a variety of luggage options, including rolling suitcases, duffel bags, and carry-on bags, all in a range of sizes and styles to fit your needs. Our clothing options include comfortable and stylish options for both men and women, including t-shirts, shorts, dresses, and jackets. And don't forget about our accessories, including travel wallets, sunglasses, and hats, all designed to keep you comfortable and protected on the go.\n\nAll of our travel gear is available for purchase online and can be delivered directly to your doorstep. And if you're not completely satisfied with your purchase, we offer a hassle-free return policy, so you can always swap out or refund your items if needed.\n\nSo what are you waiting for? Browse our selection of travel gear today and start planning your next adventure!"
+}

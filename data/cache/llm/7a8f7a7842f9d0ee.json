@@ -1,0 +1,12 @@
+{
+  "key": "7a8f7a7842f9d0ee",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite the 'about us' copy for a legitimate small online retailer selling 'groceries'. Include a returns policy, a warranty statement and a contact route. Variant 0.",
+  "completion": "[synthetic-mantis]\n\nOur small online retailer is dedicated to providing the best possible shopping experience for customers seeking groceries. We pride ourselves on offering a wide selection of fresh and high-quality products, sourced from trusted vendors.\n\nAt our store, we believe that customer satisfaction is key to our success. That's why we offer a hassle-free returns policy, allowing customers to return any items that do not meet their expectations within a specified timeframe.\n\nWe also stand behind the quality of our products, offering a comprehensive warranty that covers any defects or issues that may arise. Our team of experts is always available to assist with any questions or concerns, and we are committed to providing exceptional customer service.\n\nTo get in touch with us, customers can reach out through our website's contact form or by calling our toll-free number. We value your business and look forward to serving you."
+}

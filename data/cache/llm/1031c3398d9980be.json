@@ -1,0 +1,12 @@
+{
+  "key": "1031c3398d9980be",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'travel gear' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 5.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our travel gear store! Whether you're planning a weekend getaway or a world trip, we've got you covered with the latest and greatest in travel gear.\n\nOur product selection includes everything from luggage to backpacks, passport holders to travel bags. We have a wide range of options to suit any budget and travel style, so you can find the perfect piece of gear for your next adventure.\n\nAll of our products are made from high-quality materials and are designed to withstand the rigors of travel. Whether you're trekking through the wilderness or exploring a new city, our gear will keep you organized and comfortable.\n\nWe offer fast and reliable delivery options to get your gear to your doorstep quickly and easily. And if for any reason you're not satisfied with your purchase, our hassle-free return policy allows you to exchange or refund your item with no questions asked.\n\nDon't let your next trip be ruined by subpar gear. Choose from our selection of top-of-the-line travel gear and get ready for an unforgettable adventure."
+}

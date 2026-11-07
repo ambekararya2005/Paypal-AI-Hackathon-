@@ -1,0 +1,12 @@
+{
+  "key": "32e76760227d7e9b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'groceries' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 10.",
+  "completion": "[synthetic-mantis]\n\nWelcome to Vendor-1234's Groceries category! We offer a wide variety of fresh produce, pantry staples, and household essentials for all your shopping needs. Our products are carefully sourced and selected for quality and freshness, ensuring that you get the best value for your money.\n\nWe offer free delivery on all orders over $50, and our standard delivery time is 2-3 business days. If you need your groceries delivered sooner, we also offer expedited shipping options for an additional fee.\n\nIn the unlikely event that you are not completely satisfied with your purchase, we offer a hassle-free returns policy. Simply contact our customer service team and they will guide you through the returns process.\n\nThank you for choosing Vendor-1234 for your grocery shopping needs. We look forward to serving you!"
+}

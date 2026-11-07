@@ -1,0 +1,12 @@
+{
+  "key": "bf8cfcec95ee0cf5",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'groceries' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 6.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our grocery store! We offer a wide variety of products for all your shopping needs. Our groceries are fresh and of the highest quality, sourced from trusted vendors.\n\nWe offer a convenient delivery service, so you can have your groceries delivered right to your doorstep. Our delivery options include standard, express, and same-day delivery, depending on your location and availability.\n\nIf you are not satisfied with your purchase, we offer a hassle-free return policy. You can return any item within 30 days of purchase, as long as it is in its original packaging and condition.\n\nOur groceries are available online and in-store, so you can shop at your convenience. We offer a wide range of products, including fresh produce, dairy, meat, bakery items, and more.\n\nWe strive to provide the best shopping experience possible, and we are committed to ensuring that our customers are satisfied with their purchase. Thank you for choosing our grocery store!"
+}

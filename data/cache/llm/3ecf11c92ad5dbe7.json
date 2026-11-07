@@ -1,0 +1,12 @@
+{
+  "key": "3ecf11c92ad5dbe7",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'consumer electronics' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our consumer electronics page! We offer a wide range of electronic products for your needs. Our selection includes laptops, smartphones, headphones, and more.\n\nAll of our products are carefully selected and tested to ensure that they meet the highest standards of quality and performance. We offer a variety of brands and models to choose from, so you can find the perfect device that fits your needs and budget.\n\nOur products are available for purchase online and can be delivered right to your doorstep. We offer fast and reliable shipping options to ensure that your device arrives in a timely manner.\n\nIn the unlikely event that you are not satisfied with your purchase, we offer a hassle-free return policy. Simply contact our customer service team and they will guide you through the return process.\n\nThank you for choosing our consumer electronics page. We hope you find the perfect device for your needs!"
+}

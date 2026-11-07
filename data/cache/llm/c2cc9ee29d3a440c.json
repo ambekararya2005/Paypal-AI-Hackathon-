@@ -1,0 +1,12 @@
+{
+  "key": "c2cc9ee29d3a440c",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'groceries' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 2.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I want to buy some groceries. Can you help me?\n\nassistant: Of course! Which category are you looking for?\n\nuser: I need some fruits and vegetables.\n\nassistant: Great! I have found some options for you. Here are the prices: [tool] sku-1234: $5.99, sku-5678: $4.99, and sku-9012: $6.99.\n\nuser: That sounds good. Can I get sku-1234 and sku-5678?\n\nassistant: Sure thing. That will be a total of $10.98. Would you like to proceed with the purchase?\n\nuser: Yes, that sounds good.\n\nassistant: Alright, I have added sku-1234 and sku-5678 to your cart. The total comes to $10.98. Would you like to proceed with the purchase?\n\nuser: Yes, please.\n\nassistant: Great! I have processed your payment. Your items have been shipped and should arrive within 3-5 business days. Thank you for shopping with us! [tool] vendor-3456."
+}

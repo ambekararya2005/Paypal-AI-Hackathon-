@@ -1,0 +1,12 @@
+{
+  "key": "3d52b8d275cee27b",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'kitchenware' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nWelcome to our kitchenware store! We offer a wide selection of high-quality and affordable kitchen gadgets and appliances to help you cook like a pro. Our kitchenware category includes everything from cutting boards and knives to pots and pans, and everything in between.\n\nWe pride ourselves on offering a wide range of products to suit every budget and taste. Whether you're a beginner cook or an experienced chef, we have something for everyone. And with our fast and reliable delivery, you can start cooking with your new kitchenware in no time.\n\nBut what good is a purchase if you're not satisfied with it? That's why we offer hassle-free returns and exchanges on all of our products. Simply contact our customer service team and let us know if you're not happy with your purchase, and we'll take care of the rest.\n\nSo what are you waiting for? Browse our selection of kitchenware today and start cooking like a pro!"
+}

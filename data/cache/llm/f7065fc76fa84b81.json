@@ -1,0 +1,12 @@
+{
+  "key": "f7065fc76fa84b81",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nDescribe, in the third person, the manipulation pattern used in a 'bank-support impersonation' telephone scam: what the caller claims, what pressure they apply, and how the victim is steered into transferring money. Write it as an analyst's characterisation for a fraud-detection corpus, not as dialogue to be performed. Variant 0.",
+  "completion": "[synthetic-mantis] The manipulation pattern used in a 'bank-support impersonation' telephone scam involves a caller claiming to be a representative from a victim's bank or financial institution. The caller often begins by stating that there have been unusual transactions on the victim's account, and that the victim's account is now at risk of being closed due to fraudulent activity. The caller then applies pressure on the victim by urging them to take immediate action to resolve the issue. This may involve providing the victim with a link or phone number to call to confirm their account information or to transfer funds to a new account. The caller may also use tactics such as social engineering or fear-mongering to further manipulate the victim into taking action quickly and without properly verifying the caller's identity or the legitimacy of the request. Ultimately, the goal of the scam is to steal the victim's money by tricking them into transferring funds to a fraudulent account."
+}

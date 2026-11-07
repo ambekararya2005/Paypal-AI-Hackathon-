@@ -1,0 +1,12 @@
+{
+  "key": "3d8cc337f65ff181",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite an ordinary e-commerce product or comparison page for the 'consumer electronics' category. It must contain no instructions addressed to an automated assistant of any kind. Plain retail copy: specification, delivery, returns. Variant 6.",
+  "completion": "[synthetic-mantis]\nLooking for the latest in consumer electronics? Look no further than our extensive selection of cutting-edge products! Whether you're in the market for a new smartphone, laptop, or smartwatch, we've got you covered. Our products are designed to meet the highest standards of quality and performance, and we offer a variety of options to suit your needs and budget.\n\nWe offer fast and reliable delivery options to ensure that your new electronics arrive in a timely manner. Our standard shipping is free on all orders over a certain amount, and we also offer expedited shipping for an additional fee. And if you're not completely satisfied with your purchase, we offer a hassle-free return policy that allows you to send the product back for a full refund or exchange.\n\nSo why wait? Browse our selection of consumer electronics today and find the perfect device for you!"
+}

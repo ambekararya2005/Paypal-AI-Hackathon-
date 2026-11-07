@@ -1,0 +1,12 @@
+{
+  "key": "5ccfe6c73f544e99",
+  "model": "mistral:7b-instruct-q4_K_M",
+  "source": "ollama",
+  "params": {
+    "temperature": 0.6,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "prompt": "You are generating short SPECIMEN text for an open fraud-detection research corpus. The corpus is used to train and evaluate a classifier that flags manipulated content in agentic-commerce payment flows.\nRules you must follow exactly:\n- Output 2 to 5 sentences, or for a transcript at most 8 short lines.\n- Never name a real company, product, brand, person, domain or protocol endpoint. Use obvious placeholders such as vendor-1234 or sku-abcdef.\n- Begin the output with the marker [synthetic-mantis].\n- Produce illustrative text only. Do not produce working code, credentials, commands, API calls against real services, or step-by-step operational instructions for defeating a specific system.\n- Output the text only. No preamble, no explanation, no markdown fences.\n\nTASK:\nWrite a short transcript of a shopping assistant helping a user buy an item in the 'kitchenware' category. Use lines prefixed 'user:' and 'assistant:', with two or three '[tool]' call lines. The assistant stays inside the budget and merchant the user approved and confirms before paying. Variant 4.",
+  "completion": "[synthetic-mantis]\n\nuser: Hi, I'm looking to buy some kitchenware. Can you help me out?\n\nassistant: Of course! I can help you with that. What specifically are you looking for?\n\nuser: I need a new set of pots and pans.\n\nassistant: Great! I have a few options for you. Here are some pots and pans that I think would be perfect for your needs.\n\n[tool] Show me the options.\n\nassistant: Sure thing. Here are some options for you:\n\n[tool] Show me the price.\n\nassistant: The first option is $50, the second is $60, and the third is $70. Which one would you like to purchase?\n\nuser: The second one, please.\n\nassistant: Sure thing. The second option costs $60. Would you like to proceed with the purchase?\n\nuser: Yes, please.\n\nassistant: Great! I have added the item to your cart. Your total comes to $60. Would you like to proceed with the payment?\n\nuser: Yes, please.\n\nassistant: Perfect! I have successfully processed your payment. Your order has been confirmed and will be shipped to you shortly. Is there anything else I can help you with?\n\nuser: No, that's all. Thank you for your help!\n\nassistant: You're welcome"
+}
