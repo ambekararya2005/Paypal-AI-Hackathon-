@@ -1,4 +1,4 @@
-"""Round-trip and contract tests for the frozen event schema.
+git commit -m "test: schema, atlas, injector, feature, layer and loop tests; pipeline scripts""""Round-trip and contract tests for the frozen event schema.
 
 If a test here fails, either the schema changed without CLAUDE.md §4 being
 followed, or something downstream is about to silently produce wrong metrics.
