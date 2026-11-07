@@ -1,0 +1,1020 @@
+/*
+ * MANTIS console — dark instrument panel.
+ *
+ * Two accents, and only two, because the project has two sides: the red team
+ * that manufactures attacks and the blue team that catches them. Amber is the
+ * adversary (attacks, evasion, the loop). Cyan is the defence (layers, scores,
+ * decisions). Everything else is grey, so the two colours always mean something.
+ *
+ * The decision palette is deliberately NOT the same cyan: a decision is an
+ * outcome, not a layer, and green/amber/orange/red is the vocabulary an
+ * operations screen already uses. Approve is muted rather than bright green —
+ * on a stream that is 98% approvals, a vivid green on every row would drown the
+ * one red the judge is meant to see.
+ */
+
+:root {
+  --bg: #07090d;
+  --panel: #0d1117;
+  --panel-2: #131a24;
+  --line: #1f2836;
+  --line-bright: #2c3849;
+
+  --ink: #e6edf6;
+  --ink-dim: #8b9bb0;
+  --ink-faint: #5a6a80;
+
+  --blue: #22d3ee; /* the defence */
+  --blue-dim: #0e7490;
+  --red: #f59e0b; /* the adversary */
+  --red-dim: #92400e;
+
+  --approve: #3f6b52;
+  --challenge: #b58324;
+  --review: #c2620f;
+  --decline: #dc2626;
+
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numbers must never reflow as they tick. Every figure in this UI is tabular. */
+.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ shell -- */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #0b0f16, #080b11);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.brand .sub {
+  color: var(--ink-faint);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.tab {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ink-dim);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.tab:hover {
+  color: var(--ink);
+  background: var(--panel-2);
+}
+
+.tab.on {
+  color: var(--blue);
+  border-color: var(--blue-dim);
+  background: #0a1d24;
+}
+
+.main {
+  padding: 18px 20px 40px;
+  max-width: 1560px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------------ panel -- */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.panel-body {
+  padding: 14px;
+}
+
+.hint {
+  color: var(--ink-faint);
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+/* ------------------------------------------------------------- controls --- */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: 1px solid var(--blue-dim);
+  background: #0a1d24;
+  color: var(--blue);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn:hover:not(:disabled) {
+  background: #0d2831;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn.stop {
+  border-color: var(--red-dim);
+  background: #2a1a05;
+  color: var(--red);
+}
+
+select,
+input[type="range"] {
+  font-family: inherit;
+  background: var(--panel-2);
+  color: var(--ink);
+  border: 1px solid var(--line-bright);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 12.5px;
+}
+
+label.field {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ink-dim);
+  font-size: 12px;
+}
+
+/* -------------------------------------------------------------- console --- */
+.console-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(340px, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .console-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tallies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.tally {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 10px 12px;
+}
+
+.tally .k {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.tally .v {
+  font-size: 25px;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+.tally.approve .v {
+  color: #6ea582;
+}
+.tally.challenge .v {
+  color: var(--challenge);
+}
+.tally.review .v {
+  color: var(--review);
+}
+.tally.decline .v {
+  color: var(--decline);
+}
+.tally.caught .v {
+  color: var(--blue);
+}
+.tally.missed .v {
+  color: var(--red);
+}
+
+/* The authorisation stream. Rows enter at the top and never move afterwards. */
+.stream {
+  max-height: 640px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.auth {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 78px 92px;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  border-left-width: 3px;
+  background: var(--panel-2);
+  margin-bottom: 6px;
+  cursor: pointer;
+  animation: slide-in 260ms ease-out;
+}
+
+.auth:hover {
+  border-color: var(--line-bright);
+}
+
+.auth.sel {
+  border-color: var(--blue-dim);
+  background: #0c1a20;
+}
+
+.auth.d-approve {
+  border-left-color: var(--approve);
+}
+.auth.d-challenge {
+  border-left-color: var(--challenge);
+}
+.auth.d-review {
+  border-left-color: var(--review);
+}
+.auth.d-decline {
+  border-left-color: var(--decline);
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.auth .risk {
+  font-size: 17px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.auth .who {
+  min-width: 0;
+}
+
+.auth .who .top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.auth .who .amt {
+  font-weight: 600;
+}
+
+.auth .who .bot {
+  color: var(--ink-faint);
+  font-size: 11px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rail {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--line-bright);
+  color: var(--ink-dim);
+}
+
+.rail.agentic {
+  color: var(--blue);
+  border-color: var(--blue-dim);
+  background: #08191f;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 4px 0;
+  border-radius: 5px;
+  text-align: center;
+  color: #080b10;
+}
+
+.badge.approve {
+  background: #4d7f61;
+}
+.badge.challenge {
+  background: var(--challenge);
+}
+.badge.review {
+  background: var(--review);
+}
+.badge.decline {
+  background: var(--decline);
+  color: #fff;
+}
+
+/* The outcome column. Revealed after the decision, never before it. */
+.outcome {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  padding: 3px 0;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.outcome.hit {
+  color: #6ea582;
+  border-color: #2c4a38;
+  background: #0d1a13;
+}
+.outcome.miss {
+  color: var(--red);
+  border-color: var(--red-dim);
+  background: #1d1305;
+}
+.outcome.fp {
+  color: var(--review);
+  border-color: #5c3a16;
+  background: #1c1207;
+}
+.outcome.ok {
+  color: var(--ink-faint);
+}
+
+/* ------------------------------------------------------------- inspector -- */
+.kv {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 3px 10px;
+  font-size: 12px;
+}
+
+.kv dt {
+  color: var(--ink-faint);
+}
+
+.kv dd {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layerbar {
+  margin-bottom: 9px;
+}
+
+.layerbar .lab {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--ink-dim);
+  margin-bottom: 3px;
+}
+
+.track {
+  height: 7px;
+  background: #0a0e14;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue-dim), var(--blue));
+  transition: width 240ms ease-out;
+}
+
+.fill.none {
+  background: repeating-linear-gradient(45deg, #1a2430, #1a2430 4px, #131a24 4px, #131a24 8px);
+}
+
+.contrib {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 12px;
+}
+
+.contrib:last-child {
+  border-bottom: none;
+}
+
+.contrib .w {
+  text-align: right;
+  font-weight: 700;
+}
+
+.contrib .w.pos {
+  color: var(--red);
+}
+.contrib .w.neg {
+  color: #6ea582;
+}
+
+.contrib .f {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contrib .f .val {
+  color: var(--ink-faint);
+}
+
+.l0-fired {
+  border: 1px solid var(--decline);
+  background: #1a0a0a;
+  border-radius: 7px;
+  padding: 9px 11px;
+  margin-bottom: 12px;
+}
+
+.l0-fired .t {
+  color: var(--decline);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.l0-fired .r {
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* --------------------------------------------------------------- results -- */
+.rgrid {
+  display: grid;
+  gap: 14px;
+}
+
+.rgrid.two {
+  grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+}
+
+.recovery {
+  display: grid;
+  gap: 12px;
+}
+
+.rrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 20px;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+}
+
+.rrow .lab {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.rrow .lab small {
+  display: block;
+  color: var(--ink-faint);
+  font-size: 11.5px;
+  margin-top: 4px;
+}
+
+.rrow .big {
+  font-size: 54px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: right;
+  letter-spacing: -0.02em;
+}
+
+.rrow.with {
+  border-color: var(--blue-dim);
+}
+.rrow.with .big {
+  color: var(--blue);
+}
+
+.rrow.held {
+  border-color: var(--red-dim);
+}
+.rrow.held .big {
+  color: var(--red);
+}
+
+.rrow.loop {
+  border-color: var(--blue);
+  background: linear-gradient(90deg, #0a1d24, var(--panel-2));
+}
+.rrow.loop .big {
+  color: var(--blue);
+}
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+table.data th {
+  text-align: left;
+  color: var(--ink-faint);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line-bright);
+  white-space: nowrap;
+}
+
+table.data td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+table.data tr:last-child td {
+  border-bottom: none;
+}
+
+.scroll-x {
+  overflow-x: auto;
+}
+
+.loading,
+.error {
+  padding: 28px;
+  color: var(--ink-dim);
+  text-align: center;
+}
+
+.error {
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.note {
+  border-left: 2px solid var(--line-bright);
+  padding-left: 11px;
+  color: var(--ink-faint);
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: pulse 1.15s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Atlas and fidelity screens.
+
+   Both are reading surfaces rather than instruments: no stream, no animation,
+   long prose blocks beside dense tables. The rules below therefore optimise for
+   scanning - a fixed monospace column for every number, a badge vocabulary that
+   is consistent between the two screens, and generous line height in `.note`,
+   which on these screens carries the argument rather than a footnote.
+   ========================================================================== */
+
+/* A stat row. `auto-fit` rather than a fixed count so three headline numbers and
+   four both look deliberate instead of one wrapping awkwardly. */
+.rgrid.stats {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.kv > span:first-child {
+  color: var(--ink-faint);
+}
+
+.kv.big-kv {
+  grid-template-columns: 1fr;
+  gap: 4px;
+  padding: 12px 14px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.kv.big-kv > span:first-child {
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.kv.big-kv > span:last-child {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------ atlas -- */
+
+.fam-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.fam-top {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.fam-top strong {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+/* Two stacked fills, not a stacked bar: the mapped total is the track and the
+   implemented count is drawn over it, so the eye reads "how much of this family
+   is real code" rather than having to subtract. */
+.fam-track {
+  position: relative;
+  height: 9px;
+  background: var(--panel-2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.fam-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 5px;
+}
+
+.fam-fill.mapped {
+  background: var(--line-bright);
+}
+
+.fam-fill.impl {
+  background: var(--blue);
+}
+
+.fam-nums {
+  margin-top: 4px;
+  font-size: 11.5px;
+}
+
+.fam-nums .impl-n {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.fam-nums .holdout {
+  margin-left: 10px;
+  color: var(--red);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.atlas-card {
+  text-align: left;
+  font-family: inherit;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  cursor: pointer;
+  color: var(--ink);
+  display: grid;
+  gap: 7px;
+}
+
+.atlas-card:hover {
+  border-color: var(--blue-dim);
+}
+
+.atlas-card.found {
+  border-color: var(--red-dim);
+}
+
+.ac-top,
+.ac-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: space-between;
+}
+
+.ac-foot {
+  justify-content: flex-start;
+}
+
+.card-id {
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+.ac-name {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* Badges. `.badge` is defined above for the decision vocabulary and centres its
+   text at full width; these are inline tags, so the padding is reset. */
+.badge.impl,
+.badge.mapped,
+.badge.rail-b,
+.badge.layer-b,
+.badge.found-b,
+.badge.ref-b,
+.badge.syn-b {
+  padding: 3px 7px;
+  width: auto;
+  display: inline-block;
+}
+
+.badge.impl {
+  background: var(--blue);
+}
+
+.badge.mapped {
+  background: var(--line-bright);
+  color: var(--ink-dim);
+}
+
+.badge.rail-b {
+  background: #1c2c3a;
+  color: var(--ink-dim);
+}
+
+.badge.layer-b {
+  background: #0a2730;
+  color: var(--blue);
+}
+
+.badge.found-b,
+.badge.syn-b {
+  background: var(--red);
+}
+
+.badge.ref-b {
+  background: var(--blue-dim);
+  color: #dff6fb;
+}
+
+/* The card drawer. A dialog rather than a route, because the atlas is one screen
+   and a deep link into a card is not something a four-minute demo needs. */
+.drawer-wrap {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 8, 0.72);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 40;
+}
+
+.drawer {
+  width: min(620px, 100%);
+  height: 100%;
+  overflow-y: auto;
+  background: var(--panel);
+  border-left: 1px solid var(--line-bright);
+  padding: 20px 22px 40px;
+}
+
+.drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.drawer-head h3 {
+  margin: 3px 0 0;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.drawer-body h4 {
+  margin: 20px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.drawer-body .desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-dim);
+  margin: 12px 0 16px;
+}
+
+.drawer-body ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-dim);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------- tables --- */
+
+table.sig {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+table.sig th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+table.sig td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+
+table.sig th.r,
+table.sig td.r {
+  text-align: right;
+}
+
+table.sig.levels td:first-child {
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------- fidelity --- */
+
+/* An adjudication, or a known divergence. Same shape for both: a claim, the
+   measurement that supports it, and why it stands. */
+.adj {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  background: var(--panel-2);
+}
+
+.adj-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+
+.adj-head .num {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.adj .kv {
+  grid-template-columns: 92px minmax(0, 1fr);
+  margin-bottom: 3px;
+}
+
+.adj p.hint {
+  margin: 9px 0 0;
+  line-height: 1.6;
+  font-size: 11.5px;
+}
