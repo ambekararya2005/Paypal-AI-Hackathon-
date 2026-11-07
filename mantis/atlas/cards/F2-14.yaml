@@ -1,0 +1,57 @@
+id: F2-14
+name: Unregistered and forged Know-Your-Agent credentials
+family: F2
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator standing up agent identities that the network has never
+  registered, or presenting a credential that does not resolve to a real
+  registry entry.
+genai_enabler: >-
+  Agent identity is new, thinly enforced, and inconsistently checked during
+  rollout. Generative tooling makes it trivial to produce large numbers of
+  plausible agent identities, platform strings and credential-shaped tokens, so
+  the cost of testing which acquirers actually verify falls to near zero.
+description: >-
+  The Know-Your-Agent registry is the agentic rail's equivalent of merchant
+  onboarding: it is what makes an agent identity mean anything. This attack
+  transacts with an agent that is simply not in it, or with a credential that is
+  well-formed but unresolvable, and relies on acceptance paths that treat KYA as
+  advisory. The difficulty is that a real rollout has a legitimate tail of
+  unregistered agents, so the naive rule "unregistered equals fraud" is both
+  wrong and expensive. What separates the two is everything else about the
+  session, not the flag on its own.
+preconditions:
+  - Acceptance path treats an absent or unresolvable KYA credential as non-blocking.
+  - No positive verification of the credential against the registry at authorisation.
+observable_signals:
+  - signal: Agent presents no KYA credential, or one that does not resolve to a registry entry.
+    feature: kya_unregistered
+    layer: L0
+  - signal: Agent platform string is one never seen before across the whole portfolio.
+    feature: agent_platform_novelty
+    layer: L1
+  - signal: Agent identifier has no transaction history and no established customer relationship.
+    feature: agent_tenure_days
+    layer: L1
+  - signal: The session sits far from the legitimate agentic population on every behavioural axis at once.
+    feature: agent_session_isolation_score
+    layer: L2
+  - signal: The unregistered agent identity is one of many sharing a device or address neighbourhood.
+    feature: agent_id_fanout
+    layer: L4
+mitigations:
+  - Verify the KYA credential against the registry at authorisation, not at onboarding only.
+  - Apply a lower authority ceiling to unregistered agents rather than a blanket decline.
+  - Score the credential alongside behavioural evidence, never as a standalone rule.
+detected_by:
+  - L0
+  - L1
+  - L2
+  - L4
+references:
+  - "Mastercard Agent Pay - agent registration and Know-Your-Agent"
+  - "Google AP2 (Agent Payments Protocol) - agent identity attestation"
+discovered_by: human

@@ -1,0 +1,61 @@
+id: F1-03
+name: Refund-logic hijack
+family: F1
+status: implemented
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An attacker who can place content in front of either the buyer's agent or a
+  merchant-side support agent — a returns page, a support-ticket body, an order
+  note — and who controls a receiving instrument.
+genai_enabler: >-
+  Merchants are automating returns and disputes with LLM agents that hold real
+  authority to issue credits. Those agents read attacker-supplied free text as
+  part of their normal job, which makes the refund path the single highest-value
+  instruction-following surface in commerce: it moves money outward, and it is
+  the one flow designed to be generous.
+description: >-
+  The attacker manipulates the refund path rather than the purchase path. Two
+  common shapes: the buyer's agent is steered into requesting a refund routed to
+  an instrument other than the one that paid, or a merchant-side support agent is
+  instructed by ticket content to approve a credit that no purchase justifies.
+  Both produce a credit whose destination or magnitude has no matching
+  authorisation history. Refund flows are chronically under-monitored relative to
+  purchase flows, so the same anomaly that would be obvious on a purchase can
+  pass unexamined here.
+preconditions:
+  - An agent holds authority to initiate or approve refunds or credits.
+  - Refund destination is not hard-bound to the original payment credential.
+  - Free-text content from an untrusted party reaches the agent making the decision.
+observable_signals:
+  - signal: Credit is routed to an instrument or beneficiary that differs from the one on the original authorisation.
+    feature: refund_instrument_mismatch
+    layer: L0
+  - signal: Refund value over a window exceeds prior purchase value for the same customer-merchant pair.
+    feature: refund_to_purchase_ratio
+    layer: L1
+  - signal: Beneficiary receiving the credit has no prior relationship with this customer.
+    feature: beneficiary_first_seen
+    layer: L1
+  - signal: Ingested ticket or returns content contains directive language aimed at the agent's approval logic rather than at a human reader.
+    feature: refund_instruction_injection_score
+    layer: L3
+  - signal: One beneficiary accumulates credits from many unrelated customers or merchants.
+    feature: beneficiary_fan_in
+    layer: L4
+mitigations:
+  - Hard-bind refunds to the original payment credential; make an alternate destination a separate, human-authorised flow.
+  - Cap agent refund authority by amount and rate, with escalation above the cap.
+  - Require a matching authorisation record before any agent-initiated credit clears.
+  - Score refund flows with the same firewall the purchase flow gets, not a lighter one.
+generator: mantis.foundry.injectors.f1_03_refund_hijack:inject
+detected_by:
+  - L0
+  - L1
+  - L3
+  - L4
+references:
+  - "OWASP Top 10 for LLM Applications - LLM01 Prompt Injection, excessive agency"
+  - "Card scheme chargeback and credit-routing rules (refund-to-original-credential principle)"
+discovered_by: human

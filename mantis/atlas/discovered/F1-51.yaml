@@ -1,0 +1,55 @@
+id: F1-51
+name: Delegation-chain laundering through sub-agents — evasive variant 51253
+family: F1
+status: mapped
+rails:
+- agentic
+actor: An operator who controls a sub-agent that a primary agent is willing to delegate to - a specialist
+  "booking" or "checkout" capability the primary agent can call at runtime.
+genai_enabler: The variant was not written by a person. It was found by MANTIS's own evolutionary adversary,
+  which mutates the operational parameters of a known attack and selects on evasion x payoff against the
+  live detector — the same loop an operator runs when their attempts start getting declined, except that
+  here the defender runs it first. Multi-agent orchestration makes delegation cheap and routine, and each
+  hop strips context. By the time the payment is made, the executing agent holds the authority the human
+  granted but none of the constraints the human stated, because those constraints were prose in a planning
+  context two hops back.
+description: 'A variant of F1-05 discovered by the adversarial loop. It evaded 6% of the detector''s decisions
+  at the 0.1% false-positive operating point while retaining 0.05x the parent attack''s realised payoff,
+  and survived 4 consecutive rounds of retraining. What changed: ticket size raised to 1.29x the parent
+  attack''s, trading payoff per event against the per-customer amount baselines; the ring is split into
+  roughly 3 sub-rings, so no single campaign carries enough volume to be worth an alert; about 46% of
+  the merchant legs are re-drawn from ordinary popular merchants, diluting beneficiary concentration;
+  about 50% of the injected pages are replaced with innocuous content, so the provenance trail carries
+  less instruction-shaped text for a reader to find; delegation chain shortened by 1; agent deliberation
+  latency stretched to 3.7x, which is a direct answer to the deliberation-residual feature. The underlying
+  attack is unchanged — see F1-05 for what it is and why it works.'
+preconditions:
+- Agent platform permits onward delegation without re-consent.
+- Mandate does not pin a maximum delegation depth.
+- Sub-agent identity is not separately registered or attested.
+observable_signals:
+- signal: Delegation depth exceeds the maximum the mandate or issuer policy permits.
+  feature: delegation_depth_exceeded
+  layer: L0
+- signal: One agent identifier transacts for an implausible number of distinct customers.
+  feature: agent_id_fanout
+  layer: L4
+- signal: The executing agent runs on a platform this customer has never used.
+  feature: agent_platform_novelty
+  layer: L1
+- signal: A single mandate hash appears across agents that share no legitimate relationship.
+  feature: mandate_hash_reuse_graph_degree
+  layer: L4
+mitigations:
+- Pin a maximum delegation depth inside the mandate and enforce it at the network.
+- Require each hop to attest its own identity, so the chain is auditable end to end.
+- Re-verify consent whenever the executing agent differs from the agent the human chose.
+generator: null
+detected_by:
+- L0
+- L1
+- L4
+references:
+- 'parent card: F1-05'
+- discovered by mantis.loop.arena
+discovered_by: adversarial_loop

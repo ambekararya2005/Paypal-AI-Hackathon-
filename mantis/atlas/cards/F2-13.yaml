@@ -1,0 +1,64 @@
+id: F2-13
+name: GenAI synthetic identity onboarding
+family: F2
+status: implemented
+rails:
+  - ecom
+  - upi_p2m
+  - agentic
+actor: >-
+  An organised fraud operation building portfolios of fabricated customers, each
+  cultivated to look ordinary long enough to acquire credit, then monetised
+  together in a coordinated bust-out.
+genai_enabler: >-
+  The historic constraint on synthetic identity was per-identity cost: coherent
+  documents, a plausible digital footprint, and a consistent life story took
+  human effort. Generative models collapse that cost toward zero and, worse,
+  remove the shared artefacts that used to link members of a batch — every
+  identity can now be individually unique while the batch is still statistically
+  and relationally correlated. The linkage moves from documents to behaviour.
+description: >-
+  Fabricated customers pass onboarding, transact normally at low value to
+  accumulate history and limit, then ramp sharply and disappear together. MANTIS
+  models the transaction-stream consequences rather than the onboarding
+  artefacts: the document-forensics problem is real but sits upstream of the
+  authorisation message, so this card deliberately claims only what the schema
+  can actually observe. What the stream does show is a cohort whose first
+  transactions arrive suspiciously soon after account creation, whose devices and
+  network paths overlap more than unrelated strangers' should, and whose spend
+  ramps on a curve no organic customer follows.
+preconditions:
+  - Onboarding accepts generated identity artefacts without independent source-of-truth verification.
+  - Credit or transaction limits grow with observed tenure and repayment behaviour.
+  - Multiple synthetic customers share some infrastructure - device, network path, or issuing BIN range.
+observable_signals:
+  - signal: On the agentic variant, the agent acting for the identity carries no valid KYA registration.
+    feature: kya_unregistered
+    layer: L0
+  - signal: Time from account creation to first transaction is far below the population norm for the segment.
+    feature: account_age_at_first_txn
+    layer: L1
+  - signal: Device or network fingerprint recurs across customers who have no other relationship.
+    feature: device_reuse_count
+    layer: L1
+  - signal: Spend ramps monotonically toward the limit with none of the volatility of organic behaviour, then stops.
+    feature: bust_out_amount_ramp
+    layer: L1
+  - signal: The identity sits in a graph component whose density and shared attributes are inconsistent with unrelated real customers.
+    feature: identity_cluster_synthetic_score
+    layer: L4
+mitigations:
+  - Verify identity against an authoritative source rather than against document plausibility, which generation now defeats.
+  - Score cohorts, not individuals - synthetics are cheap alone and expensive as a correlated batch.
+  - Hold limit growth behind behavioural evidence that is costly to fabricate over time, not behind tenure alone.
+  - Re-verify at limit increases and at first high-value transaction, where the bust-out has to pass through.
+generator: mantis.foundry.injectors.f2_13_synthetic_identity:inject
+detected_by:
+  - L0
+  - L1
+  - L4
+references:
+  - "US Federal Reserve - synthetic identity fraud definition and payments-industry guidance"
+  - "FinCEN advisories on identity-related exploitation of financial institutions"
+  - "RBI / NPCI onboarding and KYC circulars (India market context)"
+discovered_by: human

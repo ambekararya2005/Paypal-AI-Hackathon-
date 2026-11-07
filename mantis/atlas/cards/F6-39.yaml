@@ -1,0 +1,55 @@
+id: F6-39
+name: Shell merchant-of-record laundering
+family: F6
+status: implemented
+rails:
+  - ecom
+  - agentic
+  - upi_p2m
+actor: >-
+  An operator controlling one or more merchant accounts used to accept
+  attacker-directed volume and convert it into clean settlement.
+genai_enabler: >-
+  Standing up and operating a merchant presence that survives casual review now
+  costs almost nothing: storefront content, product catalogues, support
+  correspondence and transaction narratives can all be generated. Being the
+  merchant, rather than attacking one, becomes the economically rational play.
+description: >-
+  The merchant is the destination. Proceeds are pushed through a merchant of
+  record the attacker controls, and emerge as ordinary settlement for goods that
+  were never shipped. Each authorisation is well-formed and the customers may
+  even be genuine, which is what makes this hard: nothing about the payment
+  itself is anomalous. The evidence lies in the merchant profile, in the
+  mismatch between declared and realised behaviour, and in the bipartite
+  structure of who transacts there.
+preconditions:
+  - Merchant onboarding can be completed on submitted evidence with limited ongoing monitoring.
+  - No continuous comparison of realised transaction mix against the declared category.
+observable_signals:
+  - signal: Realised transaction mix does not match the category the merchant registered under.
+    feature: merchant_category_mismatch
+    layer: L1
+  - signal: Merchant is young relative to the volume and ticket size it processes.
+    feature: merchant_age_days
+    layer: L1
+  - signal: Customer base is narrow and repetitive in a way no genuine retailer sustains.
+    feature: merchant_customer_bipartite_anomaly
+    layer: L4
+  - signal: Merchant clusters with other entities sharing registration and settlement characteristics.
+    feature: shell_merchant_score
+    layer: L4
+  - signal: Amounts are unusually uniform and unusually round for the declared category.
+    feature: amount_round_number_flag
+    layer: L1
+mitigations:
+  - Monitor realised transaction mix against the declared category continuously, not at onboarding.
+  - Hold settlement for new merchants until behavioural history accumulates.
+  - Cluster merchants on registration and settlement evidence and review clusters together.
+generator: mantis.foundry.injectors.f6_39_shell_merchant:inject
+detected_by:
+  - L1
+  - L4
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+  - "Mastercard Rules - merchant onboarding and monitoring obligations"
+discovered_by: human

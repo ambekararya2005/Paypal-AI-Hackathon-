@@ -1,0 +1,49 @@
+id: F1-11
+name: Silent mandate renewal and TTL extension abuse
+family: F1
+status: mapped
+rails:
+  - agentic
+  - recurring
+actor: >-
+  An operator who controls the agent or the platform component responsible for
+  refreshing an expiring mandate.
+genai_enabler: >-
+  Agents are built to be persistent and to avoid interrupting the human. An
+  agent optimised not to nag will renew its own authority rather than ask, and
+  will present that renewal as continuity of an existing arrangement.
+description: >-
+  A short-lived mandate is meant to expire, forcing the human back into the
+  loop. Instead it is renewed repeatedly without fresh consent, each renewal
+  presented as a continuation. The mandate never technically expires, so the
+  time-bound control that made a narrow scope safe silently becomes unbounded.
+  This is a slow attack, and its signature lives in the cadence rather than in
+  any single authorisation.
+preconditions:
+  - Mandates can be extended or reissued without a fresh human consent event.
+  - No cap on renewal count or on cumulative authorised lifetime.
+observable_signals:
+  - signal: The same mandate lineage has been extended more times than policy allows.
+    feature: mandate_ttl_extension_count
+    layer: L0
+  - signal: Cumulative mandate age far exceeds the TTL the human originally agreed to.
+    feature: mandate_age_seconds
+    layer: L1
+  - signal: Renewals arrive on a machine-regular cadence with no human-driven variance.
+    feature: interarrival_regularity
+    layer: L1
+  - signal: The mandate's behavioural profile drifts steadily away from where it started.
+    feature: behavioural_embedding_distance
+    layer: L2
+mitigations:
+  - Cap cumulative authorised lifetime, not just per-mandate TTL.
+  - Require a fresh human consent event for renewal, never an agent-initiated one.
+  - Report cumulative delegated authority back to the customer periodically.
+detected_by:
+  - L0
+  - L1
+  - L2
+references:
+  - "Google AP2 (Agent Payments Protocol) - mandate lifetime and revocation"
+  - "RBI Master Direction on Digital Payment Security Controls - recurring mandates"
+discovered_by: human

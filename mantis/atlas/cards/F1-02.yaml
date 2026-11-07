@@ -1,0 +1,60 @@
+id: F1-02
+name: Intent-mandate scope inflation
+family: F1
+status: implemented
+rails:
+  - agentic
+actor: >-
+  Anyone able to influence the agent's planning context — a compromised or
+  adversarial sub-agent, a poisoned tool result, or a merchant-side content
+  operator. Also reachable by a careless-but-benign agent, which is why the
+  detector must score behaviour rather than intent.
+genai_enabler: >-
+  Intent mandates delegate a goal, not a basket, so the agent is granted
+  interpretive latitude by design. An LLM planner can rationalise almost any
+  purchase as serving the stated goal, and can produce a fluent justification
+  for it, which defeats review processes that read the agent's explanation
+  rather than its behaviour.
+description: >-
+  A human delegates a goal under an intent mandate with a scope envelope —
+  categories, a maximum amount, a merchant allow-list, a TTL. The agent then
+  transacts outside that envelope: adjacent-category drift ("travel insurance"
+  billed against a flights mandate), amount inflation just under the ceiling
+  followed by a step over it, or substitution of a merchant outside the
+  allow-list. Because the mandate is real and unexpired, everything except the
+  scope check passes. This is the highest-frequency F1 vector precisely because
+  it needs no cryptographic failure — only latitude.
+preconditions:
+  - Mandate is of type intent, delegating a goal rather than a fixed basket.
+  - Mandate scope carries at least one enforceable constraint (category, amount, merchant, item count).
+  - Scope is enforced advisorily by the agent rather than authoritatively at the network.
+observable_signals:
+  - signal: Authorised MCC falls outside the categories named in the mandate scope.
+    feature: mcc_outside_scope
+    layer: L0
+  - signal: Merchant is absent from a non-empty allow-list on the mandate.
+    feature: merchant_not_in_allowlist
+    layer: L0
+  - signal: Amount sits at or above the scope ceiling, often clustered just beneath it across a campaign.
+    feature: amount_to_scope_max_ratio
+    layer: L1
+  - signal: Basket carries more line items than max_items permits.
+    feature: basket_item_count_delta
+    layer: L1
+  - signal: The agent's overall spend pattern under one mandate drifts away from the population of agents holding comparable mandates.
+    feature: feature_space_novelty_score
+    layer: L2
+mitigations:
+  - Enforce mandate scope at the network, not in the agent — the constrained party must not be the enforcing party.
+  - Express category scope as an explicit MCC set rather than natural language, so "adjacent" has no room to mean anything.
+  - Decrement a cumulative budget across the mandate lifetime, not just per transaction, to defeat salami inflation.
+  - Require re-consent when the agent's plan leaves the originally scoped category.
+generator: mantis.foundry.injectors.f1_02_scope_inflation:inject
+detected_by:
+  - L0
+  - L1
+  - L2
+references:
+  - "Google AP2 (Agent Payments Protocol) - intent mandate scope semantics"
+  - "Mastercard Agent Pay - agent authorisation and consent model (2025)"
+discovered_by: human

@@ -1,0 +1,64 @@
+id: F4-27
+name: Adaptive BIN attack
+family: F4
+status: implemented
+rails:
+  - ecom
+  - agentic
+  - card_present
+actor: >-
+  A technically capable fraud operation with a corpus of card credentials and
+  enough merchant access to observe authorisation outcomes. The distinguishing
+  capability is not credential supply but the feedback loop: they can see which
+  attempts approve.
+genai_enabler: >-
+  Approve and decline responses are a free oracle. An LLM-driven search loop
+  turns that oracle into a hill-climb over the defender's decision surface,
+  proposing amount bands, MCCs, merchant types and timing that keep scores under
+  threshold. What used to be a fraudster's slow intuition becomes an automated
+  parameter search running continuously against production.
+description: >-
+  Rather than maximising value per attempt, the attacker probes: small
+  authorisations spread across a BIN range, varying amount, merchant category and
+  hour, reading the decline pattern to infer where the boundary sits, then
+  concentrating value in the region that approves. The resulting fraud looks
+  ordinary one transaction at a time — that is the objective function — and is
+  only visible in aggregate structure across the BIN. This card is the reference
+  vector for the adversarial loop in Pillar 3: it is the family the evolutionary
+  adversary attacks first, and the one whose evasion rate we report across
+  generations.
+preconditions:
+  - Attacker holds many credentials sharing BIN ranges.
+  - Authorisation outcomes are observable to the attacker at low cost and low latency.
+  - Detection thresholds are static between retrains, giving the search a stationary target.
+observable_signals:
+  - signal: Attempt rate within a BIN range spikes far above its baseline, spread thinly across many card numbers.
+    feature: bin_test_velocity
+    layer: L1
+  - signal: Amounts cluster in narrow probe bands rather than following the merchant's natural ticket distribution.
+    feature: bin_amount_probe_ratio
+    layer: L1
+  - signal: Decline ratio for the BIN rises sharply during the search phase, then falls as the attacker converges.
+    feature: decline_ratio_1h
+    layer: L1
+  - signal: Approved traffic drifts toward a low-density region of feature space - the gap the search found - which supervised layers score as benign because nothing there was ever labelled.
+    feature: feature_space_novelty_score
+    layer: L2
+  - signal: One BIN range fans out across an implausible set of unrelated merchants in a short window.
+    feature: bin_merchant_fanout
+    layer: L4
+mitigations:
+  - Rate-limit and score at BIN-range level, not only per card, so thin-spread probing still accumulates evidence.
+  - Randomise or hysteresis-damp thresholds so the oracle returns a noisy gradient instead of a clean one.
+  - Retrain on a cadence shorter than the attacker's search time, which is the entire premise of the MANTIS closed loop.
+  - Weight the unsupervised novelty layer explicitly at fusion, since a successful search is by construction invisible to the supervised layer.
+generator: mantis.foundry.injectors.f4_27_adaptive_bin:inject
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "Card scheme BIN attack / enumeration monitoring guidance"
+  - "Adversarial machine learning: evasion attacks under black-box query access (literature background)"
+  - "NIST AI 100-2 - Adversarial Machine Learning taxonomy (evasion, model querying)"
+discovered_by: human

@@ -1,0 +1,51 @@
+id: F4-31
+name: Feedback-loop label poisoning
+family: F4
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator who can influence the labels a detector learns from, typically by
+  generating disputes or confirmations that flow back into training data.
+genai_enabler: >-
+  Producing large volumes of plausible, individually reasonable dispute
+  narratives is now cheap, and fraud models retrain on outcome labels derived
+  from exactly those disputes. The attack targets the training pipeline rather
+  than the model.
+description: >-
+  If a detector learns from dispute outcomes, then whoever can shape dispute
+  outcomes can shape the detector. Systematically mislabelling a region of
+  feature space teaches the model that the region is benign, opening a corridor
+  for later attacks. This is slow, indirect, and among the hardest attacks to
+  attribute, because by the time it works the evidence lives in the model
+  weights rather than in the transaction stream.
+preconditions:
+  - Model retrains on labels derived from customer disputes or downstream outcomes.
+  - No provenance weighting or review of label sources before they enter training.
+observable_signals:
+  - signal: Dispute rate for a narrow feature region diverges sharply from its neighbours.
+    feature: dispute_rate_by_region
+    layer: L1
+  - signal: Disputing accounts cluster on shared devices, addresses or agent platforms.
+    feature: shared_device_fanout
+    layer: L4
+  - signal: Model performance decays in a localised region between retrains rather than uniformly.
+    feature: population_density_score
+    layer: L2
+  - signal: Dispute narratives are unusually uniform in structure across unrelated customers.
+    feature: scam_narrative_score
+    layer: L3
+mitigations:
+  - Weight training labels by the provenance and independence of their source.
+  - Hold out a curated, manually adjudicated evaluation set that feedback cannot reach.
+  - Monitor per-region performance between retrains, not only aggregate metrics.
+detected_by:
+  - L1
+  - L2
+  - L3
+  - L4
+references:
+  - "OWASP Top 10 for LLM Applications - LLM04 Data and Model Poisoning"
+  - "NIST AI 100-2 Adversarial Machine Learning: A Taxonomy and Terminology"
+discovered_by: human

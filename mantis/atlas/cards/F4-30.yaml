@@ -1,0 +1,50 @@
+id: F4-30
+name: Velocity shaping against count-window rules
+family: F4
+status: mapped
+rails:
+  - agentic
+  - ecom
+  - upi_p2m
+actor: >-
+  An operator who has inferred the count-and-window shape of a velocity rule and
+  schedules activity to stay underneath it.
+genai_enabler: >-
+  Scheduling many actions against a known constraint, across many accounts and
+  many windows at once, is exactly the combinatorial planning that is now cheap.
+  The attacker does not need the rule exactly; a few hundred probes reveal
+  enough of its shape to schedule around.
+description: >-
+  Where F4-28 shapes amounts against value thresholds, this shapes timing
+  against count thresholds. Transactions are spaced so no rolling window ever
+  holds enough of them to trip a rule, and are spread across cards, devices or
+  agents so no single entity accumulates a count. The residue is a cadence that
+  is too even: real customers cluster and then go quiet, and an attacker
+  metering themselves against a window does neither.
+preconditions:
+  - Velocity rules use fixed counts over fixed windows.
+  - Counting is scoped per entity in a way that spreading across entities defeats.
+observable_signals:
+  - signal: Inter-arrival gaps are far more regular than a genuine customer ever produces.
+    feature: interarrival_regularity
+    layer: L1
+  - signal: Activity resumes immediately after each rolling window expires.
+    feature: window_edge_affinity
+    layer: L1
+  - signal: Counts sit just below the rule limit across many consecutive windows.
+    feature: velocity_headroom_ratio
+    layer: L1
+  - signal: Related entities share a footprint while each individually stays under the limit.
+    feature: shared_device_fanout
+    layer: L4
+mitigations:
+  - Use overlapping and randomised windows rather than fixed non-overlapping ones.
+  - Count at the entity-cluster level, not only at the card or agent level.
+  - Treat abnormally regular cadence as a signal in its own right.
+detected_by:
+  - L1
+  - L4
+references:
+  - "NIST AI 100-2 Adversarial Machine Learning: A Taxonomy and Terminology"
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+discovered_by: human

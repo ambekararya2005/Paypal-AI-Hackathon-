@@ -1,0 +1,50 @@
+id: F3-21
+name: Task and investment scam payout orchestration
+family: F3
+status: mapped
+rails:
+  - upi_p2p
+  - upi_p2m
+  - ecom
+actor: >-
+  An operator running a task-based or investment scam in which the victim is
+  induced to make escalating payments against promised returns.
+genai_enabler: >-
+  Sustaining a convincing, personalised, multi-week conversation with hundreds
+  of victims simultaneously was the binding constraint on this fraud. Generative
+  conversation removes it, and also personalises the escalation schedule to each
+  victim's demonstrated willingness to pay.
+description: >-
+  The victim makes a series of payments, each individually justified by the
+  scam's internal logic and each one larger than the last. Early payments may
+  even receive small real returns, which is what makes the later ones possible.
+  From the network's side the signature is the escalation curve and the
+  concentration of many unrelated victims onto a small set of beneficiaries.
+preconditions:
+  - Victim retains control of their own account and authorises each payment.
+  - Beneficiary accounts can receive from many unrelated senders without review.
+observable_signals:
+  - signal: A monotonically escalating payment sequence to the same beneficiary.
+    feature: amount_escalation_slope
+    layer: L1
+  - signal: Beneficiary shows high inbound fan-in from senders with no relationship to each other.
+    feature: funds_flow_fanout_ratio
+    layer: L4
+  - signal: Customer's payment behaviour departs sharply from their own long-run baseline.
+    feature: behavioural_embedding_distance
+    layer: L2
+  - signal: Beneficiary sits in a component that receives broadly and pays out narrowly.
+    feature: mule_path_score
+    layer: L4
+mitigations:
+  - Score beneficiary accounts on inbound fan-in and onward concentration.
+  - Intervene on escalation patterns rather than on single-payment thresholds.
+  - Share beneficiary risk signals across institutions where the framework permits.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+  - "Indian Cyber Crime Coordination Centre (I4C) - advisories on investment fraud"
+discovered_by: human

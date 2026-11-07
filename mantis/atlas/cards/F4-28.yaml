@@ -1,0 +1,57 @@
+id: F4-28
+name: Threshold probing and just-under structuring
+family: F4
+status: implemented
+rails:
+  - agentic
+  - ecom
+  - upi_p2m
+  - card_present
+actor: >-
+  An operator who can observe approve and decline outcomes, and use them to
+  locate the amount thresholds a risk engine is using.
+genai_enabler: >-
+  Threshold discovery is a search problem, and search is what an agent is for.
+  An automated adversary can binary-search the decline boundary across amounts,
+  categories and rails in hours, then hold every subsequent transaction just
+  underneath it. That work previously required a patient human operator and a
+  lot of burned cards.
+description: >-
+  Risk engines use amount thresholds, and thresholds are discoverable by anyone
+  who can observe outcomes. Once located, the attacker splits value into
+  transactions that sit deliberately just below each boundary, extracting the
+  same total while never crossing a line that triggers review. The tell is not
+  any individual amount, since each is unremarkable by construction, but the
+  unnatural density of amounts hugging a boundary that means nothing at all to a
+  genuine customer.
+preconditions:
+  - Decline outcomes are observable to the party submitting the transaction.
+  - Risk policy uses fixed amount thresholds rather than smooth, randomised or contextual ones.
+observable_signals:
+  - signal: Amounts cluster just below a policy threshold far more tightly than the population warrants.
+    feature: amount_just_under_threshold
+    layer: L1
+  - signal: A value that would once have been one transaction now arrives as several within a short window.
+    feature: customer_velocity_1h
+    layer: L1
+  - signal: Split transactions share a merchant and category that the customer history does not support.
+    feature: merchant_repeat_burst
+    layer: L1
+  - signal: The amount distribution for this entity fits the population log-normal shape poorly.
+    feature: mandate_shape_outlier_score
+    layer: L2
+  - signal: Probing leaves a trail of near-boundary attempts spread across several BINs or agents.
+    feature: bin_probe_amount_variance
+    layer: L1
+mitigations:
+  - Randomise or smooth thresholds so a boundary cannot be located by observation.
+  - Score aggregate value over a window rather than per-transaction amount.
+  - Rate-limit and alert on repeated near-boundary attempts from one entity.
+generator: mantis.foundry.injectors.f4_28_threshold_probe:inject
+detected_by:
+  - L1
+  - L2
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators (structuring)"
+  - "NIST AI 100-2 Adversarial Machine Learning: A Taxonomy and Terminology"
+discovered_by: human

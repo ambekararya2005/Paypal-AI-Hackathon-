@@ -1,0 +1,49 @@
+id: F2-18
+name: Synthetic-agent reputation farming
+family: F2
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator building agent identities whose registry standing and transaction
+  history are cultivated specifically to be spent later.
+genai_enabler: >-
+  Any reputation system that rewards history creates an incentive to manufacture
+  history. Agents can transact continuously, cheaply and plausibly, so an agent
+  reputation can be farmed on a timescale and at a cost that a human-operated
+  account never could.
+description: >-
+  This is F2-16 aimed at the agent layer rather than the account layer. An agent
+  identity accumulates a clean record of small, real, unremarkable transactions
+  until its standing earns it higher limits and lighter scrutiny, and only then
+  is that standing spent. The attack is an argument against treating agent
+  reputation as a monotonically accumulating asset, and the detectable phase is
+  again the farming phase rather than the payoff.
+preconditions:
+  - Agent standing or limits are earned through transaction history.
+  - Reputation accrues without reference to who ultimately controls the agent.
+observable_signals:
+  - signal: Transaction history is unusually regular and unusually low-variance for its volume.
+    feature: interarrival_regularity
+    layer: L1
+  - signal: Ticket sizes cluster tightly just under the thresholds that trigger review.
+    feature: amount_just_under_threshold
+    layer: L1
+  - signal: Agent behaviour shifts abruptly once standing has been achieved.
+    feature: behavioural_embedding_distance
+    layer: L2
+  - signal: Farmed agents share settlement counterparties with each other but not with the wider population.
+    feature: merchant_cluster_novelty
+    layer: L4
+mitigations:
+  - Decay agent standing over time rather than accumulating it indefinitely.
+  - Weight reputation by counterparty diversity, not by transaction count.
+  - Re-verify control of an agent identity before granting materially higher authority.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "Mastercard Agent Pay - agent registration and Know-Your-Agent"
+  - "MITRE ATLAS - adversarial threat landscape for AI systems"
+discovered_by: human

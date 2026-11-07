@@ -1,0 +1,55 @@
+id: F6-51
+name: Agentic mule-network fan-out — evasive variant 21488
+family: F6
+status: mapped
+rails:
+- upi_p2p
+- upi_p2m
+- agentic
+actor: An operator coordinating a network of mule accounts through which proceeds are dispersed and recombined.
+genai_enabler: 'The variant was not written by a person. It was found by MANTIS''s own evolutionary adversary,
+  which mutates the operational parameters of a known attack and selects on evasion x payoff against the
+  live detector — the same loop an operator runs when their attempts start getting declined, except that
+  here the defender runs it first. Layering has always been limited by the coordination cost of running
+  many accounts on a schedule. Agents remove that cost: hundreds of accounts can be operated concurrently,
+  each with individually plausible timing and amounts, and the routing can be re-planned continuously
+  as accounts are frozen.'
+description: 'A variant of F6-38 discovered by the adversarial loop. It evaded 33% of the detector''s
+  decisions at the 0.1% false-positive operating point while retaining 0.43x the parent attack''s realised
+  payoff, and survived 4 consecutive rounds of retraining. What changed: campaign paced 5.8x slower, moving
+  the ring''s activity out of the one-hour and one-day velocity windows; about 37% of events are moved
+  onto rotated devices, breaking the shared-device edges that make an identity component visible; about
+  25% of the injected pages are replaced with innocuous content, so the provenance trail carries less
+  instruction-shaped text for a reader to find. The underlying attack is unchanged — see F6-38 for what
+  it is and why it works.'
+preconditions:
+- Person-to-person rails permitting rapid onward transfer.
+- Account-level monitoring with no network-level view of fund flows.
+observable_signals:
+- signal: Account shows high inbound fan-in followed by rapid narrow outbound concentration.
+  feature: funds_flow_fanout_ratio
+  layer: L4
+- signal: Funds dwell at each hop for far less time than genuine balances do.
+  feature: hop_dwell_time_seconds
+  layer: L1
+- signal: Accounts occupy a dense component with no organic bridging structure.
+  feature: mule_path_score
+  layer: L4
+- signal: Transfer amounts and timings are more regular than genuine person-to-person traffic.
+  feature: interarrival_regularity
+  layer: L1
+- signal: Participating accounts are young relative to the value they are moving.
+  feature: customer_tenure_days
+  layer: L1
+mitigations:
+- Score fund flows at the network level, not per account.
+- Treat short dwell time combined with high fan-in as a first-class risk signal.
+- Share topology-derived risk signals across institutions where the framework permits.
+generator: null
+detected_by:
+- L1
+- L4
+references:
+- 'parent card: F6-38'
+- discovered by mantis.loop.arena
+discovered_by: adversarial_loop

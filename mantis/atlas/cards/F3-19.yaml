@@ -1,0 +1,65 @@
+id: F3-19
+name: Digital-arrest scam
+family: F3
+status: implemented
+rails:
+  - upi_p2p
+  - upi_p2m
+  - ecom
+  - agentic
+actor: >-
+  An organised social-engineering crew impersonating law enforcement or
+  regulators, operating at call-centre scale against a victim list, with mule
+  accounts prepared to receive and disperse.
+genai_enabler: >-
+  Voice cloning and real-time translation remove the two things that used to
+  break the illusion: an accent that did not match the claimed agency, and a
+  script that could not adapt when the victim pushed back. A model can sustain a
+  coercive, procedurally plausible interrogation for hours, in the victim's own
+  language, and can be run against many victims at once.
+description: >-
+  The victim is convinced they are under investigation and held in a prolonged
+  session — often on video, told not to hang up or contact anyone — until they
+  transfer funds to accounts described as "verification" custody. Critically the
+  victim authorises every payment themselves, so authentication succeeds, the
+  device is the usual device, and the credential is genuine. Nothing in the
+  authentication layer will ever flag this; only behaviour and beneficiary
+  structure will. Where the victim's own agent is drawn into the pretext, the
+  coercive content lands in the provenance chain and becomes directly readable
+  by L3 — on classic rails no such text exists, and the card claims no L3 signal
+  there.
+preconditions:
+  - Victim retains full control of their credentials and authenticates normally.
+  - Receiving accounts are reachable in near-real-time and can be emptied quickly.
+  - No cooling-off or out-of-band confirmation applies to first-time high-value beneficiaries.
+observable_signals:
+  - signal: Transfer amount sits far above the customer's own historic ceiling, not merely above a population threshold.
+    feature: amount_vs_customer_p99
+    layer: L1
+  - signal: Beneficiary has no prior relationship with the customer and receives an unusually large first payment.
+    feature: beneficiary_first_seen
+    layer: L1
+  - signal: Several transfers arrive in a tight burst, frequently escalating, within a single sustained session.
+    feature: transfer_burst_count_1h
+    layer: L1
+  - signal: On the agent-mediated variant, ingested content carries authority-impersonation and urgency framing.
+    feature: coercion_language_score
+    layer: L3
+  - signal: The receiving account collects from many unrelated victims and disperses immediately - the mule signature.
+    feature: beneficiary_fan_in
+    layer: L4
+mitigations:
+  - Impose a cooling-off window and out-of-band confirmation on first high-value payments to a new beneficiary.
+  - Interdict in-session with a scam warning tuned to this pattern; the victim is authenticated, so the intervention has to reach the human, not the credential.
+  - Score beneficiary-side fan-in and dispersal velocity, which the crew cannot hide the way it hides the victim-side signal.
+  - Share mule-account intelligence across institutions, since the receiving side is the only part of the operation that is reused.
+generator: mantis.foundry.injectors.f3_19_digital_arrest:inject
+detected_by:
+  - L1
+  - L3
+  - L4
+references:
+  - "RBI and Indian Cyber Crime Coordination Centre public advisories on 'digital arrest' fraud"
+  - "NPCI UPI risk and beneficiary-cooling-off guidance"
+  - "FATF typologies - money mule networks and layering"
+discovered_by: human

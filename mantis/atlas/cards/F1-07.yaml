@@ -1,0 +1,51 @@
+id: F1-07
+name: Time-of-check to time-of-use mandate mutation
+family: F1
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator able to influence the agent's state in the window between the
+  human approving a basket and the authorisation reaching the network.
+genai_enabler: >-
+  The gap between approval and settlement used to be milliseconds inside a
+  single checkout page. With an agent it can be minutes, spanning tool calls,
+  retries and fresh content retrieval - a mutable window that did not previously
+  exist to be attacked.
+description: >-
+  The human reviews and approves. The agent then does more work: re-checking
+  stock, re-pricing, re-reading a listing. Something in that work changes the
+  basket, and the transaction that settles is not the one that was approved. The
+  mandate hash still refers to the approved basket, so the binding between the
+  signed artefact and the settled purchase is where the discrepancy becomes
+  visible. This differs from F1-01 in mechanism rather than effect: no injected
+  instruction is needed, only a mutable window and a race.
+preconditions:
+  - A non-trivial delay between human approval and authorisation.
+  - Basket state is re-derived rather than frozen at approval time.
+  - The mandate hash is not re-verified against the final basket at authorisation.
+observable_signals:
+  - signal: Mandate hash does not bind to the basket actually authorised.
+    feature: mandate_hash_binding_mismatch
+    layer: L0
+  - signal: Settled amount has moved relative to the ceiling the human saw.
+    feature: amount_to_scope_max_ratio
+    layer: L1
+  - signal: An unusually long or unusually short gap between mandate issuance and authorisation.
+    feature: deliberation_latency_z
+    layer: L1
+  - signal: Content ingested after approval introduces a domain not present before it.
+    feature: provenance_chain_novel_domain_ratio
+    layer: L3
+mitigations:
+  - Freeze the basket at approval and re-verify the hash binding at authorisation.
+  - Cap the permitted interval between mandate issuance and use.
+  - Treat any post-approval content ingestion as invalidating the approval.
+detected_by:
+  - L0
+  - L1
+  - L3
+references:
+  - "Google AP2 (Agent Payments Protocol) - cart mandate binding"
+  - "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+discovered_by: human

@@ -1,0 +1,52 @@
+id: F1-04
+name: Intent-mandate category drift
+family: F1
+status: implemented
+rails:
+  - agentic
+actor: >-
+  An operator who can influence what a shopping agent considers "equivalent" to
+  the goods the human asked for, either through content the agent reads or
+  through a merchant that presents itself under a neighbouring category.
+genai_enabler: >-
+  An intent mandate delegates a goal rather than a basket, and the agent must
+  interpret category boundaries in natural language. "Household essentials"
+  admits a reading that includes consumer electronics, and a model can be
+  argued into that reading far more cheaply than a rules engine can.
+description: >-
+  The human authorises spend within a set of categories. The agent settles in a
+  category just outside that set, on a merchant whose acceptance code is
+  adjacent to the permitted ones. Every individual step is defensible, the
+  amount is within the ceiling, and the mandate is unexpired; only the category
+  is wrong. Drift is a lower-yield attack than outright substitution, which is
+  precisely why it survives review.
+preconditions:
+  - An intent mandate whose scope is expressed as categories rather than merchants.
+  - Agent has discretion over merchant selection at authorisation time.
+  - No network-side enforcement of the category list.
+observable_signals:
+  - signal: The settled MCC is absent from the category list the mandate carried.
+    feature: mandate_scope_violation
+    layer: L0
+  - signal: The settled category is one the customer has never transacted in before.
+    feature: mcc_novelty_for_customer
+    layer: L1
+  - signal: Settled category sits far from the permitted set in co-purchase space, not adjacent to it.
+    feature: scope_category_distance
+    layer: L1
+  - signal: The combination of mandate type, category and merchant is rare across the whole population.
+    feature: rare_feature_combination_score
+    layer: L2
+mitigations:
+  - Enforce the category list at the network, not inside the agent that can reinterpret it.
+  - Express intent scopes as explicit code lists rather than natural-language descriptions.
+  - Re-confirm with the human whenever the settled category is outside the authorised set.
+generator: mantis.foundry.injectors.f1_04_category_drift:inject
+detected_by:
+  - L0
+  - L1
+  - L2
+references:
+  - "Google AP2 (Agent Payments Protocol) - intent mandate semantics"
+  - "ISO 18245 - merchant category code assignment"
+discovered_by: human

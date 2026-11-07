@@ -1,0 +1,44 @@
+id: F1-08
+name: Cross-mandate credential reuse
+family: F1
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator with access to an agent runtime that holds more than one active
+  mandate for the same customer.
+genai_enabler: >-
+  Agents hold many concurrent authorisations - a grocery mandate, a travel
+  mandate, a subscription mandate - and select among them at runtime. Selection
+  is a planning decision, and planning decisions can be influenced.
+description: >-
+  A payment token issued under one mandate is presented against a purchase
+  belonging to another. Each mandate individually authorises spend, so no
+  ceiling is breached and no signature is missing; what is wrong is the pairing.
+  The attack converts a narrow, low-limit authorisation into whichever of the
+  customer's mandates has the most headroom, without forging anything at all.
+preconditions:
+  - Customer holds multiple concurrent mandates through one agent runtime.
+  - Payment tokens are not cryptographically bound to the mandate that minted them.
+observable_signals:
+  - signal: The presented token does not bind to the mandate cited in the authorisation.
+    feature: mandate_token_binding_mismatch
+    layer: L0
+  - signal: One mandate hash is associated with transactions across unrelated categories and merchants.
+    feature: mandate_hash_reuse_graph_degree
+    layer: L4
+  - signal: The merchant is new to this customer despite the mandate being an established one.
+    feature: merchant_novelty_for_customer
+    layer: L1
+mitigations:
+  - Bind every payment token to the mandate that issued it and verify at authorisation.
+  - Scope tokens to a single mandate and a single settlement.
+  - Alert on any mandate whose transactions span categories its scope never named.
+detected_by:
+  - L0
+  - L1
+  - L4
+references:
+  - "Google AP2 (Agent Payments Protocol) - payment mandate binding"
+  - "EMVCo Payment Tokenisation Specification - token domain restriction"
+discovered_by: human

@@ -1,0 +1,50 @@
+id: F5-35
+name: Model supply-chain substitution
+family: F5
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator who can substitute the planning model an agent runs on, whether by
+  swapping weights, redirecting an inference endpoint, or publishing a
+  compromised model artefact into a shared registry.
+genai_enabler: >-
+  The planner is the decision-maker, and it arrives as an opaque artefact from a
+  supply chain that is far less mature than the one for conventional software.
+  A substituted planner makes different decisions while every surrounding system
+  reports normal.
+description: >-
+  Rather than manipulating the agent inputs, this replaces its judgement.
+  A substituted planner can be made to prefer particular merchants, to accept
+  substitutions it should refuse, or to under-weight its own guardrails, all
+  while every log, credential and mandate looks correct. Detection has to be
+  behavioural and population-level, because there is nothing wrong with any
+  individual authorisation to find.
+preconditions:
+  - Model artefacts or inference endpoints can be changed without attestation.
+  - No behavioural regression testing of the planner against a known baseline.
+observable_signals:
+  - signal: Merchant selection distribution shifts across a platform without a corresponding demand change.
+    feature: merchant_selection_drift
+    layer: L1
+  - signal: Deliberation latency distribution shifts for the platform as a whole.
+    feature: deliberation_latency_z
+    layer: L1
+  - signal: The platform behavioural profile departs from its established baseline population.
+    feature: behavioural_embedding_distance
+    layer: L2
+  - signal: A small merchant set gains share simultaneously across unrelated customers.
+    feature: merchant_cluster_novelty
+    layer: L4
+mitigations:
+  - Attest model artefacts by digest and verify at load, refusing unpinned sources.
+  - Run behavioural regression tests on the planner before promotion.
+  - Monitor platform-level merchant selection distributions for unexplained drift.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "OWASP Top 10 for LLM Applications - LLM05 Supply Chain Vulnerabilities"
+  - "MITRE ATLAS - adversarial threat landscape for AI systems"
+discovered_by: human

@@ -1,0 +1,51 @@
+id: F3-26
+name: Support-impersonation mandate handover
+family: F3
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator impersonating customer support or an agent-platform vendor,
+  persuading the victim to grant a mandate to an agent the attacker controls.
+genai_enabler: >-
+  "Let my assistant sort that out for you" is a natural, helpful-sounding
+  request in an agentic world, and a generated support persona can sustain the
+  interaction convincingly. The attack asks the victim for delegated authority
+  rather than for a credential, which is a request that does not trip the
+  instincts people have been trained to have about passwords and OTPs.
+description: >-
+  The victim is talked into issuing a genuine mandate to an attacker-controlled
+  agent, usually framed as necessary to resolve a problem. Because the mandate
+  is genuine, every cryptographic control passes. What is anomalous is the
+  recipient: an agent with no history with this customer, on a platform they
+  have never used, receiving authority within moments of a support interaction.
+  Public awareness of credential phishing does not transfer to this, which is
+  what makes it worth naming separately.
+preconditions:
+  - Customer can issue a mandate to an arbitrary agent identity without a cooling-off period.
+  - No prominent disclosure of what authority a mandate actually confers.
+observable_signals:
+  - signal: Mandate granted to an agent with no prior relationship to this customer.
+    feature: agent_tenure_days
+    layer: L1
+  - signal: Receiving agent runs on a platform the customer has never used.
+    feature: agent_platform_novelty
+    layer: L1
+  - signal: Mandate is exercised almost immediately after issuance.
+    feature: mandate_age_seconds
+    layer: L1
+  - signal: The recipient agent identity is receiving mandates from many unrelated customers at once.
+    feature: agent_id_fanout
+    layer: L4
+mitigations:
+  - Impose a cooling-off period before a newly granted mandate can be exercised.
+  - Show the customer, in plain language, what authority they are about to delegate.
+  - Rate-limit and review agent identities accumulating mandates from unrelated customers.
+detected_by:
+  - L1
+  - L4
+references:
+  - "Mastercard Agent Pay - agent registration and Know-Your-Agent"
+  - "Indian Cyber Crime Coordination Centre (I4C) - advisories on impersonation fraud"
+discovered_by: human

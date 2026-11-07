@@ -1,0 +1,49 @@
+id: F4-32
+name: Decision-boundary mapping through probe transactions
+family: F4
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator submitting low-value transactions purely to learn the shape of the
+  decision surface, with no interest in the goods.
+genai_enabler: >-
+  Model extraction is a query-efficiency problem, and an agent can issue and
+  interpret structured probes far faster than a human. What used to be a slow,
+  expensive reconnaissance phase becomes a short automated one whose output is a
+  usable local model of the defender.
+description: >-
+  Before the attack proper, the attacker maps the defence. Small, cheap
+  transactions are varied systematically across amount, category, rail, timing
+  and mandate shape, and the responses are used to reconstruct the boundary. The
+  reconnaissance is nearly free and, taken one transaction at a time, entirely
+  unremarkable. It is visible only as a pattern of systematic variation that no
+  real customer would ever produce.
+preconditions:
+  - Attacker can submit transactions and observe outcomes at low cost.
+  - Decline responses differentiate enough to be informative.
+observable_signals:
+  - signal: Systematic variation across one feature at a time while the others are held fixed.
+    feature: probe_grid_score
+    layer: L1
+  - signal: Repeated low-value attempts across many BINs with an unusual amount spread.
+    feature: bin_probe_amount_variance
+    layer: L1
+  - signal: High decline rate concentrated on one entity over a short window.
+    feature: bin_decline_rate_1h
+    layer: L1
+  - signal: Probe traffic occupies a region of feature space that legitimate traffic does not.
+    feature: rare_feature_combination_score
+    layer: L2
+mitigations:
+  - Return uniform decline responses that do not differentiate the reason.
+  - Rate-limit and alert on entities generating systematic variation patterns.
+  - Add calibrated randomness to borderline decisions so a boundary cannot be traced.
+detected_by:
+  - L1
+  - L2
+references:
+  - "MITRE ATLAS - adversarial threat landscape for AI systems"
+  - "NIST AI 100-2 Adversarial Machine Learning: A Taxonomy and Terminology"
+discovered_by: human

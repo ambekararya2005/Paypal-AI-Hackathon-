@@ -1,0 +1,71 @@
+id: F3-50
+name: Digital-arrest scam — evasive variant 60646
+family: F3
+status: mapped
+rails:
+- upi_p2p
+- upi_p2m
+- ecom
+- agentic
+actor: An organised social-engineering crew impersonating law enforcement or regulators, operating at
+  call-centre scale against a victim list, with mule accounts prepared to receive and disperse.
+genai_enabler: 'The variant was not written by a person. It was found by MANTIS''s own evolutionary adversary,
+  which mutates the operational parameters of a known attack and selects on evasion x payoff against the
+  live detector — the same loop an operator runs when their attempts start getting declined, except that
+  here the defender runs it first. Voice cloning and real-time translation remove the two things that
+  used to break the illusion: an accent that did not match the claimed agency, and a script that could
+  not adapt when the victim pushed back. A model can sustain a coercive, procedurally plausible interrogation
+  for hours, in the victim''s own language, and can be run against many victims at once.'
+description: 'A variant of F3-19 discovered by the adversarial loop. It evaded 26% of the detector''s
+  decisions at the 0.1% false-positive operating point while retaining 0.25x the parent attack''s realised
+  payoff, and survived 4 consecutive rounds of retraining. What changed: ticket size raised to 1.53x the
+  parent attack''s, trading payoff per event against the per-customer amount baselines; campaign paced
+  2.7x slower, moving the ring''s activity out of the one-hour and one-day velocity windows; the ring
+  is split into roughly 3 sub-rings, so no single campaign carries enough volume to be worth an alert;
+  about 85% of the merchant legs are re-drawn from ordinary popular merchants, diluting beneficiary concentration;
+  activity shifted 7.7 hours later in the day; about 66% of the injected pages are replaced with innocuous
+  content, so the provenance trail carries less instruction-shaped text for a reader to find; agent deliberation
+  latency stretched to 3.1x, which is a direct answer to the deliberation-residual feature. The underlying
+  attack is unchanged — see F3-19 for what it is and why it works.'
+preconditions:
+- Victim retains full control of their credentials and authenticates normally.
+- Receiving accounts are reachable in near-real-time and can be emptied quickly.
+- No cooling-off or out-of-band confirmation applies to first-time high-value beneficiaries.
+observable_signals:
+- signal: Transfer amount sits far above the customer's own historic ceiling, not merely above a population
+    threshold.
+  feature: amount_vs_customer_p99
+  layer: L1
+- signal: Beneficiary has no prior relationship with the customer and receives an unusually large first
+    payment.
+  feature: beneficiary_first_seen
+  layer: L1
+- signal: Several transfers arrive in a tight burst, frequently escalating, within a single sustained
+    session.
+  feature: transfer_burst_count_1h
+  layer: L1
+- signal: On the agent-mediated variant, ingested content carries authority-impersonation and urgency
+    framing.
+  feature: coercion_language_score
+  layer: L3
+- signal: The receiving account collects from many unrelated victims and disperses immediately - the mule
+    signature.
+  feature: beneficiary_fan_in
+  layer: L4
+mitigations:
+- Impose a cooling-off window and out-of-band confirmation on first high-value payments to a new beneficiary.
+- Interdict in-session with a scam warning tuned to this pattern; the victim is authenticated, so the
+  intervention has to reach the human, not the credential.
+- Score beneficiary-side fan-in and dispersal velocity, which the crew cannot hide the way it hides the
+  victim-side signal.
+- Share mule-account intelligence across institutions, since the receiving side is the only part of the
+  operation that is reused.
+generator: null
+detected_by:
+- L1
+- L3
+- L4
+references:
+- 'parent card: F3-19'
+- discovered by mantis.loop.arena
+discovered_by: adversarial_loop

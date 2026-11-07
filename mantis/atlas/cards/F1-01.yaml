@@ -1,0 +1,61 @@
+id: F1-01
+name: Cart-mandate tampering via indirect prompt injection
+family: F1
+status: implemented
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator who controls third-party content a shopping agent reads — a
+  marketplace listing, a review block, a comparison page. No access to the
+  issuer, the customer's device, or the mandate signing key is required, which
+  is precisely what makes this cheap.
+genai_enabler: >-
+  The agent cannot reliably separate retrieved content from instructions, so
+  text placed in a product description is processed as direction rather than
+  data. GenAI also makes the payload itself disposable: injection strings can be
+  generated, varied and A/B-tested against agent behaviour at negligible cost.
+description: >-
+  The human issues a cart mandate over a basket they reviewed. Between mandate
+  issuance and authorisation the agent ingests attacker-influenced content,
+  which steers it into substituting a merchant, adding a line item, or raising
+  the amount. The authorisation that reaches the issuer is cryptographically
+  well-formed and carries a genuine consent signature — the human really did
+  consent, just not to this basket. The gap between the signed intent and the
+  settled purchase is the whole attack, and the provenance chain is where that
+  gap becomes visible.
+preconditions:
+  - Agent operates under a cart mandate whose scope was fixed before the final basket was assembled.
+  - Agent ingests untrusted third-party content between mandate issuance and authorisation.
+  - Basket contents are not re-confirmed with the human after that ingestion.
+observable_signals:
+  - signal: Authorised merchant or MCC is absent from the mandate scope the human agreed to.
+    feature: mandate_scope_violation
+    layer: L0
+  - signal: Settled amount exceeds the cart ceiling the human saw, usually by a modest margin chosen to stay under review thresholds.
+    feature: amount_to_scope_max_ratio
+    layer: L1
+  - signal: Provenance chain contains a domain never before seen for this customer, ingested immediately before the scope excursion.
+    feature: provenance_chain_novel_domain_ratio
+    layer: L3
+  - signal: Ingested content carries imperative, agent-directed language — instruction-shaped text where a product description should be.
+    feature: provenance_injection_score
+    layer: L3
+  - signal: Deliberation collapses; the agent commits with far less reasoning latency than a comparable legitimate purchase of the same size.
+    feature: deliberation_latency_z
+    layer: L1
+mitigations:
+  - Bind the mandate hash to the final basket and re-verify the binding at authorisation time.
+  - Treat all retrieved content as data — strip or quarantine instruction-shaped text before it reaches the planner.
+  - Require explicit human re-confirmation whenever the basket changes after content ingestion.
+  - Enforce merchant allow-lists at the network rather than inside the agent, so a compromised planner cannot widen its own scope.
+generator: mantis.foundry.injectors.f1_01_cart_tampering:inject
+detected_by:
+  - L0
+  - L1
+  - L3
+references:
+  - "OWASP Top 10 for LLM Applications - LLM01 Prompt Injection: https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+  - "Google AP2 (Agent Payments Protocol) - cart mandate construction"
+  - "Mastercard Agent Pay - agentic commerce programme announcement (2025)"
+discovered_by: human

@@ -1,0 +1,54 @@
+id: F5-34
+name: Agent-platform compromise and mass mandate minting
+family: F5
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator who has compromised an agent platform and can act with the
+  authority the platform holds over its whole customer base.
+genai_enabler: >-
+  Agent platforms concentrate delegated payment authority for many customers
+  behind one operational boundary. That concentration is new. Compromising one
+  platform now yields spending authority across its entire user base, which is a
+  blast radius no single merchant breach has ever offered.
+description: >-
+  This is the supply-chain case for the agentic rail, and the one with the worst
+  ratio of effort to yield. Every mandate the platform mints is technically
+  valid, correctly signed, and correctly scoped; the compromise is upstream of
+  every cryptographic control. Nothing about an individual authorisation is
+  wrong. What is wrong is the population: one platform issuing far more
+  authority, far faster, across far more unrelated customers than it ever has
+  before. Only a portfolio-level view sees it, which is the argument for scoring
+  at the platform level and not only at the transaction level.
+preconditions:
+  - A platform can mint or exercise mandates on behalf of many customers.
+  - No per-platform rate limiting or anomaly detection on mandate issuance.
+observable_signals:
+  - signal: Mandate issuance rate for one platform is a severe outlier against its own history.
+    feature: platform_mandate_issuance_rate
+    layer: L1
+  - signal: Many unrelated customers transact through one platform in a tight window.
+    feature: agent_platform_fanout
+    layer: L4
+  - signal: Newly minted mandates are exercised almost immediately after issuance.
+    feature: mandate_age_seconds
+    layer: L1
+  - signal: Affected customers share nothing except the platform, forming a star in the entity graph.
+    feature: customer_component_size
+    layer: L4
+  - signal: The platform behavioural profile shifts abruptly away from its established baseline.
+    feature: behavioural_embedding_distance
+    layer: L2
+mitigations:
+  - Rate-limit mandate issuance per platform and alert on deviation from its own baseline.
+  - Require customer-side confirmation for mandates above an authority threshold.
+  - Give issuers a platform-level kill switch that does not require blocking each customer.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "OWASP Top 10 for LLM Applications - LLM05 Supply Chain Vulnerabilities"
+  - "Mastercard Agent Pay - agent registration and Know-Your-Agent"
+discovered_by: human

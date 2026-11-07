@@ -1,0 +1,50 @@
+id: F6-41
+name: Cross-border micro-remittance layering
+family: F6
+status: mapped
+rails:
+  - ecom
+  - agentic
+  - upi_p2p
+actor: >-
+  An operator dispersing value across borders in amounts small enough to sit
+  below per-transaction reporting and review thresholds.
+genai_enabler: >-
+  Splitting value across many corridors, currencies and counterparties while
+  respecting each jurisdiction thresholds is a constraint-satisfaction problem.
+  Agents solve it continuously and re-plan as corridors close, which is what
+  makes the dispersion adaptive rather than static.
+description: >-
+  Value crosses borders as a large number of small transfers, each below the
+  threshold that would attract attention, spread across corridors so that no
+  single jurisdiction sees enough to act. The defeat of this pattern is
+  aggregation: individually the transfers are invisible, and in aggregate the
+  cross-border share of one entity activity is wildly out of line with its
+  peers.
+preconditions:
+  - Cross-border transfers available at low value with per-transaction reporting thresholds.
+  - No aggregation of activity across corridors or counterparties.
+observable_signals:
+  - signal: Cross-border share of activity is far above the norm for comparable customers.
+    feature: cross_border_ratio
+    layer: L1
+  - signal: Amounts sit consistently just below reporting thresholds.
+    feature: amount_just_under_threshold
+    layer: L1
+  - signal: Counterparties are spread across many corridors with no economic relationship.
+    feature: corridor_dispersion_score
+    layer: L4
+  - signal: Aggregate value moved is a severe outlier against the customer own history.
+    feature: amount_zscore_by_customer
+    layer: L1
+mitigations:
+  - Aggregate across corridors and counterparties before applying thresholds.
+  - Score cross-border share relative to a peer group rather than in absolute terms.
+  - Alert on dispersion patterns that no legitimate economic relationship explains.
+detected_by:
+  - L1
+  - L4
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+  - "RBI - Master Direction on Liberalised Remittance Scheme reporting"
+discovered_by: human

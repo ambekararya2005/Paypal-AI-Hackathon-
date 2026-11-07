@@ -1,0 +1,54 @@
+id: F5-33
+name: Tool-descriptor poisoning
+family: F5
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator who controls the metadata of a tool an agent may call, or who can
+  publish a tool into a registry the agent discovers from.
+genai_enabler: >-
+  An agent decides which tool to call by reading its description, and that
+  description is untrusted text arriving from outside the trust boundary. The
+  descriptor is not data the agent processes, it is guidance the agent acts on,
+  which makes tool metadata a first-class injection surface that has no
+  equivalent in conventional software.
+description: >-
+  A tool description is written to steer the agent toward a particular payment
+  behaviour: preferring one settlement path, treating a substitution as
+  equivalent, or skipping a confirmation the human expects. The agent is
+  functioning exactly as designed, and the mandate is intact; the corruption is
+  in what the agent was told the tools mean. The payload is short and its effect
+  is visible in the deliberation trace and the tool-call sequence, which is
+  where the detection lives.
+preconditions:
+  - Agent selects tools using descriptions it does not independently verify.
+  - Tool metadata can be modified or published without review.
+observable_signals:
+  - signal: Tool metadata carries imperative, agent-directed language rather than neutral description.
+    feature: tool_descriptor_injection_score
+    layer: L3
+  - signal: Tool-call count departs sharply from the norm for this task and merchant.
+    feature: tool_call_count_z
+    layer: L1
+  - signal: Deliberation collapses relative to comparable purchases of the same size.
+    feature: deliberation_latency_z
+    layer: L1
+  - signal: Settled merchant or category falls outside the mandate the human agreed to.
+    feature: mandate_scope_violation
+    layer: L0
+  - signal: The provenance chain includes a registry or descriptor source new to this customer.
+    feature: provenance_chain_novel_domain_ratio
+    layer: L3
+mitigations:
+  - Pin tool descriptors by digest and re-verify before use; treat a change as a new tool.
+  - Strip or quarantine instruction-shaped text in tool metadata before the planner sees it.
+  - Enforce payment constraints outside the agent, so a poisoned descriptor cannot widen scope.
+detected_by:
+  - L0
+  - L1
+  - L3
+references:
+  - "OWASP Top 10 for LLM Applications - LLM01 Prompt Injection"
+  - "OWASP Top 10 for LLM Applications - LLM05 Supply Chain Vulnerabilities"
+discovered_by: human

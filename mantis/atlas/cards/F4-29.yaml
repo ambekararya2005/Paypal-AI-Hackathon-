@@ -1,0 +1,60 @@
+id: F4-29
+name: Attribution-guided feature-space evasion
+family: F4
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator with access to detector explanations, through a scoring API that
+  returns reasons, a leaked model, or inference from decline patterns, who uses
+  them to reshape attacks toward the features carrying least weight.
+genai_enabler: >-
+  Attribution methods were built to make models auditable, and they work just as
+  well for an attacker. Combined with generative mutation they turn evasion into
+  a guided search: read which features drove the score, perturb those, preserve
+  the payload effect, resubmit. Each generation is cheaper and better targeted
+  than the last.
+description: >-
+  This is the card the closed loop is built around, and the one that makes
+  MANTIS a lab rather than a demo. The adversary reads the detector attribution
+  output, identifies which features are carrying the decision, and mutates along
+  the directions of least resistance while preserving the economic effect of the
+  attack. The detector retrains on what it caught, the adversary adapts again,
+  and the evasion rate across generations is the curve worth showing. The
+  defensive point is that a single static model loses this game, and what holds
+  is layer diversity: a mutation that defeats a gradient-boosted boundary rarely
+  also satisfies a deterministic mandate rule.
+preconditions:
+  - Attacker can observe scores, reasons or declines with enough fidelity to guide a search.
+  - Detection rests on a few high-weight features that can be perturbed independently.
+observable_signals:
+  - signal: Feature values drift toward the decision boundary across generations while the outcome holds.
+    feature: boundary_proximity_score
+    layer: L1
+  - signal: Attack instances cluster in a region of feature space that is sparse in legitimate traffic.
+    feature: rare_feature_combination_score
+    layer: L2
+  - signal: Events sit far from the training manifold despite scoring low on the supervised model.
+    feature: population_density_score
+    layer: L2
+  - signal: Perturbation reshapes the tabular features but leaves the mandate arithmetic violated.
+    feature: mandate_scope_violation
+    layer: L0
+  - signal: Provenance and text evidence survive perturbation aimed at the tabular layer.
+    feature: provenance_injection_score
+    layer: L3
+mitigations:
+  - Do not expose per-feature reasons on an unauthenticated or high-rate scoring path.
+  - Keep deterministic mandate rules in the fusion so tabular evasion alone is never sufficient.
+  - Retrain against adversary output and report the evasion rate across generations.
+  - Prefer layer diversity to single-model accuracy; the layers fail in different directions.
+detected_by:
+  - L0
+  - L1
+  - L2
+  - L3
+references:
+  - "NIST AI 100-2 Adversarial Machine Learning: A Taxonomy and Terminology"
+  - "MITRE ATLAS - adversarial threat landscape for AI systems"
+discovered_by: human

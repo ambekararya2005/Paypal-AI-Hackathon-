@@ -1,0 +1,24 @@
+{
+  "card_id": "F6-50",
+  "parent_card_id": "F6-38",
+  "label": "F6-38~86941",
+  "genome": {
+    "card_id": "F6-38",
+    "amount_scale": 0.9431,
+    "time_spread": 1.63,
+    "campaign_fanout": 1.2322,
+    "merchant_spread": 0.7033,
+    "device_rotate": 0.0294,
+    "hour_shift": 1.4328,
+    "provenance_clean": 0.3017,
+    "delegation_delta": 2.3333,
+    "deliberation_scale": 2.6919
+  },
+  "metrics": {
+    "evasion": 0.4139,
+    "payoff": 0.4254,
+    "fitness": 0.1761,
+    "survived_rounds": 4,
+    "n_events": 360
+  }
+}

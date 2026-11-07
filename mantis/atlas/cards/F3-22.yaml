@@ -1,0 +1,50 @@
+id: F3-22
+name: Conversational romance-scam escalation
+family: F3
+status: mapped
+rails:
+  - upi_p2p
+  - ecom
+actor: >-
+  An operator running long-horizon relationship-based social engineering,
+  maintaining many concurrent victims through generated conversation.
+genai_enabler: >-
+  The economics of romance fraud were previously bounded by how many
+  relationships one operator could sustain. Generative conversation lifts that
+  bound entirely while improving consistency of persona, and makes the approach
+  viable in more languages and dialects than an operator could personally speak.
+description: >-
+  A relationship is cultivated over weeks or months and then monetised through
+  requests framed as emergencies. The payments themselves are ordinary
+  person-to-person transfers made willingly by the victim. What is detectable is
+  the shape of the relationship in the transaction graph - a first-time
+  counterparty who rapidly becomes the customer's dominant payee - and the
+  departure of the customer's behaviour from their own history.
+preconditions:
+  - Person-to-person rails available for transfers to a newly added counterparty.
+  - No aggregate view of a customer's exposure to a single new beneficiary.
+observable_signals:
+  - signal: A newly added counterparty rapidly becomes the customer's largest payee by value.
+    feature: beneficiary_concentration_ratio
+    layer: L1
+  - signal: Transfers to a counterparty with whom the customer shares no device, address or history.
+    feature: merchant_novelty_for_customer
+    layer: L1
+  - signal: Beneficiary account receives from multiple unrelated victims in parallel.
+    feature: funds_flow_fanout_ratio
+    layer: L4
+  - signal: Customer's transaction profile drifts persistently away from their established baseline.
+    feature: behavioural_embedding_distance
+    layer: L2
+mitigations:
+  - Track cumulative exposure to each beneficiary and warn on rapid concentration.
+  - Apply extended confirmation to newly added high-value payees.
+  - Score beneficiaries on parallel inbound relationships with unrelated senders.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "UK Payment Systems Regulator - APP fraud performance report"
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+discovered_by: human

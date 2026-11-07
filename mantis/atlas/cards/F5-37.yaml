@@ -1,0 +1,52 @@
+id: F5-37
+name: Rogue payment connector in the tool chain
+family: F5
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator who can install or advertise a payment-capable connector into an
+  agent tool chain, either as a new component or as a wrapper around a
+  legitimate one.
+genai_enabler: >-
+  Agents are designed to extend themselves with new capabilities at runtime, and
+  the barrier to publishing a connector is far lower than the barrier to becoming
+  a payment service provider. A capability that can move money now enters the
+  chain through a channel built for convenience rather than for settlement
+  assurance.
+description: >-
+  Where F5-33 poisons what a tool claims to do, this introduces an unauthorised
+  tool that actually moves money, or interposes one in front of a legitimate
+  connector. The mandate may be entirely valid; the settlement path is not.
+  Because the connector sits inside the agent runtime, the fraud is visible to
+  the network only through the destination and the shape of the settlement, not
+  through anything about the authorisation itself.
+preconditions:
+  - Agent runtime permits addition of payment-capable tools without review.
+  - No allow-list binding payment execution to approved connectors.
+observable_signals:
+  - signal: Settlement is routed through a path never previously used by this platform.
+    feature: settlement_path_novelty
+    layer: L1
+  - signal: Tool-call sequence includes a payment-capable component absent from the approved set.
+    feature: tool_descriptor_injection_score
+    layer: L3
+  - signal: Beneficiary concentration rises across otherwise unrelated customers of one platform.
+    feature: funds_flow_fanout_ratio
+    layer: L4
+  - signal: Authorisation is well-formed while the settlement destination is anomalous for the merchant.
+    feature: merchant_settlement_mismatch
+    layer: L1
+mitigations:
+  - Allow-list payment-capable connectors and refuse execution through any other.
+  - Bind settlement destination to the merchant of record and verify at authorisation.
+  - Require attestation of every tool that can initiate a payment.
+detected_by:
+  - L1
+  - L3
+  - L4
+references:
+  - "OWASP Top 10 for LLM Applications - LLM05 Supply Chain Vulnerabilities"
+  - "Mastercard Rules - payment facilitator and settlement obligations"
+discovered_by: human

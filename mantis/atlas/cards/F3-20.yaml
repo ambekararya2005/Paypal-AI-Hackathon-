@@ -1,0 +1,60 @@
+id: F3-20
+name: Voice-clone authorised push payment fraud
+family: F3
+status: mapped
+rails:
+  - upi_p2p
+  - upi_p2m
+  - ecom
+actor: >-
+  An operator who contacts the victim impersonating a family member, a bank
+  official or an employer, using a cloned voice, and instructs them to send
+  money themselves.
+genai_enabler: >-
+  Voice cloning from a few seconds of public audio removes the single most
+  reliable trust cue in remote social engineering. The victim is not tricked
+  into revealing a credential; they are convinced by a voice they recognise, and
+  they authorise the payment themselves.
+description: >-
+  Authorised push payment fraud is uniquely hard for a payment network because
+  the customer is genuinely the one paying. Authentication passes because it
+  should - the customer really is the customer, and the device really is theirs.
+  Everything that identifies the transaction as fraud is contextual: an
+  unprecedented counterparty, an amount out of line with the customer's history,
+  a payment made at an hour and a pace that does not match how this person
+  normally behaves. This is the clearest case in the atlas for why behavioural
+  and graph features matter more than credential checks.
+preconditions:
+  - A payment rail on which the customer can push funds to a new counterparty in one session.
+  - No cooling-off period or counterparty confirmation for first-time payees.
+observable_signals:
+  - signal: Payment to a counterparty the customer has never transacted with before.
+    feature: merchant_novelty_for_customer
+    layer: L1
+  - signal: Amount is a severe outlier against this customer's own distribution, not just the population's.
+    feature: amount_zscore_by_customer
+    layer: L1
+  - signal: Transaction sits far outside the customer's normal hour-of-day pattern.
+    feature: hour_of_day_deviation
+    layer: L1
+  - signal: Rapid sequence of escalating payments to the same new counterparty.
+    feature: customer_velocity_1h
+    layer: L1
+  - signal: Beneficiary receives from many unrelated customers who have no other connection to each other.
+    feature: funds_flow_fanout_ratio
+    layer: L4
+  - signal: The session's behavioural profile departs from the customer's established baseline.
+    feature: behavioural_embedding_distance
+    layer: L2
+mitigations:
+  - Impose a cooling-off period and confirmation step for first-time high-value payees.
+  - Score beneficiary accounts on inbound fan-in from unrelated senders.
+  - Surface a plain-language warning at the moment of payment, not in a policy document.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "UK Payment Systems Regulator - APP fraud performance report"
+  - "Indian Cyber Crime Coordination Centre (I4C) - advisories on impersonation fraud"
+discovered_by: human

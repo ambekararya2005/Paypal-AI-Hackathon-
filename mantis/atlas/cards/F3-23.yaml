@@ -1,0 +1,50 @@
+id: F3-23
+name: Fake storefront seeded into agent search
+family: F3
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator who stands up a merchant presence designed to be selected by
+  shopping agents rather than browsed by humans.
+genai_enabler: >-
+  Agents select merchants by reading structured product data and machine-facing
+  content, and they do so without the human cues - visual polish, brand
+  familiarity, review plausibility - that a person applies unconsciously. A
+  storefront optimised for machine selection can be generated at negligible cost
+  and needs to convince nothing but a retrieval step.
+description: >-
+  The storefront exists to be chosen by an agent operating under a legitimate
+  mandate. The customer authorised the purchase, the agent stayed within scope,
+  and the goods never arrive. This is a merchant-side attack that arrives
+  through the agentic rail, and it is why merchant reputation has to be assessed
+  by the network rather than inferred by the agent that is being targeted.
+preconditions:
+  - Agent merchant selection driven by machine-readable content without independent reputation checks.
+  - Merchant onboarding that permits rapid establishment of a new acceptance presence.
+observable_signals:
+  - signal: Merchant is very new relative to the volume it is suddenly receiving.
+    feature: merchant_age_days
+    layer: L1
+  - signal: Merchant domain appears in provenance chains with no prior history anywhere in the portfolio.
+    feature: provenance_domain_reputation_min
+    layer: L3
+  - signal: Merchant is reached almost exclusively through agent traffic, never through human sessions.
+    feature: merchant_agent_traffic_ratio
+    layer: L1
+  - signal: Merchant appears abruptly across many unrelated customers at once.
+    feature: merchant_cluster_novelty
+    layer: L4
+mitigations:
+  - Require network-side merchant reputation before an agent may settle with a new merchant.
+  - Hold first-time agent-selected merchants at reduced limits.
+  - Feed merchant age and traffic composition into the agent's selection constraints.
+detected_by:
+  - L1
+  - L3
+  - L4
+references:
+  - "Mastercard Rules - merchant onboarding and monitoring obligations"
+  - "OWASP Top 10 for LLM Applications - LLM01 Prompt Injection"
+discovered_by: human

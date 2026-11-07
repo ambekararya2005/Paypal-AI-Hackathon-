@@ -1,0 +1,24 @@
+{
+  "card_id": "F4-50",
+  "parent_card_id": "F4-27",
+  "label": "F4-27~33316",
+  "genome": {
+    "card_id": "F4-27",
+    "amount_scale": 1.1428,
+    "time_spread": 1.5255,
+    "campaign_fanout": 1.3662,
+    "merchant_spread": 0.4386,
+    "device_rotate": 0.299,
+    "hour_shift": -2.4489,
+    "provenance_clean": 0.2843,
+    "delegation_delta": 1.6949,
+    "deliberation_scale": 2.7781
+  },
+  "metrics": {
+    "evasion": 0.635,
+    "payoff": 0.7278,
+    "fitness": 0.4621,
+    "survived_rounds": 4,
+    "n_events": 400
+  }
+}

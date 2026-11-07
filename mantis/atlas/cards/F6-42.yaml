@@ -1,0 +1,51 @@
+id: F6-42
+name: Subscription-farm bleed
+family: F6
+status: mapped
+rails:
+  - recurring
+  - agentic
+  - ecom
+actor: >-
+  An operator monetising compromised payment authority through many small
+  recurring charges rather than a single large one.
+genai_enabler: >-
+  Creating and operating many plausible subscription products, each with its own
+  billing descriptor and support presence, is generation work. The result is a
+  monetisation channel that is individually beneath notice and collectively
+  substantial, sustained over months.
+description: >-
+  Rather than extracting value at once, the attacker bleeds it: small recurring
+  charges spread across many merchant descriptors and many victims, each below
+  the threshold at which a customer bothers to dispute. Recurring rails are
+  designed for exactly this cadence, so the charges look entirely correct. What
+  is anomalous is the sudden appearance of several unrelated new subscriptions
+  on one credential, and the sharing of those descriptors across customers who
+  have nothing else in common.
+preconditions:
+  - Recurring authority can be established without a fresh consent event per merchant.
+  - Low-value recurring charges are not routinely surfaced to the customer.
+observable_signals:
+  - signal: Several new recurring authorities appear on one credential in a short window.
+    feature: recurring_setup_burst
+    layer: L1
+  - signal: Charge amounts sit below the value at which customers typically dispute.
+    feature: amount_just_under_threshold
+    layer: L1
+  - signal: Descriptors are shared across customers with no other connection to each other.
+    feature: merchant_customer_bipartite_anomaly
+    layer: L4
+  - signal: Recurring cadence is machine-exact in a way genuine billing rarely is.
+    feature: interarrival_regularity
+    layer: L1
+mitigations:
+  - Require a fresh consent event per recurring merchant, not per credential.
+  - Surface a consolidated view of active recurring authorities to the customer.
+  - Cluster billing descriptors and review those appearing across unrelated customers.
+detected_by:
+  - L1
+  - L4
+references:
+  - "Mastercard Rules - recurring payment and negative option billing obligations"
+  - "RBI Master Direction on Digital Payment Security Controls - recurring mandates"
+discovered_by: human

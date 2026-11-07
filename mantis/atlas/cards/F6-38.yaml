@@ -1,0 +1,55 @@
+id: F6-38
+name: Agentic mule-network fan-out
+family: F6
+status: implemented
+rails:
+  - upi_p2p
+  - upi_p2m
+  - agentic
+actor: >-
+  An operator coordinating a network of mule accounts through which proceeds are
+  dispersed and recombined.
+genai_enabler: >-
+  Layering has always been limited by the coordination cost of running many
+  accounts on a schedule. Agents remove that cost: hundreds of accounts can be
+  operated concurrently, each with individually plausible timing and amounts,
+  and the routing can be re-planned continuously as accounts are frozen.
+description: >-
+  Funds enter a small number of collection accounts, fan out across many mules,
+  and recombine downstream. Every hop is a small, ordinary transfer that would
+  never be flagged alone. The structure is only visible as a structure: a
+  characteristic fan-out then fan-in topology with short dwell time at each hop,
+  and a set of accounts whose only connection to each other is the money moving
+  between them. This is the clearest case in the atlas for the graph layer, and
+  the reason L4 is on the list at all.
+preconditions:
+  - Person-to-person rails permitting rapid onward transfer.
+  - Account-level monitoring with no network-level view of fund flows.
+observable_signals:
+  - signal: Account shows high inbound fan-in followed by rapid narrow outbound concentration.
+    feature: funds_flow_fanout_ratio
+    layer: L4
+  - signal: Funds dwell at each hop for far less time than genuine balances do.
+    feature: hop_dwell_time_seconds
+    layer: L1
+  - signal: Accounts occupy a dense component with no organic bridging structure.
+    feature: mule_path_score
+    layer: L4
+  - signal: Transfer amounts and timings are more regular than genuine person-to-person traffic.
+    feature: interarrival_regularity
+    layer: L1
+  - signal: Participating accounts are young relative to the value they are moving.
+    feature: customer_tenure_days
+    layer: L1
+mitigations:
+  - Score fund flows at the network level, not per account.
+  - Treat short dwell time combined with high fan-in as a first-class risk signal.
+  - Share topology-derived risk signals across institutions where the framework permits.
+generator: mantis.foundry.injectors.f6_38_mule_fanout:inject
+detected_by:
+  - L1
+  - L4
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+  - "RBI Master Direction on Digital Payment Security Controls"
+discovered_by: human

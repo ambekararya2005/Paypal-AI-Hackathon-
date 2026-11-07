@@ -1,0 +1,52 @@
+id: F3-24
+name: Invoice redirection against an agent procurement flow
+family: F3
+status: mapped
+rails:
+  - agentic
+  - ecom
+  - moto
+actor: >-
+  An operator who compromises or impersonates a supplier relationship and
+  substitutes their own settlement details into a procurement flow an agent
+  executes.
+genai_enabler: >-
+  Business email compromise depended on convincing correspondence in the right
+  register with the right history. Generation makes that cheap and consistent,
+  and an agent executing procurement will act on a well-formed instruction
+  without the vague unease a human accounts-payable clerk might feel.
+description: >-
+  The purchase is real, the supplier relationship is real, and the amount is
+  expected. Only the beneficiary has changed. Because the agent is executing an
+  approved workflow, every control that checks whether the payment was
+  authorised passes. The detectable change is that a long-standing counterparty
+  relationship has silently acquired a new settlement destination.
+preconditions:
+  - Supplier settlement details can be updated inside the flow the agent executes.
+  - No out-of-band verification of a change to banking details.
+observable_signals:
+  - signal: A long-standing supplier relationship settles to a destination never used before.
+    feature: beneficiary_change_flag
+    layer: L0
+  - signal: Payment amount matches history while the counterparty identity does not.
+    feature: merchant_novelty_for_customer
+    layer: L1
+  - signal: Instruction content carries urgency and confidentiality framing atypical of the relationship.
+    feature: urgency_language_score
+    layer: L3
+  - signal: New beneficiary sits in a component associated with other recently changed relationships.
+    feature: mule_path_score
+    layer: L4
+mitigations:
+  - Verify any change of settlement details out of band, on a previously known channel.
+  - Freeze newly changed beneficiaries for a fixed window before first settlement.
+  - Deny agents the authority to update supplier banking details at all.
+detected_by:
+  - L0
+  - L1
+  - L3
+  - L4
+references:
+  - "FBI IC3 - Business Email Compromise public service announcements"
+  - "OWASP Top 10 for LLM Applications - LLM06 Excessive Agency"
+discovered_by: human

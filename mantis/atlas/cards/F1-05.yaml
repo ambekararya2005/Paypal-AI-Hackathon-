@@ -1,0 +1,52 @@
+id: F1-05
+name: Delegation-chain laundering through sub-agents
+family: F1
+status: implemented
+rails:
+  - agentic
+actor: >-
+  An operator who controls a sub-agent that a primary agent is willing to
+  delegate to - a specialist "booking" or "checkout" capability the primary
+  agent can call at runtime.
+genai_enabler: >-
+  Multi-agent orchestration makes delegation cheap and routine, and each hop
+  strips context. By the time the payment is made, the executing agent holds the
+  authority the human granted but none of the constraints the human stated,
+  because those constraints were prose in a planning context two hops back.
+description: >-
+  The human delegates to an agent they chose. That agent delegates onward, and
+  the sub-agent transacts. The authorisation carries the human's mandate and a
+  delegation depth the human never contemplated. Authority has been laundered
+  through the chain: the payment is formally authorised and substantively
+  unsupervised. Blast radius grows with every hop, which is why delegation depth
+  is carried explicitly in the schema rather than inferred after the fact.
+preconditions:
+  - Agent platform permits onward delegation without re-consent.
+  - Mandate does not pin a maximum delegation depth.
+  - Sub-agent identity is not separately registered or attested.
+observable_signals:
+  - signal: Delegation depth exceeds the maximum the mandate or issuer policy permits.
+    feature: delegation_depth_exceeded
+    layer: L0
+  - signal: One agent identifier transacts for an implausible number of distinct customers.
+    feature: agent_id_fanout
+    layer: L4
+  - signal: The executing agent runs on a platform this customer has never used.
+    feature: agent_platform_novelty
+    layer: L1
+  - signal: A single mandate hash appears across agents that share no legitimate relationship.
+    feature: mandate_hash_reuse_graph_degree
+    layer: L4
+mitigations:
+  - Pin a maximum delegation depth inside the mandate and enforce it at the network.
+  - Require each hop to attest its own identity, so the chain is auditable end to end.
+  - Re-verify consent whenever the executing agent differs from the agent the human chose.
+generator: mantis.foundry.injectors.f1_05_delegation_laundering:inject
+detected_by:
+  - L0
+  - L1
+  - L4
+references:
+  - "OWASP Top 10 for LLM Applications - LLM06 Excessive Agency"
+  - "Google AP2 (Agent Payments Protocol) - delegation and mandate chaining"
+discovered_by: human

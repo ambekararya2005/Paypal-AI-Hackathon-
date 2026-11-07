@@ -1,0 +1,50 @@
+id: F6-40
+name: Stored-value and gift-card cash-out chains
+family: F6
+status: implemented
+rails:
+  - ecom
+  - agentic
+  - upi_p2m
+actor: >-
+  An operator converting compromised payment authority into stored-value
+  instruments that can be resold or redeemed away from the original rail.
+genai_enabler: >-
+  Purchasing, tracking and reselling stored-value instruments at volume is
+  clerical work, and clerical work is what agents are best at. The conversion
+  step that used to bound this fraud is no longer a bottleneck.
+description: >-
+  Stored value is attractive because it severs the link between the compromised
+  credential and the eventual benefit: once value sits on an instrument, the
+  payment rail has nothing left to trace. The purchases themselves are ordinary
+  ecommerce transactions in an unremarkable category. What is detectable is the
+  concentration, the timing relative to account compromise, and the mismatch
+  against the customer historical category profile.
+preconditions:
+  - Stored-value instruments purchasable without additional verification.
+  - Rapid redemption or transfer permitted after purchase.
+observable_signals:
+  - signal: Sudden concentration of spend into stored-value categories with no history of it.
+    feature: mcc_novelty_for_customer
+    layer: L1
+  - signal: Multiple purchases in quick succession from one customer or agent.
+    feature: customer_velocity_1h
+    layer: L1
+  - signal: Amounts cluster on denominations rather than following a natural spend distribution.
+    feature: amount_round_number_flag
+    layer: L1
+  - signal: Purchasers across unrelated accounts converge on a small set of redeeming entities.
+    feature: funds_flow_fanout_ratio
+    layer: L4
+mitigations:
+  - Apply step-up authentication to stored-value purchases above a low threshold.
+  - Delay redemption for newly purchased instruments.
+  - Monitor convergence of unrelated purchasers onto shared redeeming entities.
+generator: mantis.foundry.injectors.f6_40_stored_value:inject
+detected_by:
+  - L1
+  - L4
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+  - "FBI IC3 - public service announcements on gift card fraud"
+discovered_by: human

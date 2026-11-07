@@ -1,0 +1,50 @@
+id: F1-06
+name: Consent-signature stripping and authentication downgrade
+family: F1
+status: mapped
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator positioned between the agent and the acquirer, or one able to
+  drive an agent toward a checkout path that accepts weaker evidence of consent.
+genai_enabler: >-
+  Agents negotiate checkout paths dynamically and optimise for completion. An
+  agent that treats "the payment succeeded" as its goal will retry down a weaker
+  path when the strong one fails, and can be nudged into doing so by content
+  that frames the weak path as the supported one.
+description: >-
+  A purchase that should have carried a verified consent signature is presented
+  without one, or with one that does not verify, on a rail that accepts it
+  anyway. The economic effect is a liability shift: the transaction settles with
+  the customer's credential but without the cryptographic evidence that the
+  customer agreed. Detection matters more than prevention here, because the
+  downgrade usually happens at a party the issuer does not control.
+preconditions:
+  - A checkout path exists that accepts an agentic purchase with weak or absent consent evidence.
+  - Signature verification failures are treated as soft declines rather than hard stops.
+observable_signals:
+  - signal: Consent signature is absent or fails cryptographic verification.
+    feature: consent_sig_invalid
+    layer: L0
+  - signal: Entry mode is weaker than this customer and merchant pair normally uses.
+    feature: entry_mode_downgrade
+    layer: L1
+  - signal: Step-up authentication is skipped on a transaction whose size normally triggers it.
+    feature: threeds_challenge_absent
+    layer: L1
+  - signal: The session's overall shape sits far from the agentic population it claims to belong to.
+    feature: agent_session_isolation_score
+    layer: L2
+mitigations:
+  - Treat a failed consent-signature verification as a hard decline on the agentic rail.
+  - Refuse silent fallback from a strong checkout path to a weaker one within a session.
+  - Bind the liability model to the verification result, never to the claimed one.
+detected_by:
+  - L0
+  - L1
+  - L2
+references:
+  - "EMV 3-D Secure - protocol specification and exemption handling"
+  - "Google AP2 (Agent Payments Protocol) - consent signature verification"
+discovered_by: human

@@ -1,0 +1,49 @@
+id: F5-36
+name: Persistent memory and context-store poisoning
+family: F5
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator who can write into an agent long-term memory or retrieval store,
+  usually via content the agent has previously ingested and chosen to retain.
+genai_enabler: >-
+  Agents are given persistent memory so they can be useful across sessions. That
+  same persistence means a single successful injection need not be repeated: it
+  is stored, retrieved and re-applied indefinitely, and it survives the session
+  in which it arrived.
+description: >-
+  Where F1-01 injects at read time and affects one transaction, this implants an
+  instruction that persists. The provenance chain of the *later* transaction may
+  look entirely clean, because the poisoned content was ingested days earlier and
+  now arrives through the retrieval path instead. That decoupling of ingestion
+  from effect is what makes it hard: the causal evidence is no longer adjacent to
+  the transaction that shows the symptom.
+preconditions:
+  - Agent maintains persistent memory or a retrieval store across sessions.
+  - Stored content is not re-sanitised at retrieval time.
+observable_signals:
+  - signal: Retrieved memory content carries instruction-shaped rather than factual text.
+    feature: ingested_content_instruction_ratio
+    layer: L3
+  - signal: Scope excursions recur for one customer with no fresh injection in the chain.
+    feature: mandate_scope_violation
+    layer: L0
+  - signal: The transaction provenance chain is unusually short given the decision complexity.
+    feature: provenance_chain_length_z
+    layer: L3
+  - signal: Behavioural drift persists across sessions rather than resolving between them.
+    feature: behavioural_embedding_distance
+    layer: L2
+mitigations:
+  - Sanitise content at retrieval time, not only at ingestion time.
+  - Keep provenance on stored memories so a later effect can be traced to its origin.
+  - Expire and re-verify long-lived memories that influence payment decisions.
+detected_by:
+  - L0
+  - L2
+  - L3
+references:
+  - "OWASP Top 10 for LLM Applications - LLM01 Prompt Injection"
+  - "OWASP Top 10 for LLM Applications - LLM08 Vector and Embedding Weaknesses"
+discovered_by: human

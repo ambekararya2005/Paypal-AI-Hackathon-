@@ -1,0 +1,50 @@
+id: F2-17
+name: Generated-document merchant onboarding
+family: F2
+status: mapped
+rails:
+  - ecom
+  - agentic
+  - upi_p2m
+actor: >-
+  An operator onboarding a merchant account on fabricated incorporation,
+  address and banking evidence, in order to become the acceptance side of the
+  fraud rather than the issuing side.
+genai_enabler: >-
+  Document generation at scale, in the correct regional formats, with internally
+  consistent details across a whole application pack, is now a commodity
+  capability. Merchant onboarding review was calibrated against a world where
+  producing a convincing pack took real effort.
+description: >-
+  Controlling a merchant of record is the most valuable position in a payment
+  fraud, because it makes the attacker the party that receives the funds. This
+  card covers acquiring that position through fabricated onboarding evidence.
+  The merchant then operates normally for a period before being used to accept
+  attacker-directed volume - which is what links it to the F6 laundering family.
+preconditions:
+  - Merchant onboarding relies primarily on submitted documentary evidence.
+  - Limited post-onboarding monitoring of merchant behaviour against its declared category.
+observable_signals:
+  - signal: Merchant is newly onboarded relative to the volume and ticket size it is processing.
+    feature: merchant_age_days
+    layer: L1
+  - signal: Actual transaction mix does not match the category the merchant registered under.
+    feature: merchant_category_mismatch
+    layer: L1
+  - signal: Merchant sits in a cluster of entities sharing registration and settlement characteristics.
+    feature: shell_merchant_score
+    layer: L4
+  - signal: Customer base is unusually narrow and unusually loyal for a new merchant.
+    feature: merchant_customer_bipartite_anomaly
+    layer: L4
+mitigations:
+  - Verify incorporation and banking evidence against authoritative registries, not the submitted pack.
+  - Hold new merchants at reduced settlement limits pending behavioural history.
+  - Monitor realised transaction mix against the declared category continuously.
+detected_by:
+  - L1
+  - L4
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+  - "Mastercard Rules - merchant onboarding and monitoring obligations"
+discovered_by: human

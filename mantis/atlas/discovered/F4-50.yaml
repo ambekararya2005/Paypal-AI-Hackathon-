@@ -1,0 +1,67 @@
+id: F4-50
+name: Adaptive BIN attack — evasive variant 33316
+family: F4
+status: mapped
+rails:
+- ecom
+- agentic
+- card_present
+actor: 'A technically capable fraud operation with a corpus of card credentials and enough merchant access
+  to observe authorisation outcomes. The distinguishing capability is not credential supply but the feedback
+  loop: they can see which attempts approve.'
+genai_enabler: The variant was not written by a person. It was found by MANTIS's own evolutionary adversary,
+  which mutates the operational parameters of a known attack and selects on evasion x payoff against the
+  live detector — the same loop an operator runs when their attempts start getting declined, except that
+  here the defender runs it first. Approve and decline responses are a free oracle. An LLM-driven search
+  loop turns that oracle into a hill-climb over the defender's decision surface, proposing amount bands,
+  MCCs, merchant types and timing that keep scores under threshold. What used to be a fraudster's slow
+  intuition becomes an automated parameter search running continuously against production.
+description: 'A variant of F4-27 discovered by the adversarial loop. It evaded 64% of the detector''s
+  decisions at the 0.1% false-positive operating point while retaining 0.73x the parent attack''s realised
+  payoff, and survived 4 consecutive rounds of retraining. What changed: about 44% of the merchant legs
+  are re-drawn from ordinary popular merchants, diluting beneficiary concentration; about 30% of events
+  are moved onto rotated devices, breaking the shared-device edges that make an identity component visible;
+  about 28% of the injected pages are replaced with innocuous content, so the provenance trail carries
+  less instruction-shaped text for a reader to find; delegation chain lengthened by 2; agent deliberation
+  latency stretched to 2.8x, which is a direct answer to the deliberation-residual feature. The underlying
+  attack is unchanged — see F4-27 for what it is and why it works.'
+preconditions:
+- Attacker holds many credentials sharing BIN ranges.
+- Authorisation outcomes are observable to the attacker at low cost and low latency.
+- Detection thresholds are static between retrains, giving the search a stationary target.
+observable_signals:
+- signal: Attempt rate within a BIN range spikes far above its baseline, spread thinly across many card
+    numbers.
+  feature: bin_test_velocity
+  layer: L1
+- signal: Amounts cluster in narrow probe bands rather than following the merchant's natural ticket distribution.
+  feature: bin_amount_probe_ratio
+  layer: L1
+- signal: Decline ratio for the BIN rises sharply during the search phase, then falls as the attacker
+    converges.
+  feature: decline_ratio_1h
+  layer: L1
+- signal: Approved traffic drifts toward a low-density region of feature space - the gap the search found
+    - which supervised layers score as benign because nothing there was ever labelled.
+  feature: feature_space_novelty_score
+  layer: L2
+- signal: One BIN range fans out across an implausible set of unrelated merchants in a short window.
+  feature: bin_merchant_fanout
+  layer: L4
+mitigations:
+- Rate-limit and score at BIN-range level, not only per card, so thin-spread probing still accumulates
+  evidence.
+- Randomise or hysteresis-damp thresholds so the oracle returns a noisy gradient instead of a clean one.
+- Retrain on a cadence shorter than the attacker's search time, which is the entire premise of the MANTIS
+  closed loop.
+- Weight the unsupervised novelty layer explicitly at fusion, since a successful search is by construction
+  invisible to the supervised layer.
+generator: null
+detected_by:
+- L1
+- L2
+- L4
+references:
+- 'parent card: F4-27'
+- discovered by mantis.loop.arena
+discovered_by: adversarial_loop

@@ -1,0 +1,65 @@
+id: F1-09
+name: Human-present spoofing for liability shift
+family: F1
+status: implemented
+rails:
+  - agentic
+  - ecom
+actor: >-
+  An operator of an agent or agent platform with an economic reason to claim
+  human oversight it does not have — to skip step-up friction, to improve
+  approval rates, or to move chargeback liability onto the issuer or the
+  cardholder.
+genai_enabler: >-
+  Presence has historically been evidenced by telemetry that was expensive to
+  fake convincingly: cursor paths, dwell times, hesitation before commit.
+  Generative models reproduce those distributions cheaply, so the assertion
+  "a human was watching" degrades from evidence into an unverified claim.
+description: >-
+  The authorisation asserts human_present, and supporting behavioural telemetry
+  is synthesised to back the claim, so the transaction is treated as
+  human-authorised: step-up is skipped, liability shifts, and the transaction
+  inherits the lower scrutiny that supervised commerce earns. This vector is
+  economically important out of proportion to its sophistication, because
+  human_present is a liability flag as much as a risk flag — spoofing it does
+  not merely evade a control, it relocates the loss. The tell is that forged
+  telemetry is distributionally too clean: real humans hesitate irregularly,
+  generators do not.
+preconditions:
+  - Rail grants reduced authentication or shifted liability when human presence is asserted.
+  - Presence is claimed by the agent rather than attested by an independent channel.
+  - Behavioural telemetry is accepted without provenance or device attestation.
+observable_signals:
+  - signal: human_present is asserted while no step-up authentication was performed or offered.
+    feature: threeds_human_present_mismatch
+    layer: L0
+  - signal: Consent signature is absent or unverified on a transaction claiming live human oversight.
+    feature: consent_sig_invalid
+    layer: L0
+  - signal: Cursor entropy sits in an unnaturally narrow band relative to the human population — too regular to be a person.
+    feature: cursor_entropy_humanlikeness
+    layer: L1
+  - signal: Dwell time is implausibly short or suspiciously uniform for the basket size being approved.
+    feature: dwell_time_zscore
+    layer: L1
+  - signal: Decision latency is below human reaction floors while presence is claimed.
+    feature: deliberation_latency_z
+    layer: L1
+  - signal: The joint presence-telemetry vector falls outside the manifold of genuinely supervised sessions, even where each margin looks acceptable alone.
+    feature: feature_space_novelty_score
+    layer: L2
+mitigations:
+  - Attest presence out-of-band (device-bound passkey, issuer app confirmation) rather than trusting an agent-asserted flag.
+  - Bind liability shift to a verifiable authentication event, never to a self-declared boolean.
+  - Rate-limit and monitor the human_present rate per agent and per platform; a platform at 100% presence is making a claim, not a measurement.
+  - Retain presence telemetry for post-hoc distributional audit, so spoofing is detectable even after approval.
+generator: mantis.foundry.injectors.f1_09_presence_spoof:inject
+detected_by:
+  - L0
+  - L1
+  - L2
+references:
+  - "EMV 3-D Secure - authentication outcomes and liability shift conditions"
+  - "Google AP2 (Agent Payments Protocol) - human-present and human-not-present transaction modes"
+  - "Mastercard Agent Pay - agent identity and consent attestation (2025)"
+discovered_by: human

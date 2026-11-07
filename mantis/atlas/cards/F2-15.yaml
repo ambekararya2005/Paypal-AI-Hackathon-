@@ -1,0 +1,50 @@
+id: F2-15
+name: Deepfake liveness bypass at video KYC
+family: F2
+status: mapped
+rails:
+  - ecom
+  - agentic
+actor: >-
+  An operator onboarding an account under a synthetic or stolen identity through
+  a remote video verification step.
+genai_enabler: >-
+  Real-time face and voice synthesis has moved from research demo to commodity,
+  and remote onboarding was designed on the assumption that a live video feed is
+  evidence of a live person. That assumption no longer holds, and the cost of
+  breaking it has collapsed.
+description: >-
+  Remote onboarding is the front door to a payment credential. This attack
+  defeats the liveness check itself, so the account that emerges is fully
+  verified by the issuer's own records and carries no onboarding-time signal at
+  all. Nothing about the resulting transactions looks unusual in isolation; what
+  gives the account away is the behavioural profile of the portfolio it belongs
+  to and the funding pattern that follows onboarding.
+preconditions:
+  - Remote video or selfie-based identity verification with no independent document or bureau check.
+  - Liveness detection that has not been hardened against synthetic media.
+observable_signals:
+  - signal: A cohort of accounts onboarded in a narrow window shares device and network characteristics.
+    feature: onboarding_cohort_density
+    layer: L4
+  - signal: Early transaction behaviour is unusually uniform for a supposedly independent account.
+    feature: interarrival_regularity
+    layer: L1
+  - signal: Account tenure is short relative to the authority and limits it is exercising.
+    feature: customer_tenure_days
+    layer: L1
+  - signal: The account's overall behavioural profile is an outlier against genuinely new customers.
+    feature: population_density_score
+    layer: L2
+mitigations:
+  - Pair liveness with an independent bureau or document channel that synthetic media cannot reach.
+  - Hold newly onboarded accounts at reduced limits until behaviour accumulates.
+  - Monitor onboarding cohorts as a graph, not as independent applications.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "RBI Master Direction - Know Your Customer, video-based customer identification"
+  - "NIST AI 100-2 Adversarial Machine Learning: A Taxonomy and Terminology"
+discovered_by: human

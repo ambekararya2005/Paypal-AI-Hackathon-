@@ -1,0 +1,58 @@
+id: F1-10
+name: Mandate replay and TTL abuse
+family: F1
+status: implemented
+rails:
+  - agentic
+actor: >-
+  Anyone who observes or retains a valid mandate artefact — a compromised
+  sub-agent, a logging sidecar, a caching proxy, or an agent platform that keeps
+  mandates longer than it should. No forgery capability is needed; the mandate
+  is genuine, which is the point.
+genai_enabler: >-
+  Agent architectures pass mandates between planners, tools and sub-agents as
+  ordinary context, so a signed authorisation ends up in caches, transcripts and
+  logs never designed to hold a bearer credential. Long-lived intent mandates
+  make the reuse window wide enough to matter.
+description: >-
+  A previously valid mandate is presented again — after its TTL has expired,
+  more times than its scope allows, or by an agent other than the one it was
+  issued to. Every signature verifies, because the artefact is authentic; the
+  failure is one of freshness and single-use, not of cryptography. Replay is the
+  classic bearer-token weakness reappearing in a new setting, and it is the
+  cheapest F1 vector to run because it requires no injection, no social
+  engineering, and no model access at all.
+preconditions:
+  - Mandate artefacts are transportable and verify independently of the session that created them.
+  - Mandate identifier or hash is not enforced as single-use at the network.
+  - Issuance timestamp and TTL are carried but not authoritatively checked at authorisation.
+observable_signals:
+  - signal: Authorisation arrives after the mandate's issuance time plus its TTL.
+    feature: mandate_expired
+    layer: L0
+  - signal: The same mandate hash appears on more authorisations than its scope permits.
+    feature: mandate_hash_reuse_count
+    layer: L0
+  - signal: Mandate age at authorisation is far outside the distribution for its mandate type.
+    feature: mandate_age_seconds
+    layer: L1
+  - signal: Reuses arrive in a machine-regular cadence rather than the irregular spacing of genuine repeat purchases.
+    feature: mandate_replay_interarrival
+    layer: L1
+  - signal: One mandate hash is presented by multiple distinct agent identifiers, or across unrelated customers.
+    feature: mandate_hash_shared_agents
+    layer: L4
+mitigations:
+  - Enforce single-use or explicitly counted mandate identifiers at the network, with a replay cache covering the full TTL window.
+  - Keep TTLs short and check them at authorisation against network time, not agent-supplied time.
+  - Bind the mandate to the agent identity and session that requested it, so a leaked artefact is not portable.
+  - Alert on mandate artefacts appearing in logs or caches; treat them as bearer credentials, because they are.
+generator: mantis.foundry.injectors.f1_10_mandate_replay:inject
+detected_by:
+  - L0
+  - L1
+  - L4
+references:
+  - "Google AP2 (Agent Payments Protocol) - mandate lifetime, identifiers and verification"
+  - "OWASP Top 10 for LLM Applications - excessive agency and insecure session handling"
+discovered_by: human

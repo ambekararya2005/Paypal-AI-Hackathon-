@@ -1,0 +1,24 @@
+{
+  "card_id": "F3-50",
+  "parent_card_id": "F3-19",
+  "label": "F3-19~60646",
+  "genome": {
+    "card_id": "F3-19",
+    "amount_scale": 1.5285,
+    "time_spread": 2.68,
+    "campaign_fanout": 2.5349,
+    "merchant_spread": 0.8535,
+    "device_rotate": 0.0834,
+    "hour_shift": 7.7293,
+    "provenance_clean": 0.6647,
+    "delegation_delta": 0.4782,
+    "deliberation_scale": 3.0791
+  },
+  "metrics": {
+    "evasion": 0.2636,
+    "payoff": 0.2473,
+    "fitness": 0.0652,
+    "survived_rounds": 4,
+    "n_events": 220
+  }
+}

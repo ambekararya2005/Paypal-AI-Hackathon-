@@ -1,0 +1,52 @@
+id: F2-16
+name: Agent-farm account bootstrapping for bust-out
+family: F2
+status: implemented
+rails:
+  - ecom
+  - agentic
+  - upi_p2m
+actor: >-
+  An operator running a portfolio of synthetic accounts, each paired with its
+  own agent identity, cultivated for a coordinated bust-out.
+genai_enabler: >-
+  Bust-out fraud has always been limited by the human labour of maintaining
+  plausible accounts through a cultivation period. Agents remove that limit: a
+  portfolio of hundreds can be cultivated concurrently, each with individually
+  plausible behaviour, at a cost that no longer scales with headcount.
+description: >-
+  Accounts are opened, behave impeccably for a cultivation period, accrue limit
+  increases, and then draw down together. The bust-out itself is easy to see and
+  far too late to matter. The detectable phase is the cultivation phase, where
+  the tell is not any individual account's behaviour - which is by construction
+  unremarkable - but the unnatural *similarity* between accounts that should
+  have nothing to do with each other.
+preconditions:
+  - Automated or lightly reviewed account opening at volume.
+  - Limit increases driven by behavioural history without portfolio-level review.
+observable_signals:
+  - signal: Accounts that share no stated relationship show near-identical spending rhythms.
+    feature: interarrival_regularity
+    layer: L1
+  - signal: A dense component of customers, devices and merchants with no organic bridging structure.
+    feature: customer_component_size
+    layer: L4
+  - signal: Agent identities cluster onto a small number of platforms and address ranges.
+    feature: agent_id_fanout
+    layer: L4
+  - signal: Cultivation-phase behaviour is too well-behaved relative to the genuine population.
+    feature: population_density_score
+    layer: L2
+mitigations:
+  - Review limit increases at portfolio level, not per account.
+  - Cluster new accounts on device, address and agent-platform evidence before granting authority.
+  - Treat abnormally low variance in behaviour as a risk signal rather than a good one.
+generator: mantis.foundry.injectors.f2_16_bust_out:inject
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "FATF - Money Laundering and Terrorist Financing Red Flag Indicators"
+  - "RBI Master Direction on Digital Payment Security Controls"
+discovered_by: human

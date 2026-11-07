@@ -1,0 +1,49 @@
+id: F3-25
+name: Deepfake executive authorisation of a corporate mandate
+family: F3
+status: mapped
+rails:
+  - agentic
+  - ecom
+  - moto
+actor: >-
+  An operator impersonating a senior executive over synthetic video or voice in
+  order to have a high-authority mandate issued.
+genai_enabler: >-
+  Real-time synthetic video has made the live call - historically the escalation
+  channel used to *verify* a suspicious instruction - into an attack surface.
+  The control that was supposed to catch impersonation is now the vector.
+description: >-
+  Rather than attacking a payment, this attacks the issuance of authority. A
+  mandate with a wide scope and a high ceiling is granted because a convincing
+  executive asked for it on a call. Everything downstream is then legitimate:
+  the mandate is properly signed, properly scoped, and properly used. Detection
+  has to happen at issuance, or in the anomalous shape of the mandate itself
+  relative to the organisation's normal delegation patterns.
+preconditions:
+  - Mandates of material scope can be issued on the strength of a synchronous call.
+  - No multi-party approval for high-authority delegation.
+observable_signals:
+  - signal: Mandate scope and ceiling are extreme outliers against the organisation's normal issuance.
+    feature: mandate_shape_outlier_score
+    layer: L2
+  - signal: Mandate issued outside normal business hours or approval channels.
+    feature: hour_of_day_deviation
+    layer: L1
+  - signal: Mandate is used almost immediately after issuance and then not again.
+    feature: mandate_age_seconds
+    layer: L1
+  - signal: Beneficiary of the resulting spend has no prior relationship with the organisation.
+    feature: merchant_novelty_for_customer
+    layer: L1
+mitigations:
+  - Require multi-party approval for mandates above an authority threshold, never a single call.
+  - Bind mandate issuance to an authenticated channel rather than to a synchronous conversation.
+  - Alert on mandates whose scope is an outlier against the organisation's own history.
+detected_by:
+  - L1
+  - L2
+references:
+  - "FBI IC3 - Business Email Compromise public service announcements"
+  - "NIST AI 100-2 Adversarial Machine Learning: A Taxonomy and Terminology"
+discovered_by: human

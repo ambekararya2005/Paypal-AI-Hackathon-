@@ -1,0 +1,49 @@
+id: F1-12
+name: Multi-agent collusion under a single mandate
+family: F1
+status: mapped
+rails:
+  - agentic
+actor: >-
+  An operator running a coordinated set of agents that share one legitimately
+  issued mandate between them.
+genai_enabler: >-
+  Coordinating many agents against a shared constraint is a scheduling problem
+  that generative planning solves cheaply. Each agent takes a slice of the
+  budget and a schedule that keeps every individual authorisation unremarkable -
+  a strategy that would previously have needed a human operator per account.
+description: >-
+  One mandate, many executing agents. Each stays inside the per-transaction
+  ceiling and each looks ordinary in isolation; together they consume authority
+  far faster than the human intended, and they spread the footprint across agent
+  identities so no single agent looks busy. The attack is invisible
+  per-transaction and obvious in the graph, which is exactly the case the L4
+  layer exists to cover.
+preconditions:
+  - A mandate that constrains per-transaction amount but not aggregate spend.
+  - Multiple agent identities able to present the same mandate.
+observable_signals:
+  - signal: One mandate hash is presented by several distinct agent identifiers.
+    feature: mandate_hash_reuse_graph_degree
+    layer: L4
+  - signal: An agent cluster shares a customer but no legitimate co-ownership relationship.
+    feature: agent_id_fanout
+    layer: L4
+  - signal: Aggregate authorisation rate for the customer spikes while each agent stays quiet.
+    feature: customer_velocity_1h
+    layer: L1
+  - signal: The mandate's usage pattern is an outlier against the population of mandates of its type.
+    feature: mandate_shape_outlier_score
+    layer: L2
+mitigations:
+  - Constrain aggregate spend per mandate, not only per transaction.
+  - Bind a mandate to a single executing agent identity.
+  - Score mandates at the mandate level rather than only at the transaction level.
+detected_by:
+  - L1
+  - L2
+  - L4
+references:
+  - "OWASP Top 10 for LLM Applications - LLM06 Excessive Agency"
+  - "Google AP2 (Agent Payments Protocol) - mandate scope constraints"
+discovered_by: human
