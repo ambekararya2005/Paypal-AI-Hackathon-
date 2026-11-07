@@ -1,0 +1,21 @@
+# Render blueprint for the MANTIS API.
+#
+# The console is a static site and belongs on Vercel; this deploys only the
+# backend. Both free tiers are enough, because the API does no model work at
+# request time — it reads committed JSON and a parsed RESULTS.md. The dyno needs
+# to hold ~1 MB of pre-scored feed in memory and nothing else.
+#
+# One caveat worth knowing before the demo: Render's free tier sleeps after
+# ~15 minutes idle and takes ~30 s to wake. Hit the URL once before you present.
+services:
+  - type: web
+    name: mantis-api
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -e .
+    startCommand: python -m mantis.api --host 0.0.0.0
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
