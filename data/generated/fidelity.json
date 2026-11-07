@@ -1,0 +1,663 @@
+{
+  "generated": "2026-08-25T14:06:32+00:00",
+  "schema_version": "1.1.0",
+  "seed": 1337,
+  "calibration": {
+    "source": "indian-market-priors",
+    "provenance": {
+      "amounts": "Indian-market priors; per-MCC log-normal medians in INR, practitioner estimates consistent with published RBI/NPCI ticket-size aggregates.",
+      "hour_dow": "Indian retail/UPI diurnal shape; evening-peak prior.",
+      "channel_mix": "Derived per MCC from the Indian acceptance mix (POS / CNP / UPI P2M).",
+      "merchant_popularity": "Zipf rank-frequency, exponent 1.08, the usual range for merchant-acceptance long tails.",
+      "geography": "Metro anchors weighted by card-accepting volume, not headcount.",
+      "agentic": "Modelled, not measured. There is no public agentic-payments panel; manufacturing this is the entire point of the project.",
+      "lifecycle": "Decline rates, settlement lag and dispute rates are practitioner estimates for the Indian card/UPI mix; the shape that matters is the card-versus-UPI settlement bimodality, not the exact medians."
+    },
+    "note": "Population shape parameters come from committed Indian-market priors, not from a fitted panel. The priors reproduce published RBI and NPCI aggregates; they are not fitted to a licensed transaction panel, and the sections below are the measurement of what that costs."
+  },
+  "synthetic": {
+    "events_total": 202120,
+    "events_compared": 162338,
+    "levels": {
+      "events": 162338.0,
+      "days": 89.0,
+      "customers": 4947.0,
+      "merchants": 10590.0,
+      "categories": 26.0,
+      "txn_per_customer_per_day": 0.3687128505983651,
+      "median_hours_between": 27.81138888888889,
+      "merchants_per_customer": 26.06104709925207,
+      "top_1pct_merchant_share": 0.32158829109635456
+    },
+    "note": "Classic rails, purchases only. The agentic rail is excluded from every comparison because the reference panel has none - see mantis/foundry/fidelity/common.py."
+  },
+  "known_divergences": [
+    {
+      "name": "decline_reason remapping",
+      "measured": "invalid_cvv 0.130 -> 0.036, expired 0.080 -> 0.033; 302x its band",
+      "cause": "Reasons are remapped where the entry mode makes them impossible - invalid_cvv becomes do_not_honor where no CVV was presented, expired becomes insufficient_funds where the mode cannot expire. Only ~27% of declines are on a CVV-bearing entry mode, so 73% of drawn invalid_cvv gets remapped, which is far larger than the code comment claimed.",
+      "why_not_fixed": "Conservative for detection: it raises the background rate of the reasons F4-27 farms, which makes that attack's lift smaller rather than larger. Re-tuning it re-rolls every pinned calibration number three days before submission."
+    },
+    {
+      "name": "realised decline rate above prior",
+      "measured": "moto 2.32x (0.325 vs 0.140), upi_p2p 1.44x, ecom 1.33x, agentic 1.24x; overall 0.088 against a mix-weighted nominal 0.074",
+      "cause": "decline_amount_tilt multiplies the per-channel rate by exp(0.55 z), whose expectation is exp(0.55^2/2) = 1.16. That is Jensen's inequality, not a redistribution: the tilt should be mean-preserving per channel and is not.",
+      "why_not_fixed": "Same reason, and the same direction: a higher decline background makes the card-testing attacks harder to catch, not easier. Recorded as a Day 7 scorecard item rather than a silent edit."
+    }
+  ],
+  "sections": [],
+  "reference": {
+    "available": true,
+    "provenance": "Kaggle kartik2112/fraud-detection (Sparkov): fraudTrain.csv, fraudTest.csv. 1,852,394 rows, cut to 200,051 over 2019-12-17..2020-03-15. US panel, USD, itself synthetic - see mantis/foundry/fidelity/real.py.",
+    "levels": {
+      "events": 200051.0,
+      "days": 89.0,
+      "customers": 918.0,
+      "merchants": 693.0,
+      "categories": 14.0,
+      "txn_per_customer_per_day": 2.448544711267778,
+      "median_hours_between": 4.686388888888889,
+      "merchants_per_customer": 175.7941176470588,
+      "top_1pct_merchant_share": 0.019400052986488444
+    },
+    "level_ratios": {
+      "events": 0.8114830718166868,
+      "days": 1.0,
+      "customers": 5.388888888888889,
+      "merchants": 15.281385281385282,
+      "categories": 1.8571428571428572,
+      "txn_per_customer_per_day": 0.15058448755361195,
+      "median_hours_between": 5.934502993302116,
+      "merchants_per_customer": 0.14824754916757077,
+      "top_1pct_merchant_share": 16.576670760658807
+    },
+    "note": "The reference panel is itself synthetic (Sparkov). It is the external reference this project did not author, not production card traffic, and no claim here should be read as the second thing."
+  },
+  "marginals": {
+    "rows": [
+      {
+        "feature": "hour",
+        "kind": "categorical",
+        "metric": "JSD",
+        "distance": 0.07214906539633151,
+        "band": 4.3750942141353315e-05,
+        "ratio": 1649.08598226817,
+        "levels": 24,
+        "max_level_delta": 0.033115432260310086,
+        "max_level": "11"
+      },
+      {
+        "feature": "dow",
+        "kind": "categorical",
+        "metric": "JSD",
+        "distance": 0.01147563100898312,
+        "band": 1.7848067498497574e-05,
+        "ratio": 642.962102757014,
+        "levels": 7,
+        "max_level_delta": 0.061389544541328306,
+        "max_level": "6"
+      },
+      {
+        "feature": "burst_1h",
+        "kind": "categorical",
+        "metric": "JSD",
+        "distance": 0.002644625807701865,
+        "band": 6.035619297519246e-06,
+        "ratio": 438.1697514932488,
+        "levels": 2,
+        "max_level_delta": 0.04259253096314897,
+        "max_level": "0"
+      },
+      {
+        "feature": "merchant_rank_pct",
+        "kind": "continuous",
+        "metric": "KS",
+        "distance": 0.5233584705264077,
+        "band": 0.005444959437300417,
+        "ratio": 96.11797416545791,
+        "synthetic_median": 0.03607176581680831,
+        "real_median": 0.38311688311688313,
+        "synthetic_iqr": 0.1635505193578848,
+        "real_iqr": 0.4480519480519481
+      },
+      {
+        "feature": "category_shift",
+        "kind": "categorical",
+        "metric": "JSD",
+        "distance": 0.00045723135706834516,
+        "band": 6.1240418347044765e-06,
+        "ratio": 74.66169719436762,
+        "levels": 2,
+        "max_level_delta": 0.01489411826097764,
+        "max_level": "1"
+      },
+      {
+        "feature": "gap_ratio_log",
+        "kind": "continuous",
+        "metric": "KS",
+        "distance": 0.09093955570398528,
+        "band": 0.005444959437300417,
+        "ratio": 16.701603887259193,
+        "synthetic_median": 0.0,
+        "real_median": 0.0,
+        "synthetic_iqr": 1.889225262497872,
+        "real_iqr": 1.8069765444777963
+      },
+      {
+        "feature": "amount_vs_customer",
+        "kind": "continuous",
+        "metric": "KS",
+        "distance": 0.08278483810391113,
+        "band": 0.005444959437300417,
+        "ratio": 15.203940278562557,
+        "synthetic_median": -0.05423896301154674,
+        "real_median": 0.182039490560729,
+        "synthetic_iqr": 1.6343318668675304,
+        "real_iqr": 1.9046010768110826
+      },
+      {
+        "feature": "log_amount_z",
+        "kind": "continuous",
+        "metric": "KS",
+        "distance": 0.032547033422984706,
+        "band": 0.005444959437300417,
+        "ratio": 5.977461135894404,
+        "synthetic_median": 0.0,
+        "real_median": 0.0,
+        "synthetic_iqr": 1.0021251259613373,
+        "real_iqr": 0.875085487818045
+      }
+    ],
+    "correlation": {
+      "frobenius": 0.5684359704351861,
+      "rms_off_diagonal": 0.07596045170310099,
+      "n_features": 8,
+      "worst_pairs": [
+        {
+          "pair": "amount_vs_customer x merchant_rank_pct",
+          "synthetic": -0.003928334709026956,
+          "real": -0.2593452712623167,
+          "delta": 0.25541693655328973
+        },
+        {
+          "pair": "hour x merchant_rank_pct",
+          "synthetic": -0.003177989028581712,
+          "real": 0.16563419970918772,
+          "delta": -0.16881218873776943
+        },
+        {
+          "pair": "hour x amount_vs_customer",
+          "synthetic": 0.004343371690457588,
+          "real": -0.1581251495282168,
+          "delta": 0.1624685212186744
+        },
+        {
+          "pair": "burst_1h x category_shift",
+          "synthetic": 0.037610463269240536,
+          "real": -0.04790682823012335,
+          "delta": 0.08551729149936388
+        },
+        {
+          "pair": "category_shift x gap_ratio_log",
+          "synthetic": 0.004122501984535168,
+          "real": 0.08545686566019756,
+          "delta": -0.0813343636756624
+        }
+      ]
+    }
+  },
+  "tstr": {
+    "trtr": {
+      "auc_pr": 0.8352926825838288,
+      "roc_auc": 0.9878056741785304,
+      "baseline": 0.006881498267128766,
+      "n": 60016.0,
+      "n_pos": 413.0
+    },
+    "tstr": {
+      "auc_pr": 0.0249048737695537,
+      "roc_auc": 0.638534696829169,
+      "baseline": 0.006881498267128766,
+      "n": 60016.0,
+      "n_pos": 413.0
+    },
+    "trts": {
+      "auc_pr": 0.009801667575735824,
+      "roc_auc": 0.5174543532040937,
+      "baseline": 0.0070039054318767014,
+      "n": 162338.0,
+      "n_pos": 1137.0
+    },
+    "transfer_ratio": 0.029815745173913073,
+    "trtr_lift": 121.38238653256917,
+    "tstr_lift": 3.6191063054565005,
+    "features": [
+      "log_amount_z",
+      "amount_vs_customer",
+      "gap_ratio_log",
+      "merchant_rank_pct",
+      "hour",
+      "dow",
+      "category_shift",
+      "burst_1h"
+    ],
+    "caveat": "TSTR is measured on classic-rail fraud only. The reference panel contains no agentic transactions, so no number here is evidence about the agentic attacks.",
+    "what_each_learned": {
+      "trtr": [
+        {
+          "feature": "log_amount_z",
+          "gain_share": 0.5761331140331605
+        },
+        {
+          "feature": "amount_vs_customer",
+          "gain_share": 0.16480365317613996
+        },
+        {
+          "feature": "hour",
+          "gain_share": 0.1304789019077497
+        },
+        {
+          "feature": "merchant_rank_pct",
+          "gain_share": 0.06338629809723176
+        },
+        {
+          "feature": "gap_ratio_log",
+          "gain_share": 0.04859227634378626
+        },
+        {
+          "feature": "dow",
+          "gain_share": 0.009353022080276984
+        },
+        {
+          "feature": "burst_1h",
+          "gain_share": 0.0054414516574438935
+        },
+        {
+          "feature": "category_shift",
+          "gain_share": 0.0018112827042110334
+        }
+      ],
+      "tstr": [
+        {
+          "feature": "merchant_rank_pct",
+          "gain_share": 0.3584411902562639
+        },
+        {
+          "feature": "log_amount_z",
+          "gain_share": 0.1711744621927536
+        },
+        {
+          "feature": "amount_vs_customer",
+          "gain_share": 0.16040869753873951
+        },
+        {
+          "feature": "gap_ratio_log",
+          "gain_share": 0.15827958237813886
+        },
+        {
+          "feature": "hour",
+          "gain_share": 0.06666729632786883
+        },
+        {
+          "feature": "dow",
+          "gain_share": 0.037749415354602175
+        },
+        {
+          "feature": "category_shift",
+          "gain_share": 0.03461836222820139
+        },
+        {
+          "feature": "burst_1h",
+          "gain_share": 0.012660993723431694
+        }
+      ]
+    }
+  },
+  "adjudications": [
+    {
+      "feature": "hour",
+      "third_quantity": "retail spend has a diurnal curve (overnight trough)",
+      "synthetic": "peak/trough 22.5x",
+      "reference": "peak/trough 1.6x",
+      "verdict": "REFERENCE",
+      "note": "The reference panel's hour curve is a two-level step - a flat rate before noon and a slightly higher flat rate after - rather than a diurnal curve. That is a property of the Sparkov generator and it is harmless for the benchmark it was built for, but it means this axis cannot measure whether our time-of-day model is right."
+    },
+    {
+      "feature": "merchant_rank_pct",
+      "third_quantity": "an acceptance estate is Zipf, not uniform (top 10% >> 10%)",
+      "synthetic": "top 10% carry 66.0%, max/min 2,980x",
+      "reference": "top 10% carry 14.6%, max/min 6x",
+      "verdict": "REFERENCE",
+      "note": "The reference panel's 693 merchants are close to uniformly popular. Merchant volume in a real estate is heavy-tailed, which is why the foundry draws it from a Zipf curve at all, and it is the single feature the discriminator leans on hardest - so the ablated discriminator below is the number to read beside the full one."
+    }
+  ],
+  "discriminator": {
+    "auc": 0.9994129224245365,
+    "target": 0.5,
+    "separability": 0.998825844849073,
+    "n_per_side": 162338,
+    "folds": 5,
+    "features": [
+      "log_amount_z",
+      "amount_vs_customer",
+      "gap_ratio_log",
+      "merchant_rank_pct",
+      "hour",
+      "dow",
+      "category_shift",
+      "burst_1h"
+    ],
+    "excluded": [],
+    "per_feature": [
+      {
+        "feature": "merchant_rank_pct",
+        "alone_auc": 0.8288395087553857,
+        "gain_share": 0.792567247320514,
+        "mean_abs_contribution": 5.378968926418897,
+        "contribution_share": 0.7072269046322152
+      },
+      {
+        "feature": "amount_vs_customer",
+        "alone_auc": 0.516961595564169,
+        "gain_share": 0.05351600130509033,
+        "mean_abs_contribution": 0.5310409427237206,
+        "contribution_share": 0.06982127007852182
+      },
+      {
+        "feature": "hour",
+        "alone_auc": 0.564323924962165,
+        "gain_share": 0.0733598641547811,
+        "mean_abs_contribution": 0.4590518269574099,
+        "contribution_share": 0.060356140198228256
+      },
+      {
+        "feature": "gap_ratio_log",
+        "alone_auc": 0.5302095818855767,
+        "gain_share": 0.03237092327868958,
+        "mean_abs_contribution": 0.4256433215946454,
+        "contribution_share": 0.05596358947720617
+      },
+      {
+        "feature": "burst_1h",
+        "alone_auc": 0.521091796129064,
+        "gain_share": 0.017272461593754045,
+        "mean_abs_contribution": 0.3564573952962078,
+        "contribution_share": 0.04686702298472555
+      },
+      {
+        "feature": "log_amount_z",
+        "alone_auc": 0.500241320679785,
+        "gain_share": 0.027020964680404953,
+        "mean_abs_contribution": 0.25723973590959665,
+        "contribution_share": 0.033821883833947367
+      },
+      {
+        "feature": "dow",
+        "alone_auc": 0.5056084658001724,
+        "gain_share": 0.0029229237213115066,
+        "mean_abs_contribution": 0.15617473546774738,
+        "contribution_share": 0.020533856257121726
+      },
+      {
+        "feature": "category_shift",
+        "alone_auc": 0.507527504342791,
+        "gain_share": 0.0009696139454544843,
+        "mean_abs_contribution": 0.0411418618892664,
+        "contribution_share": 0.005409332538034078
+      }
+    ],
+    "top_features": [
+      "merchant_rank_pct",
+      "amount_vs_customer",
+      "hour",
+      "gap_ratio_log",
+      "burst_1h"
+    ],
+    "reading": "Separable at 100%. On these features the synthetic population is not passing for the reference panel, and the scorecard says so."
+  },
+  "discriminator_ablated": {
+    "auc": 0.8398542753120788,
+    "target": 0.5,
+    "separability": 0.6797085506241576,
+    "n_per_side": 162338,
+    "folds": 5,
+    "features": [
+      "log_amount_z",
+      "amount_vs_customer",
+      "gap_ratio_log",
+      "dow",
+      "category_shift",
+      "burst_1h"
+    ],
+    "excluded": [
+      "hour",
+      "merchant_rank_pct"
+    ],
+    "per_feature": [
+      {
+        "feature": "gap_ratio_log",
+        "alone_auc": 0.5302095818855767,
+        "gain_share": 0.26916890953595063,
+        "mean_abs_contribution": 0.7064498895784723,
+        "contribution_share": 0.2548898058889777
+      },
+      {
+        "feature": "amount_vs_customer",
+        "alone_auc": 0.516961595564169,
+        "gain_share": 0.27854730827825724,
+        "mean_abs_contribution": 0.6836939723261747,
+        "contribution_share": 0.24667938443258153
+      },
+      {
+        "feature": "burst_1h",
+        "alone_auc": 0.521091796129064,
+        "gain_share": 0.1132467215226195,
+        "mean_abs_contribution": 0.6317035524227493,
+        "contribution_share": 0.2279210432780834
+      },
+      {
+        "feature": "log_amount_z",
+        "alone_auc": 0.500241320679785,
+        "gain_share": 0.2834056388490402,
+        "mean_abs_contribution": 0.4592899391262022,
+        "contribution_share": 0.16571355613133568
+      },
+      {
+        "feature": "dow",
+        "alone_auc": 0.5056084658001724,
+        "gain_share": 0.04124760659294593,
+        "mean_abs_contribution": 0.22860191386959966,
+        "contribution_share": 0.08248043960604035
+      },
+      {
+        "feature": "category_shift",
+        "alone_auc": 0.507527504342791,
+        "gain_share": 0.014383815221186525,
+        "mean_abs_contribution": 0.061850153895870195,
+        "contribution_share": 0.022315770662981443
+      }
+    ],
+    "top_features": [
+      "gap_ratio_log",
+      "amount_vs_customer",
+      "burst_1h",
+      "log_amount_z",
+      "dow"
+    ],
+    "reading": "Clearly separable (68%). The two panels differ in ways a model finds easily, and the top feature below is where to look first."
+  },
+  "discriminator_naive": {
+    "auc": 0.9998647315755717,
+    "columns": [
+      "amount",
+      "hour",
+      "category_code",
+      "customer_code",
+      "merchant_code"
+    ],
+    "alone_auc": {
+      "amount": 0.9653503180152334,
+      "hour": 0.564323924962165,
+      "category_code": 0.5954109247896184,
+      "customer_code": 0.872111898480486,
+      "merchant_code": 0.7213177879772013
+    },
+    "note": "Raw columns, two currencies, two taxonomies, two identifier namespaces. An AUC near 1.0 is expected and is not a statement about the population."
+  },
+  "discriminator_ablation_path": [
+    {
+      "dropped_so_far": [],
+      "n_features": 8,
+      "auc": 0.9994365213021347,
+      "separability": 0.9988730426042693,
+      "next_to_drop": "merchant_rank_pct"
+    },
+    {
+      "dropped_so_far": [
+        "merchant_rank_pct"
+      ],
+      "n_features": 7,
+      "auc": 0.8833035303936522,
+      "separability": 0.7666070607873043,
+      "next_to_drop": "gap_ratio_log"
+    },
+    {
+      "dropped_so_far": [
+        "merchant_rank_pct",
+        "gap_ratio_log"
+      ],
+      "n_features": 6,
+      "auc": 0.84161208126148,
+      "separability": 0.68322416252296,
+      "next_to_drop": "amount_vs_customer"
+    },
+    {
+      "dropped_so_far": [
+        "merchant_rank_pct",
+        "gap_ratio_log",
+        "amount_vs_customer"
+      ],
+      "n_features": 5,
+      "auc": 0.7076296809151938,
+      "separability": 0.4152593618303877,
+      "next_to_drop": "hour"
+    },
+    {
+      "dropped_so_far": [
+        "merchant_rank_pct",
+        "gap_ratio_log",
+        "amount_vs_customer",
+        "hour"
+      ],
+      "n_features": 4,
+      "auc": 0.6172312952644757,
+      "separability": 0.23446259052895146,
+      "next_to_drop": "dow"
+    },
+    {
+      "dropped_so_far": [
+        "merchant_rank_pct",
+        "gap_ratio_log",
+        "amount_vs_customer",
+        "hour",
+        "dow"
+      ],
+      "n_features": 3,
+      "auc": 0.588284309110201,
+      "separability": 0.17656861822040204,
+      "next_to_drop": "log_amount_z"
+    },
+    {
+      "dropped_so_far": [
+        "merchant_rank_pct",
+        "gap_ratio_log",
+        "amount_vs_customer",
+        "hour",
+        "dow",
+        "log_amount_z"
+      ],
+      "n_features": 2,
+      "auc": 0.5231089667266817,
+      "separability": 0.04621793345336345,
+      "next_to_drop": null
+    }
+  ],
+  "feature_class": [
+    {
+      "feature": "merchant_rank_pct",
+      "verdict": "structural",
+      "reason": "Which merchants carry the volume. Ours is Zipf (top 10% take 66%), the reference is near-uniform (14.6%). A property of the generative model, not of formatting -- and separately adjudicated to the reference, because real acceptance estates are heavy-tailed.",
+      "alone_auc": 0.8288395087553857,
+      "contribution_share": 0.7072269046322152
+    },
+    {
+      "feature": "amount_vs_customer",
+      "verdict": "structural",
+      "reason": "How a ticket sits against the cardholder's own history -- a joint property of the amount draw and the customer assignment, and the single most transferable fraud signal there is.",
+      "alone_auc": 0.516961595564169,
+      "contribution_share": 0.06982127007852182
+    },
+    {
+      "feature": "hour",
+      "verdict": "cosmetic",
+      "reason": "Timestamp granularity at the coarsest scale: which hour a transaction is stamped with. The reference has no diurnal curve at all, ours does. Nothing about behaviour changes if the curve is reshaped -- it is when the generator chose to place events, and it is adjudicated to the reference for having no curve to compare against.",
+      "alone_auc": 0.564323924962165,
+      "contribution_share": 0.060356140198228256
+    },
+    {
+      "feature": "gap_ratio_log",
+      "verdict": "structural",
+      "reason": "How a cardholder's transactions cluster in time relative to their own rhythm. Burstiness is a behavioural property and the arrival process that produces it is part of the generative model.",
+      "alone_auc": 0.5302095818855767,
+      "contribution_share": 0.05596358947720617
+    },
+    {
+      "feature": "burst_1h",
+      "verdict": "structural",
+      "reason": "The same arrival process read as a probability. 12.4% of our events follow another within the hour against 16.6% of the reference's.",
+      "alone_auc": 0.521091796129064,
+      "contribution_share": 0.04686702298472555
+    },
+    {
+      "feature": "log_amount_z",
+      "verdict": "cosmetic",
+      "reason": "Within-category amount dispersion, and the residual separation here is **rounding**: the population snaps amounts to round numbers, and F6-40's injector snaps harder than a real ring would. The Day 5 derived probe already flagged txn_round_score at 0.966 as an artefact for exactly this reason. Softening the snap is a recorded outstanding item.",
+      "alone_auc": 0.500241320679785,
+      "contribution_share": 0.033821883833947367
+    },
+    {
+      "feature": "dow",
+      "verdict": "cosmetic",
+      "reason": "Day-of-week placement. Same class as `hour`: calendar rendering, not behaviour.",
+      "alone_auc": 0.5056084658001724,
+      "contribution_share": 0.020533856257121726
+    },
+    {
+      "feature": "category_shift",
+      "verdict": "structural",
+      "reason": "Whether consecutive transactions change category -- basket volatility, a joint property of the category draw and the per-customer sequence. The distance is 0.0005 JSD, so it is structural and negligible.",
+      "alone_auc": 0.507527504342791,
+      "contribution_share": 0.005409332538034078
+    }
+  ],
+  "headline": {
+    "discriminator_auc": 0.9994129224245365,
+    "discriminator_auc_ablated": 0.8398542753120788,
+    "discriminator_auc_naive": 0.9998647315755717,
+    "discriminator_top_features": [
+      "merchant_rank_pct",
+      "amount_vs_customer",
+      "hour",
+      "gap_ratio_log",
+      "burst_1h"
+    ],
+    "discriminator_target": 0.5,
+    "transfer_ratio": 0.029815745173913073,
+    "tstr_auc_pr": 0.0249048737695537,
+    "trtr_auc_pr": 0.8352926825838288,
+    "correlation_rms": 0.07596045170310099,
+    "worst_feature": "hour",
+    "worst_ratio": 1649.08598226817,
+    "median_ratio": 85.38983567991276
+  }
+}

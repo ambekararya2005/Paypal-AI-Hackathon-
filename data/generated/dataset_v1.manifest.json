@@ -1,0 +1,413 @@
+{
+  "schema_version": "1.1.0",
+  "config": {
+    "n_background": 200000,
+    "seed": 1337,
+    "n_customers": 5000,
+    "n_merchants": 12000,
+    "window_days": 90,
+    "intensity": 1.0,
+    "attacks": [
+      "F1-01",
+      "F1-02",
+      "F1-03",
+      "F1-04",
+      "F1-05",
+      "F1-09",
+      "F1-10",
+      "F2-13",
+      "F2-16",
+      "F3-19",
+      "F4-27",
+      "F4-28",
+      "F6-38",
+      "F6-39",
+      "F6-40"
+    ]
+  },
+  "class_balance": {
+    "legitimate": 200000,
+    "fraud": 2120,
+    "prevalence": 0.010488818523649317
+  },
+  "per_attack": [
+    {
+      "attack_id": "F1-01",
+      "family": "F1",
+      "name": "Cart-mandate tampering via indirect prompt injection",
+      "events": 150,
+      "campaigns": 6,
+      "customers": 143,
+      "merchants": 147,
+      "median_amount": 2270.975,
+      "agentic_share": 0.6133333333333333
+    },
+    {
+      "attack_id": "F1-02",
+      "family": "F1",
+      "name": "Intent-mandate scope inflation",
+      "events": 120,
+      "campaigns": 6,
+      "customers": 110,
+      "merchants": 93,
+      "median_amount": 1408.415,
+      "agentic_share": 1.0
+    },
+    {
+      "attack_id": "F1-03",
+      "family": "F1",
+      "name": "Refund-logic hijack",
+      "events": 120,
+      "campaigns": 5,
+      "customers": 43,
+      "merchants": 35,
+      "median_amount": 910.255,
+      "agentic_share": 0.7666666666666667
+    },
+    {
+      "attack_id": "F1-04",
+      "family": "F1",
+      "name": "Intent-mandate category drift",
+      "events": 100,
+      "campaigns": 5,
+      "customers": 98,
+      "merchants": 99,
+      "median_amount": 1427.1399999999999,
+      "agentic_share": 1.0
+    },
+    {
+      "attack_id": "F1-05",
+      "family": "F1",
+      "name": "Delegation-chain laundering through sub-agents",
+      "events": 100,
+      "campaigns": 4,
+      "customers": 97,
+      "merchants": 83,
+      "median_amount": 978.9549999999999,
+      "agentic_share": 1.0
+    },
+    {
+      "attack_id": "F1-09",
+      "family": "F1",
+      "name": "Human-present spoofing for liability shift",
+      "events": 130,
+      "campaigns": 5,
+      "customers": 124,
+      "merchants": 96,
+      "median_amount": 1733.5749999999998,
+      "agentic_share": 0.7538461538461538
+    },
+    {
+      "attack_id": "F1-10",
+      "family": "F1",
+      "name": "Mandate replay and TTL abuse",
+      "events": 110,
+      "campaigns": 5,
+      "customers": 26,
+      "merchants": 25,
+      "median_amount": 1573.6750000000002,
+      "agentic_share": 1.0
+    },
+    {
+      "attack_id": "F2-13",
+      "family": "F2",
+      "name": "GenAI synthetic identity onboarding",
+      "events": 170,
+      "campaigns": 4,
+      "customers": 30,
+      "merchants": 142,
+      "median_amount": 659.625,
+      "agentic_share": 0.20588235294117646
+    },
+    {
+      "attack_id": "F2-16",
+      "family": "F2",
+      "name": "Agent-farm account bootstrapping for bust-out",
+      "events": 200,
+      "campaigns": 4,
+      "customers": 24,
+      "merchants": 198,
+      "median_amount": 488.605,
+      "agentic_share": 0.255
+    },
+    {
+      "attack_id": "F3-19",
+      "family": "F3",
+      "name": "Digital-arrest scam",
+      "events": 110,
+      "campaigns": 6,
+      "customers": 33,
+      "merchants": 33,
+      "median_amount": 4000.0,
+      "agentic_share": 0.045454545454545456
+    },
+    {
+      "attack_id": "F4-27",
+      "family": "F4",
+      "name": "Adaptive BIN attack",
+      "events": 200,
+      "campaigns": 5,
+      "customers": 117,
+      "merchants": 141,
+      "median_amount": 442.68,
+      "agentic_share": 0.195
+    },
+    {
+      "attack_id": "F4-28",
+      "family": "F4",
+      "name": "Threshold probing and just-under structuring",
+      "events": 150,
+      "campaigns": 9,
+      "customers": 49,
+      "merchants": 148,
+      "median_amount": 1854.79,
+      "agentic_share": 0.18666666666666668
+    },
+    {
+      "attack_id": "F6-38",
+      "family": "F6",
+      "name": "Agentic mule-network fan-out",
+      "events": 180,
+      "campaigns": 5,
+      "customers": 57,
+      "merchants": 84,
+      "median_amount": 1500.0,
+      "agentic_share": 0.2611111111111111
+    },
+    {
+      "attack_id": "F6-39",
+      "family": "F6",
+      "name": "Shell merchant-of-record laundering",
+      "events": 150,
+      "campaigns": 5,
+      "customers": 57,
+      "merchants": 10,
+      "median_amount": 3100.0,
+      "agentic_share": 0.17333333333333334
+    },
+    {
+      "attack_id": "F6-40",
+      "family": "F6",
+      "name": "Stored-value and gift-card cash-out chains",
+      "events": 130,
+      "campaigns": 5,
+      "customers": 52,
+      "merchants": 19,
+      "median_amount": 1000.0,
+      "agentic_share": 0.09230769230769231
+    }
+  ],
+  "separability_probe": [
+    {
+      "attack_id": "F1-01",
+      "n_events": 150,
+      "best_feature": "ag_tool_call_count",
+      "best_auc": 0.9679927777777778,
+      "best_direction": "hi",
+      "slice_auc": 0.8593164669329781,
+      "slice_feature": "ag_deliberation_latency_ms",
+      "slice_direction": "hi",
+      "slice_n": 30040.0,
+      "passes": true
+    },
+    {
+      "attack_id": "F1-02",
+      "n_events": 120,
+      "best_feature": "ag_mandate_type=intent",
+      "best_auc": 0.9773000000000001,
+      "best_direction": "hi",
+      "slice_auc": 0.8491178428761651,
+      "slice_feature": "ag_mandate_type=intent",
+      "slice_direction": "hi",
+      "slice_n": 30040.0,
+      "passes": true
+    },
+    {
+      "attack_id": "F1-03",
+      "n_events": 120,
+      "best_feature": "txn_type=refund",
+      "best_auc": 0.989475,
+      "best_direction": "hi",
+      "slice_auc": 0.8326612903225807,
+      "slice_feature": "ag_deliberation_latency_ms",
+      "slice_direction": "hi",
+      "slice_n": 620.0,
+      "passes": true
+    },
+    {
+      "attack_id": "F1-04",
+      "n_events": 100,
+      "best_feature": "ag_mandate_type=intent",
+      "best_auc": 0.9773000000000001,
+      "best_direction": "hi",
+      "slice_auc": 0.8491178428761651,
+      "slice_feature": "ag_mandate_type=intent",
+      "slice_direction": "hi",
+      "slice_n": 30040.0,
+      "passes": true
+    },
+    {
+      "attack_id": "F1-05",
+      "n_events": 100,
+      "best_feature": "ag_delegation_depth",
+      "best_auc": 0.99095275,
+      "best_direction": "hi",
+      "slice_auc": 0.9388540279627163,
+      "slice_feature": "ag_delegation_depth",
+      "slice_direction": "hi",
+      "slice_n": 30040.0,
+      "passes": true
+    },
+    {
+      "attack_id": "F1-09",
+      "n_events": 130,
+      "best_feature": "ag_human_present",
+      "best_auc": 0.9651916666666667,
+      "best_direction": "hi",
+      "slice_auc": 0.7717376830892144,
+      "slice_feature": "ag_human_present",
+      "slice_direction": "hi",
+      "slice_n": 30040.0,
+      "passes": true
+    },
+    {
+      "attack_id": "F1-10",
+      "n_events": 110,
+      "best_feature": "mandate_age_seconds",
+      "best_auc": 0.9742988636363636,
+      "best_direction": "hi",
+      "slice_auc": 0.8324535467861034,
+      "slice_feature": "mandate_age_seconds",
+      "slice_direction": "hi",
+      "slice_n": 30040.0,
+      "passes": true
+    },
+    {
+      "attack_id": "F2-13",
+      "n_events": 170,
+      "best_feature": "ts_epoch",
+      "best_auc": 0.6829083333333332,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "F2-16",
+      "n_events": 200,
+      "best_feature": "ts_epoch",
+      "best_auc": 0.6274833333333334,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "F3-19",
+      "n_events": 110,
+      "best_feature": "amount",
+      "best_auc": 0.872007803030303,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "F4-27",
+      "n_events": 200,
+      "best_feature": "auth_response=approved",
+      "best_auc": 0.6981916666666667,
+      "best_direction": "lo",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "F4-28",
+      "n_events": 150,
+      "best_feature": "amount",
+      "best_auc": 0.7578547777777778,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "F6-38",
+      "n_events": 180,
+      "best_feature": "mcc=6012",
+      "best_auc": 0.7868666666666667,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "F6-39",
+      "n_events": 150,
+      "best_feature": "amount",
+      "best_auc": 0.7916520555555555,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "F6-40",
+      "n_events": 130,
+      "best_feature": "amount",
+      "best_auc": 0.6768416666666667,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    },
+    {
+      "attack_id": "ALL",
+      "n_events": 2120,
+      "best_feature": "ag_scope_max_amount",
+      "best_auc": 0.6859955935534593,
+      "best_direction": "hi",
+      "slice_auc": NaN,
+      "slice_feature": null,
+      "slice_direction": null,
+      "slice_n": NaN,
+      "passes": true
+    }
+  ],
+  "schema_validated_events": 2120,
+  "rail_concentration": {
+    "agent_mediated_volume": 31113,
+    "agent_mediated_fraud": 1073,
+    "classic_volume": 171007,
+    "classic_fraud": 1047
+  },
+  "content_corpus": {
+    "artifacts": 234,
+    "plantings": 467,
+    "directory": "C:\\Users\\aryaa\\Desktop\\Mastercard Hackathon\\data\\cache\\content"
+  },
+  "timings_seconds": {
+    "simulate_background": 7.603,
+    "index_population": 0.434,
+    "inject": 1.723,
+    "schema_validate": 0.077,
+    "probe": 34.005
+  }
+}

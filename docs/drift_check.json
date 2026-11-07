@@ -1,0 +1,439 @@
+{
+  "n_events": 200000,
+  "seed": 1337,
+  "reference_source": "indian-market-priors",
+  "marginals": [
+    {
+      "feature": "mcc",
+      "kind": "JSD",
+      "n": 200000,
+      "levels": 26,
+      "distance": 4.471619097370233e-05,
+      "band": 4.015594756371833e-05,
+      "ratio": 1.1135633371058653,
+      "note": "drawn directly from mcc_profiles weights"
+    },
+    {
+      "feature": "channel",
+      "kind": "JSD",
+      "n": 200000,
+      "levels": 7,
+      "distance": 2.8106016368689942e-06,
+      "band": 1.3942356040478627e-05,
+      "ratio": 0.20158728042154553,
+      "note": "per-MCC channel weights, conditioned on the realised category mix"
+    },
+    {
+      "feature": "hour_of_day",
+      "kind": "JSD",
+      "n": 200000,
+      "levels": 24,
+      "distance": 3.3698689039104285e-05,
+      "band": 3.6537101881671305e-05,
+      "ratio": 0.9223142313870576,
+      "note": "human curve blended toward uniform on the agentic share"
+    },
+    {
+      "feature": "day_of_week",
+      "kind": "JSD",
+      "n": 200000,
+      "levels": 7,
+      "distance": 1.296738816435435e-06,
+      "band": 1.5582150525860213e-05,
+      "ratio": 0.08321950261508262,
+      "note": "dow_weights x the calendar: a 90-day window is not a whole number of weeks"
+    },
+    {
+      "feature": "txn_type",
+      "kind": "JSD",
+      "n": 200000,
+      "levels": 5,
+      "distance": 4.309995517103569e-06,
+      "band": 1.1267523493571568e-05,
+      "ratio": 0.3825148906556565,
+      "note": "AMENDMENT 1.1.0 -- refund/reversal/credit/preauth shares"
+    },
+    {
+      "feature": "decline_reason | declined",
+      "kind": "JSD",
+      "n": 17592,
+      "levels": 5,
+      "distance": 0.03400291913874529,
+      "band": 0.00011259395773936984,
+      "ratio": 301.99594917388504,
+      "note": "AMENDMENT 1.1.0 -- reason mix among declines only; remapping shifts it, see below"
+    },
+    {
+      "feature": "mandate_type",
+      "kind": "JSD",
+      "n": 30040,
+      "levels": 3,
+      "distance": 9.28827776961892e-06,
+      "band": 4.749027901568947e-05,
+      "ratio": 0.19558271633970253,
+      "note": "mandate_type_weights"
+    },
+    {
+      "feature": "delegation_depth",
+      "kind": "JSD",
+      "n": 30040,
+      "levels": 5,
+      "distance": 4.242532116743373e-06,
+      "band": 8.077656556550633e-05,
+      "ratio": 0.052521818513104036,
+      "note": "WIDENED DAY 3 to depth 5 so F1-05 was not a free catch"
+    },
+    {
+      "feature": "entry_mode | card_present",
+      "kind": "JSD",
+      "n": 55320,
+      "levels": 3,
+      "distance": 3.3902754886086215e-06,
+      "band": 2.4187260934335178e-05,
+      "ratio": 0.14016781386750307,
+      "note": "entry_mode_weights[card_present]"
+    },
+    {
+      "feature": "entry_mode | ecom",
+      "kind": "JSD",
+      "n": 45781,
+      "levels": 3,
+      "distance": 3.6653713043460746e-06,
+      "band": 2.8297373990719585e-05,
+      "ratio": 0.1295304400170903,
+      "note": "entry_mode_weights[ecom]"
+    },
+    {
+      "feature": "entry_mode | moto",
+      "kind": "JSD",
+      "n": 939,
+      "levels": 1,
+      "distance": 0.0,
+      "band": 0.0,
+      "ratio": 0.0,
+      "note": "entry_mode_weights[moto]"
+    },
+    {
+      "feature": "entry_mode | recurring",
+      "kind": "JSD",
+      "n": 9691,
+      "levels": 2,
+      "distance": 2.4674379048647208e-05,
+      "band": 0.00011628863765001872,
+      "ratio": 0.21218220066269075,
+      "note": "entry_mode_weights[recurring]"
+    },
+    {
+      "feature": "entry_mode | upi_p2m",
+      "kind": "JSD",
+      "n": 49738,
+      "levels": 2,
+      "distance": 3.7553432141831282e-06,
+      "band": 2.187007775792352e-05,
+      "ratio": 0.1717114706106872,
+      "note": "entry_mode_weights[upi_p2m]"
+    },
+    {
+      "feature": "entry_mode | upi_p2p",
+      "kind": "JSD",
+      "n": 8491,
+      "levels": 2,
+      "distance": 3.2295211707289613e-06,
+      "band": 0.00010836234700703371,
+      "ratio": 0.029802982861928378,
+      "note": "entry_mode_weights[upi_p2p]"
+    },
+    {
+      "feature": "entry_mode | agentic",
+      "kind": "JSD",
+      "n": 30040,
+      "levels": 1,
+      "distance": 0.0,
+      "band": 0.0,
+      "ratio": 0.0,
+      "note": "entry_mode_weights[agentic]"
+    },
+    {
+      "feature": "threeds | card_present",
+      "kind": "JSD",
+      "n": 55320,
+      "levels": 1,
+      "distance": 0.0,
+      "band": 0.0,
+      "ratio": 0.0,
+      "note": "threeds_weights[card_present]"
+    },
+    {
+      "feature": "threeds | upi_p2m",
+      "kind": "JSD",
+      "n": 49738,
+      "levels": 1,
+      "distance": 0.0,
+      "band": 0.0,
+      "ratio": 0.0,
+      "note": "threeds_weights[upi_p2m]"
+    },
+    {
+      "feature": "threeds | upi_p2p",
+      "kind": "JSD",
+      "n": 8491,
+      "levels": 1,
+      "distance": 0.0,
+      "band": 0.0,
+      "ratio": 0.0,
+      "note": "threeds_weights[upi_p2p]"
+    },
+    {
+      "feature": "threeds | moto",
+      "kind": "JSD",
+      "n": 939,
+      "levels": 1,
+      "distance": 0.0,
+      "band": 0.0,
+      "ratio": 0.0,
+      "note": "threeds_weights[moto]"
+    },
+    {
+      "feature": "threeds | ecom",
+      "kind": "JSD",
+      "n": 45781,
+      "levels": 5,
+      "distance": 7.3259574519218655e-06,
+      "band": 5.7823369940457566e-05,
+      "ratio": 0.1266954426811447,
+      "note": "threeds_weights[ecom]"
+    },
+    {
+      "feature": "threeds | recurring",
+      "kind": "JSD",
+      "n": 9691,
+      "levels": 2,
+      "distance": 4.7075859809669364e-05,
+      "band": 9.540076041133056e-05,
+      "ratio": 0.4934537167911112,
+      "note": "threeds_weights[recurring]"
+    },
+    {
+      "feature": "threeds | agentic",
+      "kind": "JSD",
+      "n": 30040,
+      "levels": 6,
+      "distance": 5.535657202435161e-05,
+      "band": 8.801808466079581e-05,
+      "ratio": 0.6289227064833872,
+      "note": "threeds_weights[agentic]"
+    },
+    {
+      "feature": "merchant_country",
+      "kind": "JSD*",
+      "n": 10906,
+      "levels": 10,
+      "distance": 0.006397545349933045,
+      "band": 0.010941209371876636,
+      "ratio": 0.5847201285058434,
+      "note": "one draw per merchant; Zipf popularity makes the effective n the merchant count"
+    },
+    {
+      "feature": "card_bin",
+      "kind": "JSD*",
+      "n": 7520,
+      "levels": 16,
+      "distance": 0.000662412646464325,
+      "band": 0.0015227927147517051,
+      "ratio": 0.4349985654957201,
+      "note": "one draw per card; effective n is the card count, not the event count"
+    },
+    {
+      "feature": "agent_platform",
+      "kind": "JSD*",
+      "n": 4158,
+      "levels": 5,
+      "distance": 0.00038461047432266347,
+      "band": 0.0013752280781843896,
+      "ratio": 0.2796703182721777,
+      "note": "one draw per agent; effective n is the agent count"
+    },
+    {
+      "feature": "amount",
+      "kind": "KS",
+      "n": 200000,
+      "levels": 0,
+      "distance": 0.007986137433249885,
+      "band": 0.003644790803324657,
+      "ratio": 2.191109960540176,
+      "note": "non-zero BY DESIGN: round-number snapping is deliberate, see Day 1"
+    },
+    {
+      "feature": "settlement_lag | card_present",
+      "kind": "KS",
+      "n": 50237,
+      "levels": 0,
+      "distance": 0.003998038757465738,
+      "band": 0.007272366473921606,
+      "ratio": 0.5497576025359192,
+      "note": "AMENDMENT 1.1.0 -- lognormal(log median, sigma); BIMODAL across rails"
+    },
+    {
+      "feature": "settlement_lag | ecom",
+      "kind": "KS",
+      "n": 36299,
+      "levels": 0,
+      "distance": 0.004510713052003346,
+      "band": 0.008555399105402576,
+      "ratio": 0.5272358421192664,
+      "note": "AMENDMENT 1.1.0 -- lognormal(log median, sigma); BIMODAL across rails"
+    },
+    {
+      "feature": "settlement_lag | moto",
+      "kind": "KS",
+      "n": 591,
+      "levels": 0,
+      "distance": 0.04176892132482929,
+      "band": 0.06704924068786275,
+      "ratio": 0.6229589014926801,
+      "note": "AMENDMENT 1.1.0 -- lognormal(log median, sigma); BIMODAL across rails"
+    },
+    {
+      "feature": "settlement_lag | recurring",
+      "kind": "KS",
+      "n": 7959,
+      "levels": 0,
+      "distance": 0.012087509787458095,
+      "band": 0.01827083316768249,
+      "ratio": 0.661574087865819,
+      "note": "AMENDMENT 1.1.0 -- lognormal(log median, sigma); BIMODAL across rails"
+    },
+    {
+      "feature": "settlement_lag | upi_p2m",
+      "kind": "KS",
+      "n": 44331,
+      "levels": 0,
+      "distance": 0.007285889420786562,
+      "band": 0.007741655479835919,
+      "ratio": 0.9411280881412954,
+      "note": "AMENDMENT 1.1.0 -- lognormal(log median, sigma); BIMODAL across rails"
+    },
+    {
+      "feature": "settlement_lag | upi_p2p",
+      "kind": "KS",
+      "n": 7279,
+      "levels": 0,
+      "distance": 0.024479071029115063,
+      "band": 0.019105206876609555,
+      "ratio": 1.2812774646834477,
+      "note": "AMENDMENT 1.1.0 -- lognormal(log median, sigma); BIMODAL across rails"
+    },
+    {
+      "feature": "settlement_lag | agentic",
+      "kind": "KS",
+      "n": 23660,
+      "levels": 0,
+      "distance": 0.010075312522222712,
+      "band": 0.01059693411698063,
+      "ratio": 0.9507761783738877,
+      "note": "AMENDMENT 1.1.0 -- lognormal(log median, sigma); BIMODAL across rails"
+    }
+  ],
+  "pinned_shares": [
+    {
+      "feature": "agentic_share",
+      "realised": 0.1502,
+      "target": 0.15,
+      "delta": 0.00020000000000000573,
+      "note": ""
+    },
+    {
+      "feature": "geo_missing | remote rails",
+      "realised": 0.22012469491388184,
+      "target": 0.22,
+      "delta": 0.00012469491388183984,
+      "note": "denominator is the non-physical rails; UPI at a QR carries merchant geo"
+    },
+    {
+      "feature": "unsettled | approved",
+      "realised": 0.02601859567562826,
+      "target": 0.012,
+      "delta": 0.01401859567562826,
+      "note": "reversals never settle BY DEFINITION, so the realised share sits above the prior"
+    },
+    {
+      "feature": "dispute_rate | settled purch",
+      "realised": 0.0008335485688792881,
+      "target": 0.0009,
+      "delta": -6.645143112071186e-05,
+      "note": "POST-HOC: carried for evaluation, never a scoring feature"
+    },
+    {
+      "feature": "refund_instant | card rails",
+      "realised": 0.21288322425077505,
+      "target": 0.24,
+      "delta": -0.02711677574922494,
+      "note": "WIDENED DAY 3: without it F1-03 sat at 0.996 on settlement lag alone"
+    },
+    {
+      "feature": "human_passive | present",
+      "realised": 0.11525780896960092,
+      "target": 0.11,
+      "delta": 0.005257808969600916,
+      "note": "deconvolved from the cursor-entropy mixture; see _passive_share"
+    },
+    {
+      "feature": "delegation_depth >= 4",
+      "realised": 0.01507989347536618,
+      "target": 0.015,
+      "delta": 7.989347536617973e-05,
+      "note": "WIDENED DAY 3: without it depth>=4 was a perfect F1-05 detector"
+    }
+  ],
+  "decline_rates": [
+    {
+      "feature": "decline_rate | card_present",
+      "realised": 0.030408921933085503,
+      "target": 0.028,
+      "delta": 0.0024089219330855026,
+      "note": "x1.09 the named rate  (n=53,800)"
+    },
+    {
+      "feature": "decline_rate | ecom",
+      "realised": 0.15253399258343633,
+      "target": 0.115,
+      "delta": 0.03753399258343633,
+      "note": "x1.33 the named rate  (n=44,495)"
+    },
+    {
+      "feature": "decline_rate | moto",
+      "realised": 0.3253536452665941,
+      "target": 0.14,
+      "delta": 0.1853536452665941,
+      "note": "x2.32 the named rate  (n=919)"
+    },
+    {
+      "feature": "decline_rate | recurring",
+      "realised": 0.12125066242713302,
+      "target": 0.095,
+      "delta": 0.026250662427133017,
+      "note": "x1.28 the named rate  (n=9,435)"
+    },
+    {
+      "feature": "decline_rate | upi_p2m",
+      "realised": 0.0494107918131073,
+      "target": 0.052,
+      "delta": -0.0025892081868926983,
+      "note": "x0.95 the named rate  (n=48,370)"
+    },
+    {
+      "feature": "decline_rate | upi_p2p",
+      "realised": 0.08804650599491341,
+      "target": 0.061,
+      "delta": 0.027046505994913414,
+      "note": "x1.44 the named rate  (n=8,257)"
+    },
+    {
+      "feature": "decline_rate | agentic",
+      "realised": 0.15809151402894972,
+      "target": 0.128,
+      "delta": 0.030091514028949717,
+      "note": "x1.24 the named rate  (n=29,154)"
+    }
+  ]
+}
