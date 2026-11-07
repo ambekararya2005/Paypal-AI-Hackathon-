@@ -1,0 +1,20 @@
+# Keep the build context small and the image reproducible. Everything the image
+# needs is COPYed explicitly in the Dockerfile.
+.git
+.github
+.pytest_cache
+.ruff_cache
+**/__pycache__
+**/*.pyc
+web/node_modules
+web/dist
+web/.vite
+tests
+scripts
+# The generated parquets are hundreds of megabytes and the API never opens one.
+data/generated/*.parquet
+data/generated/*.pkl
+# The Kaggle reference CSVs: half a gigabyte, and only the fidelity scorecard
+# reads them. They are not in the image and they are not in the repo.
+data/reference/*.csv
+data/reference/*.zip

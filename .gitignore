@@ -1,0 +1,87 @@
+# --- Python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- Node / Vite ----------------------------------------------------------
+node_modules/
+web/dist/
+web/.vite/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# --- Editors / OS ---------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- MANTIS data ----------------------------------------------------------
+# Generated populations are reproducible from a seed; do not commit them.
+data/generated/*
+!data/generated/.gitkeep
+
+# ...except the arena result. arena.json is the Day 5 gate artefact -- the evasion
+# curve and the zero-day comparison -- and it is committed for exactly the reason
+# the LLM cache is: a judge cloning this repo should be able to read the curve
+# without spending thirty-five minutes regenerating it. It is a few kilobytes of
+# JSON, it is reproducible from `python -m mantis.loop` with the default seed, and
+# RESULTS.md is rendered from it.
+!data/generated/arena.json
+
+# ...and the three small artefacts the live console and the submission document
+# are served from. Same reasoning as arena.json and as the LLM cache: HARD RULE 4
+# says the repo must run from a clean clone with no GPU and no network, and the
+# console is on the "never cut" list. A judge who clones this and runs
+# `make api` must get a working authorisation stream without first spending two
+# minutes fitting LightGBM.
+#
+# console_feed.json is ~1 MB of pre-scored authorisations and is the only one of
+# these that is not trivially small; it is committed anyway, because without it
+# the demo does not exist. Regenerate any of them with `make feed` / `make ood`.
+# The parquets above it stay ignored - they are 15-85 MB and reproducible.
+!data/generated/console_feed.json
+!data/generated/l3_ood.json
+!data/generated/population.manifest.json
+!data/generated/dataset_v1.manifest.json
+
+# The Day 7 fidelity scorecard. Committed for the same reason arena.json is:
+# it is the artefact a scored criterion is judged on, it is small, and a
+# clone should show it without a ninety-second refit.
+!data/generated/fidelity.json
+
+# The Day 7 latency measurement. Small, and RESULTS.md renders a section
+# from it, so a clone that has never run the 3-minute bench still shows the
+# number the document quotes.
+!data/generated/latency.json
+
+# The LLM cache IS committed on purpose. A judge cloning this repo will not
+# have Ollama running, so the cache is what makes `make demo` work offline.
+# See CLAUDE.md HARD RULE 3. Do not add data/cache/ here.
+
+# Model artefacts are rebuilt by the pipeline.
+*.joblib
+*.pkl
+*.lgb
+
+# Never commit credentials. The repo must not need any.
+.env
+*.pem
+kaggle.json
+
+# The Kaggle Sparkov reference CSVs (~500 MB). Pulled by
+# scripts/fetch_reference.py when a fidelity run needs them; never
+# committed, because HARD RULE 4 says a clean clone must not need them.
+data/reference/*.csv
+data/reference/*.zip
