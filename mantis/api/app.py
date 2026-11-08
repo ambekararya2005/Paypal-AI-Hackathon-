@@ -13,7 +13,17 @@ Endpoints
 ``GET  /fidelity``        the Day 7 scorecard, or ``available: false``
 ``POST /simulate``        register a replay, returns a ``run_id``
 ``GET  /stream/{run_id}`` SSE: scored authorisations, one frame at a time
+``POST /mandates``        PayPal gate: a human signs a mandate
+``POST /gate``            PayPal gate: score an agent's authorization, then
+                          capture / void / hold (see ``mantis/api/gate.py``)
+``GET  /gate/{order_id}`` PayPal gate: the record for one order
+``POST /gate/{id}/consent``  PayPal gate: a human resolves a held order
 ========================  =====================================================
+
+The ``/gate`` routes are the one place a model runs inside a request — scoring
+an authorization that did not exist a second ago is their whole job. They load
+the scorer lazily on first use, so every other route and the slim deploy image
+are unaffected.
 
 The one rule this service has
 -------------------------------
@@ -47,6 +57,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from sse_starlette.sse import EventSourceResponse
 
+from mantis.api.gate import router as gate_router
 from mantis.api.models import (
     ArenaResponse,
     AtlasCardDetail,
@@ -127,6 +138,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+app.include_router(gate_router)
 
 
 # ------------------------------------------------------------------- health --
