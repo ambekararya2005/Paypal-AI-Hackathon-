@@ -1,4 +1,4 @@
-.PHONY: help install lint fmt test atlas schema population figure dataset probe corpus features l0 firewall render loop arena derived drift slices reference fidelity latency ood feed api static web docx submission deploy gate demo clean
+.PHONY: help install lint fmt test atlas schema population figure dataset probe corpus features l0 firewall render loop arena derived drift slices reference fidelity latency ood feed api static web docx submission deploy gate demo gate-demo gate-live live-model clean
 
 PY ?= python
 
@@ -35,6 +35,9 @@ help:
 	@echo "  submission  ood + feed + docx + web: everything a judge is handed"
 	@echo "  gate     the daily acceptance gate"
 	@echo "  demo     THE acceptance test - must pass from a clean clone"
+	@echo "  gate-demo   PayPal authorization gate, 3 scenarios, MOCK mode (no keys)"
+	@echo "  gate-live   the same against the PayPal sandbox (keys in .env)"
+	@echo "  live-model  fit the gate's L1 + fusion from pool_5seed -> data/models/"
 
 install:
 	$(PY) -m pip install -e ".[dev]"
@@ -220,6 +223,18 @@ demo: schema atlas corpus population dataset features l0 test
 	@echo "                  'make loop' for the evasion curve and the zero-day"
 	@echo "                  comparison (~30 min)."
 	@echo "  Pending stages: fidelity scorecard, live console."
+
+# PayPal Hackathon Day 1: the authorization gate. gate-demo forces mock mode so it
+# passes from a clean clone with no keys whatever .env says (HARD RULE 4); it
+# exits non-zero if any scenario lands on a decision other than its declared one.
+gate-demo:
+	$(PY) -m mantis.paypal demo --mode mock
+
+gate-live:
+	$(PY) -m mantis.paypal demo --mode live
+
+live-model:
+	$(PY) scripts/train_live_model.py
 
 clean:
 	rm -rf .pytest_cache .ruff_cache build dist *.egg-info
