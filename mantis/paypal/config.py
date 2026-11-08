@@ -31,7 +31,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Final, Literal
 
-from mantis.core.paths import DATA_DIR, REPO_ROOT
+from mantis.core.env import ENV_FILE, read_env_file
+from mantis.core.paths import DATA_DIR
 
 __all__ = [
     "DEFAULT_MANDATE_KEY",
@@ -51,8 +52,6 @@ Mode = Literal["mock", "live"]
 
 #: The only PayPal host this package will talk to. See the module docstring.
 SANDBOX_BASE_URL: Final[str] = "https://api-m.sandbox.paypal.com"
-
-ENV_FILE: Final[Path] = REPO_ROOT / ".env"
 
 #: Recorded sandbox responses. COMMITTED: they are what mock mode replays.
 FIXTURE_DIR: Final[Path] = DATA_DIR / "fixtures" / "paypal"
@@ -77,29 +76,6 @@ DEFAULT_TEST_CARD: Final[str] = "4111111111111111"
 
 class ConfigError(RuntimeError):
     """The requested mode cannot run with what the environment provides."""
-
-
-def read_env_file(path: Path = ENV_FILE) -> dict[str, str]:
-    """Parse ``KEY=value`` lines. Missing file is not an error; values are not logged.
-
-    Blank lines and ``#`` comments are skipped, surrounding quotes stripped, and a
-    stray ``\\r`` from a Windows editor removed — the last one matters, because a
-    trailing carriage return in a client secret is a 401 that looks like a wrong
-    password.
-    """
-    if not path.exists():
-        return {}
-    out: dict[str, str] = {}
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip().rstrip("\r")
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, _, value = line.partition("=")
-        value = value.strip()
-        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
-            value = value[1:-1]
-        out[key.strip()] = value
-    return out
 
 
 @dataclass(frozen=True, slots=True)

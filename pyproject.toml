@@ -37,6 +37,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# The PayPal Hackathon Day 2 agent side: live LLM calls (FastRouter / OpenAI are
+# OpenAI-compatible) and the MCP proxy. Optional on purpose: mock mode replays
+# every agent, judge and compiler turn from data/cache/ without either package,
+# so a clean clone runs the demo with `pip install -e .` alone (HARD RULE 4).
+agent = [
+    "openai>=1.40",
+    "mcp>=1.2",
+]
 dev = [
     "pytest>=8.0",
     "ruff>=0.4",
