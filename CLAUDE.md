@@ -499,6 +499,109 @@ When time runs out — and it will — sacrifice in **this order**, top first:
   layer whose ordering transfers and whose calibration does not is still useful,
   provided nothing downstream consumes its threshold.**
 
+### PayPal Hackathon - Day 1 (2026-11-08) — the authorization gate
+
+Deadline 12 Nov 2026, 12:00 PT. **The gate:** an AI agent may only *authorize* a
+PayPal order (funds reserved, nothing moved); MANTIS scores it and is the only
+component that may *capture* (APPROVE) or *void* (DECLINE). CHALLENGE / REVIEW
+**hold** the authorization for human consent. Plain REST, not the PayPal Agent
+Toolkit: the Toolkit has no authorize intent and no void, so nothing sits between
+"the agent decided" and "the money moved" — that gap is the pitch.
+
+- **Nothing pinned moved.** `events.py`, RESULTS.md, `data/generated/` and
+  `data/cache/` are untouched; PayPal data maps *into* `TxEvent` via
+  `mantis/paypal/adapter.py` (`channel=agentic`, `txn_type=preauth`,
+  `settled=False`, scope reuses `MandateScope`, MCC from a merchant profile
+  because orders carry none). New code plus additive routes only.
+- **`mantis/paypal/`**: `config` (mock default; `live` — alias `sandbox` — is the
+  sandbox *by construction*, no production URL setting exists), `client`
+  (`PayPalClient` protocol, `LiveClient` over stdlib `urllib` with a cached OAuth
+  token and `PayPal-Request-Id` on every POST, `MockClient`, and **`AgentPayPal`,
+  the agent's handle, which has no capture/void/refund method at all**), `receipt`
+  (canonical JSON → sha256 → the order's `custom_id`; the gate reads the order
+  back from PayPal and voids on a mismatch), `gate` (the **only** caller of
+  capture/void, enforced by a test that reads the source tree), `vault`,
+  `scenarios`, `__main__`.
+- **`MockClient` is PayPal's state machine, not a canned success**: recorded
+  response templates with ids re-minted per call, and PayPal's own 422s
+  (`AUTHORIZATION_VOIDED`, `ORDER_ALREADY_AUTHORIZED`…) and idempotency honoured.
+  The six fixtures in `data/fixtures/paypal/` (committed) are currently
+  **authored** from the API reference and say so in `_recorded`; `python -m
+  mantis.paypal record` overwrites them from sandbox traffic, payer data scrubbed.
+- **`mantis/defense/live.py`** — `LiveScorer`, loaded once, scores one event:
+  L0 (the measured clause functions on a one-row frame), L3 (artefact-score
+  lookup, or one TF-IDF transform on forwarded page text, plus the phrases that
+  drove it), L1 + fusion if `data/models/live_l1.pkl` exists. `layers_ran` is
+  honest. **L3's hold line is derived, not tuned: above every benign page in the
+  corpus (0.334)**; L3 holds, never voids (its threshold does not transfer).
+- **API** (`mantis/api/gate.py`, mounted in `app.py`): `POST /mandates`,
+  `POST /gate`, `GET /gate/{order_id}`, `POST /gate/{order_id}/consent`. Heavy
+  imports are lazy, so `import mantis.api.site` still loads no pandas/sklearn —
+  now **tested** in a subprocess, which it was not before.
+- **`make gate-demo`** (forces mock, exits non-zero on any wrong decision),
+  `make gate-live`, `make live-model`. `.env.example` added; `.env` stays ignored.
+
+### PayPal Day 1 gate
+
+- `make gate-demo` (mock, no keys): **3/3** — A $32 groceries APPROVE → captured;
+  B $400 gift card DECLINE on `scope_mcc` + `scope_merchant` + `amount_over_cap` →
+  voided; C in-scope groceries whose agent read `injected_page-023` — a phrasing
+  **held out of L3's training** — scores 0.82, REVIEW → held → human denies →
+  voided. Scoring **3–7 ms** on L0 + L3, **~90–100 ms** with L1 loaded.
+- `scripts/train_live_model.py` → `data/models/live_l1.pkl` (gitignored, 5.4 MB,
+  63 s) on the **two-world pool**: L1 AUC-PR **0.6270**, recall@0.1%FPR **0.4626**;
+  fused(L1, L3) **0.6023 / 0.4583**, its own test window, *not* the pinned numbers.
+- 302 pre-existing tests + 23 in `tests/test_paypal_gate.py`, all passing; ruff clean.
+- **Live sandbox (`python -m mantis.paypal record`): 3/3, and PayPal agrees.**
+  Read back from the sandbox: A `11D16288GR2731339` authorization CAPTURED /
+  capture COMPLETED; B `8VN14029GU8608156` and C `40X06305UD7378908` authorization
+  VOIDED, nothing captured; every order's `custom_id` equals its receipt hash.
+  PayPal round trips 4.6–8.0 s per scenario on the sandbox, against 59–80 ms of
+  MANTIS scoring with L1 loaded.
+- The recording pass rewrote four fixtures from that traffic (`create_order`,
+  `get_order`, `capture_authorization`, `void_authorization`, payer email and
+  merchant id scrubbed); `authorize_order` and `refund_capture` are still authored,
+  because card orders authorize inside create and the demo never refunds. Mock
+  mode replays the recordings at 3/3.
+
+### PayPal Day 1 findings
+
+- **Payer approval: the sandbox *region* decided it, not the code.** The first
+  sandbox app sat on the developer's default **India** business account: cards
+  returned `422 PAYEE_NOT_ENABLED_FOR_CARD_PROCESSING`, and the Vault approval
+  page failed twice — once `CANNOT_PAY_SELF` (base64 in the error URL; logged in
+  as the business account), then a bare `DEFAULT` with the personal account,
+  setup tokens left at `PAYER_ACTION_REQUIRED`. PayPal India does not support
+  domestic PayPal-to-PayPal payments. A new app on a **US** sandbox business
+  account processed the card path headlessly at once, and that is what the live
+  run used. **Use US sandbox accounts.** Vault (human approves once at mandate
+  creation, agent orders carry `payment_source.paypal.vault_id`) is implemented
+  and is the better design — `vault-setup` / `vault-finish` — but it has not yet
+  been approved end-to-end on the US app; `--source auto` uses it as soon as
+  `data/receipts/paypal_vault.json` holds an active token.
+- **The supervised layer tried to veto the label-free one, and lost.** With
+  `live_l1.pkl` loaded, scenario C was **captured**: L3 scored the injected page
+  0.82, but the fused score was 0.061 against a 0.862 review line, because the
+  fusion weights learned on the synthetic pool put a *negative* coefficient on
+  L3's percentile (the Day 7 finding). The live policy is now "L0 and L3 decide,
+  L1 + fusion may **escalate** via `escalate()`, never lower" — the same rule that
+  lets L0 outrank every score. `test_supervised_layer_cannot_veto_l3` pins it.
+- **L1 on a PayPal order is cold-start and off-distribution, and says so.** It
+  was trained on rupee amounts and customers with history; a sandbox order is a
+  dollar amount from a stranger. Its reason line prints the percentile against
+  legitimate training traffic and "cold start". The gate's own recent events are
+  passed as velocity/graph history, so a replayed mandate through the gate does
+  register. The ~90 ms is the Day 7 entity-block cost on a one-row frame; the
+  dict-lookup rewrite is still outstanding.
+- **Five-world training OOMs on the 15 GB laptop** (1.69 GiB single allocation
+  for the 1.01M × 224 matrix), so `live_l1` trains on the two-world pool by
+  default. `--pool` takes the five-world file on a bigger machine.
+- **Environment, both fixed:** pip resolved **pandas 3.0.5**, whose default
+  datetime resolution mis-reads the foundry's epoch integers (events land in
+  January 1970) and failed `test_f1_10`; `pyproject.toml` now pins
+  `pandas>=2.2,<3`. And `tests/test_schema.py` line 1 had a `git commit -m …`
+  pasted into it by a crash (SyntaxError); restored from the original.
+
 ### Day 5 findings
 
 - **The bindings bug that would have cost L3 four fifths of its recall.**
