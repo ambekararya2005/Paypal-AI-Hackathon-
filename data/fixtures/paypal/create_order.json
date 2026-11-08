@@ -1,0 +1,179 @@
+{
+  "_recorded": {
+    "at": "2026-11-08T15:07:33Z",
+    "op": "create_order",
+    "source": "paypal sandbox"
+  },
+  "create_time": "2026-11-08T15:07:31Z",
+  "id": "{{order_id}}",
+  "intent": "AUTHORIZE",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/checkout/orders/{{order_id}}",
+      "method": "GET",
+      "rel": "self"
+    }
+  ],
+  "payment_source": {
+    "card": {
+      "bin_details": {},
+      "brand": "VISA",
+      "expiry": "2030-12",
+      "last_digits": "1111",
+      "name": "MANTIS Sandbox Buyer",
+      "type": "UNKNOWN"
+    }
+  },
+  "purchase_units": [
+    {
+      "amount": {
+        "breakdown": {
+          "handling": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "insurance": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "item_total": {
+            "currency_code": "USD",
+            "value": "28.40"
+          },
+          "shipping": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "shipping_discount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "currency_code": "USD",
+        "value": "28.40"
+      },
+      "custom_id": "a98df1f55e63f6decfefca631816ca98d31da6a86186dc1281365c543d097136",
+      "description": "Weekly groceries",
+      "items": [
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Pasta 500g",
+          "quantity": "2",
+          "sku": "FM-PAST-500",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "2.20"
+          }
+        },
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Tomato passata",
+          "quantity": "1",
+          "sku": "FM-PASS-700",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "3.00"
+          }
+        },
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Parmesan 200g",
+          "quantity": "1",
+          "sku": "FM-PARM-200",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "9.00"
+          }
+        },
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Olive oil 500ml",
+          "quantity": "1",
+          "sku": "FM-OIL-500",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "12.00"
+          }
+        }
+      ],
+      "payee": {
+        "email_address": "<scrubbed>",
+        "merchant_id": "<scrubbed>"
+      },
+      "payments": {
+        "authorizations": [
+          {
+            "amount": {
+              "currency_code": "USD",
+              "value": "28.40"
+            },
+            "create_time": "2026-11-08T15:07:31Z",
+            "custom_id": "a98df1f55e63f6decfefca631816ca98d31da6a86186dc1281365c543d097136",
+            "expiration_time": "2026-12-07T15:07:31Z",
+            "id": "{{authorization_id}}",
+            "links": [
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}",
+                "method": "GET",
+                "rel": "self"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}/capture",
+                "method": "POST",
+                "rel": "capture"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}/void",
+                "method": "POST",
+                "rel": "void"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}/reauthorize",
+                "method": "POST",
+                "rel": "reauthorize"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/checkout/orders/{{order_id}}",
+                "method": "GET",
+                "rel": "up"
+              }
+            ],
+            "network_transaction_reference": {
+              "id": "519176163988377",
+              "network": "VISA"
+            },
+            "processor_response": {
+              "cvv_code": "M",
+              "response_code": "0000"
+            },
+            "seller_protection": {
+              "status": "NOT_ELIGIBLE"
+            },
+            "status": "CREATED",
+            "update_time": "2026-11-08T15:07:31Z"
+          }
+        ]
+      },
+      "reference_id": "m-freshmart",
+      "soft_descriptor": "TEST STORE"
+    }
+  ],
+  "status": "COMPLETED",
+  "update_time": "2026-11-08T15:07:31Z"
+}

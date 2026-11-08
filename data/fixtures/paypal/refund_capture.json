@@ -1,0 +1,27 @@
+{
+  "_recorded": {
+    "at": "2026-11-08T00:00:00Z",
+    "op": "refund_capture",
+    "source": "authored from the PayPal Orders v2 / Payments v2 API reference; overwrite with 'python -m mantis.paypal record' against the sandbox"
+  },
+  "amount": {
+    "currency_code": "USD",
+    "value": "0.00"
+  },
+  "create_time": "2026-11-08T00:00:00Z",
+  "id": "{{refund_id}}",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/refunds/{{refund_id}}",
+      "method": "GET",
+      "rel": "self"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/captures/{{capture_id}}",
+      "method": "GET",
+      "rel": "up"
+    }
+  ],
+  "status": "COMPLETED",
+  "update_time": "2026-11-08T00:00:00Z"
+}

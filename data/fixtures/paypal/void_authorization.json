@@ -1,0 +1,26 @@
+{
+  "_recorded": {
+    "at": "2026-11-08T15:07:36Z",
+    "op": "void_authorization",
+    "source": "paypal sandbox"
+  },
+  "amount": {
+    "currency_code": "USD",
+    "value": "28.40"
+  },
+  "create_time": "2026-11-08T07:07:31-08:00",
+  "expiration_time": "2026-12-07T07:07:31-08:00",
+  "id": "{{authorization_id}}",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}",
+      "method": "GET",
+      "rel": "self"
+    }
+  ],
+  "seller_protection": {
+    "status": "NOT_ELIGIBLE"
+  },
+  "status": "VOIDED",
+  "update_time": "2026-11-08T07:07:35-08:00"
+}

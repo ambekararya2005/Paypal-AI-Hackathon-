@@ -16,7 +16,10 @@ dependencies = [
     "pydantic>=2.7",
     "pyyaml>=6.0",
     "numpy>=1.26",
-    "pandas>=2.2",
+    # <3: pandas 3 changed the default datetime resolution, which silently
+    # mis-reads the foundry's epoch integers (events land in January 1970) and
+    # fails test_f1_10. Every pinned number in RESULTS.md was produced on 2.x.
+    "pandas>=2.2,<3",
     # Parquet is the population interchange format between foundry and defense.
     "pyarrow>=15.0",
     # Calibration + fidelity figures. Imported lazily and guarded: a clone

@@ -1,0 +1,56 @@
+{
+  "_recorded": {
+    "at": "2026-11-08T15:07:22Z",
+    "op": "capture_authorization",
+    "source": "paypal sandbox"
+  },
+  "amount": {
+    "currency_code": "USD",
+    "value": "32.00"
+  },
+  "create_time": "2026-11-08T15:07:21Z",
+  "custom_id": "0a45a5744a84f64f2421997689f56824a4c61b386b0249fcbadeb4eaa3aa9b74",
+  "final_capture": true,
+  "id": "{{capture_id}}",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/captures/{{capture_id}}",
+      "method": "GET",
+      "rel": "self"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/captures/{{capture_id}}/refund",
+      "method": "POST",
+      "rel": "refund"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}",
+      "method": "GET",
+      "rel": "up"
+    }
+  ],
+  "network_transaction_reference": {
+    "id": "465170119767982",
+    "network": "VISA"
+  },
+  "seller_protection": {
+    "status": "NOT_ELIGIBLE"
+  },
+  "seller_receivable_breakdown": {
+    "exchange_rate": {},
+    "gross_amount": {
+      "currency_code": "USD",
+      "value": "32.00"
+    },
+    "net_amount": {
+      "currency_code": "USD",
+      "value": "30.68"
+    },
+    "paypal_fee": {
+      "currency_code": "USD",
+      "value": "1.32"
+    }
+  },
+  "status": "COMPLETED",
+  "update_time": "2026-11-08T15:07:21Z"
+}

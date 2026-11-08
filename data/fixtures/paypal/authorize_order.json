@@ -1,0 +1,87 @@
+{
+  "_recorded": {
+    "at": "2026-11-08T00:00:00Z",
+    "op": "authorize_order",
+    "source": "authored from the PayPal Orders v2 / Payments v2 API reference; overwrite with 'python -m mantis.paypal record' against the sandbox"
+  },
+  "create_time": "2026-11-08T00:00:00Z",
+  "id": "{{order_id}}",
+  "intent": "AUTHORIZE",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/checkout/orders/{{order_id}}",
+      "method": "GET",
+      "rel": "self"
+    }
+  ],
+  "payment_source": {
+    "card": {
+      "brand": "VISA",
+      "expiry": "2030-12",
+      "last_digits": "1111",
+      "name": "MANTIS Sandbox Buyer",
+      "type": "CREDIT"
+    }
+  },
+  "purchase_units": [
+    {
+      "amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      },
+      "payee": {
+        "email_address": "<scrubbed>",
+        "merchant_id": "<scrubbed>"
+      },
+      "payments": {
+        "authorizations": [
+          {
+            "amount": {
+              "currency_code": "USD",
+              "value": "0.00"
+            },
+            "create_time": "2026-11-08T00:00:00Z",
+            "custom_id": "",
+            "expiration_time": "2026-11-08T00:00:00Z",
+            "id": "{{authorization_id}}",
+            "links": [
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}",
+                "method": "GET",
+                "rel": "self"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}/capture",
+                "method": "POST",
+                "rel": "capture"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/{{authorization_id}}/void",
+                "method": "POST",
+                "rel": "void"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/checkout/orders/{{order_id}}",
+                "method": "GET",
+                "rel": "up"
+              }
+            ],
+            "processor_response": {
+              "avs_code": "A",
+              "cvv_code": "M",
+              "response_code": "0000"
+            },
+            "seller_protection": {
+              "status": "NOT_ELIGIBLE"
+            },
+            "status": "CREATED",
+            "update_time": "2026-11-08T00:00:00Z"
+          }
+        ]
+      },
+      "reference_id": "default"
+    }
+  ],
+  "status": "COMPLETED",
+  "update_time": "2026-11-08T00:00:00Z"
+}

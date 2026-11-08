@@ -75,6 +75,13 @@ data/generated/*
 *.pkl
 *.lgb
 
+# PayPal gate (hackathon Day 1). Receipts carry real sandbox order ids and are
+# per-run; the live L1 artefact is rebuilt from the pool by
+# scripts/train_live_model.py. data/fixtures/paypal/ IS committed: it is what
+# lets MockClient run from a clean clone with no keys (HARD RULE 4).
+data/receipts/
+data/models/
+
 # Never commit credentials. The repo must not need any.
 .env
 *.pem
