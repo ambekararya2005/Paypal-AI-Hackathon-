@@ -145,7 +145,19 @@ def test_held_order_captures_when_the_human_approves(gate: PaymentGate) -> None:
     assert exc.value.status == 409
 
 
-def test_every_scenario_matches_its_declaration(gate: PaymentGate) -> None:
+def test_every_scenario_matches_its_declaration(tmp_path: Path, scorer: LiveScorer) -> None:
+    """The declarations describe the shipped configuration: L0 + L3 + the judge.
+
+    The judge here is the real one in mock mode, replaying its committed verdict;
+    without a judge, C holds instead (``test_scenario_c_l3_holds_then_human_denies``).
+    """
+    import copy
+
+    from mantis.defense.l3_judge import InjectionJudge
+
+    judged = copy.copy(scorer)
+    judged.judge = InjectionJudge("mock")
+    gate = PaymentGate(_config(tmp_path), scorer=judged)
     for scenario in SCENARIOS:
         assert _run(gate, scenario.key).decision == scenario.expect_decision, scenario.key
 
@@ -168,9 +180,9 @@ def test_supervised_layer_cannot_veto_l3(tmp_path: Path, scorer: LiveScorer) -> 
     """Measured regression: fused weights from the synthetic pool scored scenario C
     at 0.061 against a 0.862 review line, which would have captured an order whose
     agent read an injected page. L1 may escalate; it may not lower."""
-    scorer_with_l1 = LiveScorer.__new__(LiveScorer)
-    for slot in ("seed", "l3", "l3_hold_at", "_terms", "_coef"):
-        setattr(scorer_with_l1, slot, getattr(scorer, slot))
+    import copy
+
+    scorer_with_l1 = copy.copy(scorer)
     scorer_with_l1.l1 = _ConfidentL1()
     gate = PaymentGate(_config(tmp_path), scorer=scorer_with_l1)
     record = _run(gate, "C")
