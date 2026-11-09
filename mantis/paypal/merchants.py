@@ -49,6 +49,9 @@ MERCHANTS: Final[dict[str, Merchant]] = {
     for m in (
         Merchant("m-freshmart", "FreshMart Groceries", "5411", "US", "shop.freshmart.test"),
         Merchant("m-giftly", "Giftly Gift Cards", "6540", "US", "shop.giftly.test"),
+        # Day 2 demo store (mantis/agent/store.py).
+        Merchant("m-greenleaf", "GreenLeaf Market", "5411", "US", "shop.greenleaf.test"),
+        Merchant("m-gifthub", "GiftHub", "6540", "US", "shop.gifthub.test"),
     )
 }
 

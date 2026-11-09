@@ -33,12 +33,14 @@ its idempotency cache instead of creating a second order or a second capture.
 from __future__ import annotations
 
 import json
+import threading
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any, Final
 
+from mantis.defense.l3_judge import InjectionJudge
 from mantis.defense.live import LiveScorer, Reason
 from mantis.defense.policy.decide import Decision
 from mantis.paypal.adapter import WALLET_BIN, order_amount, order_body, to_tx_event
@@ -95,8 +97,16 @@ class GateRecord:
     payment_source: str
     capture_id: str | None = None
     paypal_ms: float = 0.0
+    #: Wall-clock of the LLM judge, reported apart from ``latency_ms``.
+    judge_ms: float = 0.0
     consent: dict[str, Any] | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
+    #: The basket, for the consent page.
+    items: list[dict[str, Any]] = field(default_factory=list)
+    #: Every reason, not only the top three.
+    all_reasons: list[dict[str, str]] = field(default_factory=list)
+    #: Per page read: coverage, L3 score or abstention, judge verdict and quote.
+    evidence: list[dict[str, Any]] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -110,11 +120,16 @@ class PaymentGate:
                  payment_source: PaymentSource = "auto", record: bool = False) -> None:
         self.config = config or load_config()
         self._client: PayPalClient = client or make_client(self.config, record=record)
-        self.scorer = scorer or LiveScorer()
+        self.scorer = scorer or LiveScorer(judge=_default_judge(self.config.mode))
         self.payment_source = payment_source
         self.mandates: dict[str, Mandate] = {}
         self.records: dict[str, GateRecord] = {}
         self._receipts: dict[str, dict[str, Any]] = {}
+        #: order id -> (mandate id, amount): money captured or held against a
+        #: mandate's budget. Keyed by order id, so a resubmitted order — same
+        #: receipt, same PayPal-Request-Id, same order id — is counted once.
+        self._committed: dict[str, tuple[str, Decimal]] = {}
+        self._budget_lock = threading.Lock()
 
     @property
     def mode(self) -> str:
@@ -212,14 +227,18 @@ class PaymentGate:
             violations.append(Reason("gate", "amount_mismatch",
                                      f"PayPal holds {amount:.2f} {currency}, the agent declared "
                                      f"{intent.total:.2f} {intent.currency}"))
+        budget = self._reserve_budget(mandate, order["id"], Decimal(f"{amount:.2f}"))
+        if budget is not None:
+            violations.append(budget)
 
-        # 3. score.
+        # 3. score. PayPal time is measured around the PayPal calls, not by
+        # subtraction, so a replayed judge latency can never make it negative.
+        paypal_ms = (time.perf_counter() - paypal_started) * 1000.0
         event = to_tx_event(held, mandate, context, merchant,
                             mandate_key=self.config.mandate_key, now=now, card_bin=card_bin)
         texts = dict(page_texts or {})
         texts.update({p.url: p.text for p in context.pages if p.text})
         result = self.scorer.score(event, page_texts=texts or None, gate_violations=violations)
-        paypal_ms = (time.perf_counter() - paypal_started) * 1000.0 - result.latency_ms
 
         record = GateRecord(
             order_id=order["id"],
@@ -236,6 +255,11 @@ class PaymentGate:
             amount=f"{amount:.2f}",
             currency=currency,
             payment_source=kind,
+            judge_ms=round(result.judge_ms, 1),
+            items=[{"name": i.name, "sku": i.sku, "quantity": i.quantity,
+                    "unit_amount": f"{i.unit_amount:.2f}"} for i in intent.items],
+            all_reasons=[r.as_dict() for r in result.all_reasons],
+            evidence=result.evidence,
         )
         self.records[record.order_id] = record
         self._receipts[record.order_id] = receipt
@@ -296,6 +320,35 @@ class PaymentGate:
         record.status = "voided"
         record.history.append({"at": _iso(), "action": "void",
                                "paypal_status": out.get("status")})
+        with self._budget_lock:
+            self._committed.pop(record.order_id, None)  # a voided hold frees its budget
+
+    def _reserve_budget(self, mandate: Mandate, order_id: str, amount: Decimal) -> Reason | None:
+        """The gate-level live clause ``budget_exceeded``.
+
+        Counts every order **captured or currently held** under the mandate, not
+        only captured ones, and reserves this order's amount in the same critical
+        section — so two orders scored in parallel cannot both read the same
+        headroom and both slip under the budget. Idempotent on the order id.
+        A breach reserves nothing (the order will be voided).
+        """
+        if mandate.budget_total is None:
+            return None
+        with self._budget_lock:
+            committed = sum(
+                (a for oid, (mid, a) in self._committed.items()
+                 if mid == mandate.mandate_id and oid != order_id),
+                Decimal("0.00"),
+            )
+            if committed + amount > mandate.budget_total:
+                return Reason(
+                    "gate", "budget_exceeded",
+                    f"mandate budget ${mandate.budget_total:.2f}: ${committed:.2f} already "
+                    f"captured or held + ${amount:.2f} this order "
+                    f"(gate-level live clause, not one of the 9 L0 clauses)",
+                )
+            self._committed[order_id] = (mandate.mandate_id, amount)
+        return None
 
     def _persist(self, record: GateRecord) -> None:
         """The decision next to its receipt, for the audit trail. Gitignored."""
@@ -304,6 +357,11 @@ class PaymentGate:
         (directory / f"{record.receipt_hash}.gate.json").write_text(
             json.dumps(record.as_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
+
+
+def _default_judge(mode: str) -> InjectionJudge | None:
+    """The LLM judge in the gate's own mode: cached verdicts in mock, live in live."""
+    return InjectionJudge("live" if mode == "live" else "mock")
 
 
 def _iso() -> str:

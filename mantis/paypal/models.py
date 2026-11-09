@@ -70,6 +70,12 @@ class MandateRequest(BaseModel):
     description: str = ""
     #: PayPal Vault payment token the human approved once, if Vault is used.
     vault_id: str | None = None
+    #: Total spend this mandate allows across all its orders ("$150 total").
+    #: ``MandateScope`` has a per-order ceiling and no budget, and ``events.py`` is
+    #: frozen, so the budget lives here and is enforced by the gate as a
+    #: **gate-level live clause** (``budget_exceeded``) — never one of the nine
+    #: offline L0 clauses, never in a RESULTS.md number. Signed with the rest.
+    budget_total: Decimal | None = Field(default=None, gt=0)
 
 
 class Mandate(MandateRequest):
