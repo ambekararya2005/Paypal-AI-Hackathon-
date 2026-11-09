@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mantis-paypal-gate": {
+      "command": "C:\\Python314\\python.exe",
+      "args": ["-m", "mantis.paypal.mcp_proxy"],
+      "env": {
+        "MANTIS_PAYPAL_MODE": "mock",
+        "MANTIS_STORE_VARIANT": "poisoned",
+        "MANTIS_CONSENT_PORT": "8765",
+        "PYTHONIOENCODING": "utf-8"
+      }
+    }
+  }
+}

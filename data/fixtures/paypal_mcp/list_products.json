@@ -1,0 +1,20 @@
+{
+  "arguments": {
+    "page_size": 10
+  },
+  "recorded": "2026-11-09T03:44:54+00:00",
+  "response": {
+    "links": [
+      {
+        "href": "https://api.sandbox.paypal.com/v1/catalogs/products?page_size=10&page=1",
+        "method": "GET",
+        "rel": "self"
+      }
+    ],
+    "products": [],
+    "total_items": 0,
+    "total_pages": 1
+  },
+  "source": "https://mcp.sandbox.paypal.com/sse",
+  "tool": "list_products"
+}

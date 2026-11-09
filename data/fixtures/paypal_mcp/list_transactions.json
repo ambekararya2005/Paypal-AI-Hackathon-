@@ -1,0 +1,14 @@
+{
+  "arguments": {
+    "page_size": 10
+  },
+  "recorded": "2026-11-09T03:44:49+00:00",
+  "response": {
+    "code": "PAYPAL_API_HTTP_ERROR",
+    "message": "Authorization failed due to insufficient permissions.: Authorization failed due to insufficient permissions.",
+    "ok": false,
+    "status": 403
+  },
+  "source": "https://mcp.sandbox.paypal.com/sse",
+  "tool": "list_transactions"
+}

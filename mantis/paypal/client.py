@@ -206,6 +206,10 @@ class LiveClient:
 
     # -- transport ------------------------------------------------------------ #
 
+    def access_token(self) -> str:
+        """A cached OAuth token, e.g. for PayPal's hosted MCP server."""
+        return self._access_token()
+
     def _access_token(self) -> str:
         if self._token and time.monotonic() < self._token_expiry:
             return self._token

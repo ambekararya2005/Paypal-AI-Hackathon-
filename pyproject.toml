@@ -43,7 +43,8 @@ dependencies = [
 # so a clean clone runs the demo with `pip install -e .` alone (HARD RULE 4).
 agent = [
     "openai>=1.40",
-    "mcp>=1.2",
+    # 2.x: FastMCP was renamed MCPServer; mantis/paypal/mcp_proxy.py targets 2.x.
+    "mcp>=2.3,<3",
 ]
 dev = [
     "pytest>=8.0",
