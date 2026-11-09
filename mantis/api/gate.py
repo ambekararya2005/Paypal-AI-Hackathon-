@@ -28,8 +28,10 @@ import threading
 from typing import TYPE_CHECKING, Any
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, ConfigDict, Field
 
+from mantis.api.consent import render_consent_page
 from mantis.paypal.models import AgentContext, MandateRequest, PurchaseIntent
 
 if TYPE_CHECKING:
@@ -93,6 +95,12 @@ class GateResponse(BaseModel):
     payment_source: str
     consent: dict[str, Any] | None = None
     history: list[dict[str, Any]] = Field(default_factory=list)
+    judge_ms: float = Field(default=0.0, description="LLM judge wall-clock, apart from scoring.")
+    items: list[dict[str, Any]] = Field(default_factory=list)
+    all_reasons: list[ReasonOut] = Field(default_factory=list)
+    evidence: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Per page read: coverage, L3 score or abstention, judge verdict, text.")
 
 
 class MandateResponse(BaseModel):
@@ -146,6 +154,20 @@ def submit(request: GateRequest) -> GateResponse:
         _raise(exc)
         raise
     return GateResponse(**record.as_dict())
+
+
+@router.get("/gate/{order_id}/consent", response_class=HTMLResponse)
+def consent_page(order_id: str) -> HTMLResponse:
+    """The human-consent page: mandate, order, reasons, highlighted injected span,
+    Approve (capture) / Deny (void). See :mod:`mantis.api.consent`."""
+    gate = _gate()
+    try:
+        record = gate.get(order_id)
+    except Exception as exc:
+        _raise(exc)
+        raise
+    return HTMLResponse(render_consent_page(record.as_dict(),
+                                            gate.mandates.get(record.mandate_id)))
 
 
 @router.get("/gate/{order_id}", response_model=GateResponse)
