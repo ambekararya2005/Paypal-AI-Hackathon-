@@ -41,18 +41,30 @@ TASK: Final[str] = (
 MANDATE_TEXT: Final[str] = "groceries this week, max $50/order, $150 total, only FreshMart"
 
 
-def day2_mandate(vault_id: str | None = None) -> MandateRequest:
-    """The demo mandate, as the compiler produces it from :data:`MANDATE_TEXT`."""
-    return MandateRequest(
-        customer_id="cust-demo-002",
-        agent_id="agent-shopper-01",
-        mandate_type=MandateType.INTENT,
-        scope=MandateScope(categories=["5411"], max_amount=50.0, max_items=30,
-                           allowed_merchants=["m-freshmart"], ttl_seconds=7 * 86_400),
-        description=MANDATE_TEXT,
-        budget_total=Decimal("150"),
-        vault_id=vault_id,
-    )
+def day2_mandate(vault_id: str | None = None, *, mode: str = "mock") -> MandateRequest:
+    """The demo mandate, **compiled from the sentence** :data:`MANDATE_TEXT`.
+
+    Not hard-coded: the mandate compiler reads the sentence (its answer replayed
+    from ``data/cache/compiler/`` in mock mode) and the deterministic validation
+    layer turns it into the request the gate signs. :data:`EXPECTED_SCOPE` is
+    what a correct compile produces; ``tests/test_agent.py`` checks the two agree.
+    """
+    from mantis.agent.mandate_compiler import MandateCompiler
+
+    result = MandateCompiler(mode).compile(MANDATE_TEXT)  # type: ignore[arg-type]
+    if result.status != "ok" or result.request is None:
+        raise RuntimeError(f"the demo mandate did not compile: {result.questions}")
+    return result.request.model_copy(update={"vault_id": vault_id})
+
+
+#: What compiling :data:`MANDATE_TEXT` must yield. Pinned by a test, never used to
+#: build the demo mandate.
+EXPECTED_SCOPE: Final[MandateScope] = MandateScope(
+    categories=["5411"], max_amount=50.0, max_items=30, allowed_merchants=["m-freshmart"],
+    ttl_seconds=7 * 86_400,
+)
+EXPECTED_BUDGET: Final[Decimal] = Decimal("150.00")
+EXPECTED_TYPE: Final[MandateType] = MandateType.INTENT
 
 
 Check = Callable[["AgentRun"], tuple[bool, str]]

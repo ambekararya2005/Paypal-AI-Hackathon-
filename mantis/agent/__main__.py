@@ -20,7 +20,7 @@ import sys
 import time
 from typing import Any
 
-from mantis.agent.scenarios import AGENT_SCENARIOS, TASK, day2_mandate
+from mantis.agent.scenarios import AGENT_SCENARIOS, TASK
 
 _RULE = "-" * 120
 
@@ -60,6 +60,15 @@ def run_demo(args: argparse.Namespace) -> int:
           + ("  ** SIMULATED COMPROMISED AGENT **" if args.agent_profile == "naive" else ""))
     print(f"  gate loaded in {time.perf_counter() - started:.1f}s; L3 abstains below vocabulary "
           f"coverage {gate.scorer.l3_min_coverage:.2f}; L1 pinned off for replay")
+    from mantis.agent.mandate_compiler import MandateCompiler
+    from mantis.agent.scenarios import MANDATE_TEXT
+
+    compiled = MandateCompiler(llm_mode).compile(MANDATE_TEXT)  # type: ignore[arg-type]
+    print(f'  mandate, compiled from the sentence "{MANDATE_TEXT}"  [{compiled.source}]')
+    for line in compiled.summary().splitlines():
+        print(f"    {line}")
+    if compiled.status != "ok":
+        return 2
     print(f"  task: {TASK}")
     print(_RULE)
     print(f"{'':1}{'sc':<3}{'agent final action':<34}{'decision':<9}{'layers_ran':<22}"
@@ -71,7 +80,8 @@ def run_demo(args: argparse.Namespace) -> int:
     for scenario in AGENT_SCENARIOS:
         if wanted and scenario.key not in wanted:
             continue
-        mandate = gate.create_mandate(day2_mandate(vault_id=gate.vault_id()))
+        mandate = gate.create_mandate(
+            compiled.request.model_copy(update={"vault_id": gate.vault_id()}))
         settings = None
         chat = LlmChat("agent", mode=llm_mode, refresh=args.refresh, settings=settings)
         if args.agent_model:

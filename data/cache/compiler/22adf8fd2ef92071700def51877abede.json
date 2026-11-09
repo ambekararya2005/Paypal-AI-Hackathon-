@@ -1,0 +1,108 @@
+{
+  "key": "22adf8fd2ef92071700def51877abede",
+  "latency_ms": 3103.1,
+  "model": "anthropic/claude-sonnet-4.6",
+  "provider": "fastrouter",
+  "recorded": "2026-11-09T03:47:36+00:00",
+  "request": {
+    "messages": [
+      {
+        "content": "You turn a person's instruction to their shopping agent into a payment mandate. Categories you may use: gift_cards, groceries. Stores you may use: FreshMart, GiftHub, GreenLeaf Market. Fill only what the person actually said. 'this week' is 7 days, 'today' is 1, 'this month' is 30. Amounts are US dollars. 'max $X per order' is max_per_order; '$Y total' or 'up to $Y overall' is budget_total. merchants is empty if they did not restrict stores. If the instruction is ambiguous, names a store or category not in the lists, or leaves out how much one order may cost, set status to needs_clarification and ask short questions. Never invent a limit the person did not give. Reply with JSON only.",
+        "role": "system"
+      },
+      {
+        "content": "get groceries at Costco this week, max $40 an order",
+        "role": "user"
+      }
+    ],
+    "params": {
+      "max_tokens": 500,
+      "seed": 1337,
+      "temperature": 0
+    },
+    "response_format": {
+      "json_schema": {
+        "name": "mandate",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "budget_total": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "categories": {
+              "items": {
+                "enum": [
+                  "gift_cards",
+                  "groceries"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "duration_days": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "max_per_order": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "merchants": {
+              "items": {
+                "enum": [
+                  "FreshMart",
+                  "GiftHub",
+                  "GreenLeaf Market"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "questions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "status": {
+              "enum": [
+                "ok",
+                "needs_clarification"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "questions",
+            "categories",
+            "merchants",
+            "max_per_order",
+            "budget_total",
+            "duration_days"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "tools": []
+  },
+  "response": {
+    "content": "```json\n{\n  \"status\": \"needs_clarification\",\n  \"questions\": [\n    \"Costco is not an available merchant. Would you like to shop at FreshMart or GreenLeaf Market instead?\"\n  ],\n  \"categories\": [\"groceries\"],\n  \"merchants\": [],\n  \"max_per_order\": 40,\n  \"budget_total\": null,\n  \"duration_days\": 7\n}\n```",
+    "finish_reason": "stop",
+    "tool_calls": []
+  },
+  "usage": {
+    "completion_tokens": 106,
+    "prompt_tokens": 596
+  }
+}

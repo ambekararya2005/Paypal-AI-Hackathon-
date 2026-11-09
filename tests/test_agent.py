@@ -292,3 +292,45 @@ def test_consent_page_escapes_attacker_text_and_highlights_the_span() -> None:
 def test_highlight_never_invents_a_span() -> None:
     assert "<mark>" not in highlight("plain text", "not there")
     assert highlight("a <b> c", "") == "a &lt;b&gt; c"
+
+
+# --------------------------------------------------------------------------- #
+# The mandate compiler
+# --------------------------------------------------------------------------- #
+
+
+def test_demo_mandate_is_compiled_from_the_sentence() -> None:
+    from mantis.agent.scenarios import EXPECTED_BUDGET, EXPECTED_SCOPE, EXPECTED_TYPE, MANDATE_TEXT
+
+    request = day2_mandate()
+    assert request.description == MANDATE_TEXT
+    assert request.scope == EXPECTED_SCOPE
+    assert request.budget_total == EXPECTED_BUDGET and request.mandate_type == EXPECTED_TYPE
+
+
+@pytest.mark.parametrize("sentence", ["buy stuff for the party",
+                                      "get groceries at Costco this week, max $40 an order"])
+def test_compiler_asks_instead_of_guessing(sentence: str) -> None:
+    from mantis.agent.mandate_compiler import MandateCompiler
+
+    result = MandateCompiler("mock").compile(sentence)
+    assert result.status == "needs_clarification" and result.request is None
+    assert result.questions
+
+
+@pytest.mark.parametrize(("raw", "why"), [
+    ({"status": "ok", "questions": [], "categories": ["groceries"], "merchants": [],
+      "max_per_order": None, "budget_total": None, "duration_days": 7}, "single order"),
+    ({"status": "ok", "questions": [], "categories": ["groceries"], "merchants": [],
+      "max_per_order": 50, "budget_total": 20, "duration_days": 7}, "less than one order"),
+    ({"status": "ok", "questions": [], "categories": [], "merchants": [],
+      "max_per_order": 50, "budget_total": None, "duration_days": 7}, "What may the agent buy"),
+])
+def test_validation_overrules_a_model_that_says_ok(raw: dict[str, Any], why: str) -> None:
+    import json
+
+    from mantis.agent.mandate_compiler import MandateCompiler
+
+    result = MandateCompiler(chat=_StubChat(json.dumps(raw))).compile("x")  # type: ignore[arg-type]
+    assert result.status == "needs_clarification" and result.request is None
+    assert any(why in q for q in result.questions), result.questions
