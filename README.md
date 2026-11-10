@@ -12,7 +12,7 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-React-0B1F3A?style=for-the-badge&logo=fastapi&logoColor=white)
 ![No GPU](https://img.shields.io/badge/No_GPU-No_API_key-16A34A?style=for-the-badge)
 
-**Team ENIGMA** · Arya Ambekar · Aaryaman Mishra · Arnav Sirse · Vishwakarma Institute of Technology, Pune
+**Team ENIGMA** · Arya Ambekar · Ishan Ambekar · Aaryaman Mishra · 
 
 </div>
 
