@@ -42,6 +42,10 @@
   .ops-studio { height: 2120px; }
   .ops-bar { flex-direction: column; align-items: flex-start; }
 }
+/* Narrow phones stack the four KPI tiles one per row: 12 more tracks. */
+@media (max-width: 479px) {
+  .ops-studio { height: 2350px; }
+}
 
 .ops-btn {
   font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;

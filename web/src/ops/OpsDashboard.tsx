@@ -171,14 +171,23 @@ const DESKTOP: AgReportState = {
   panels: { filters: { collapsed: true } },
 } as unknown as AgReportState;
 
-/** Phones: one column, KPIs 2 x 2, everything else full width and stacked. */
+const IS_PHONE = typeof window !== "undefined" && window.innerWidth < 760;
+/** Below 480 px a half-width tile truncates a dollar total ("$1,238…"). */
+const IS_NARROW = typeof window !== "undefined" && window.innerWidth < 480;
+
+/** Phones: one column, KPIs 2 x 2 (one per row when narrow), everything else stacked. */
 const PHONE: AgReportState = (() => {
   const page = (DESKTOP as unknown as { pages: { widgetLayout: Record<string, unknown> }[] }).pages[0];
+  const kpis: [string, number, number, number, number][] = IS_NARROW
+    ? [["kOrders", 0, 0, 24, 6], ["kProtected", 0, 6, 24, 6],
+       ["kCaptured", 0, 12, 24, 6], ["kHeld", 0, 18, 24, 6]]
+    : [["kOrders", 0, 0, 12, 6], ["kProtected", 12, 0, 12, 6],
+       ["kCaptured", 0, 6, 12, 6], ["kHeld", 12, 6, 12, 6]];
+  const y = IS_NARROW ? 24 : 12;
   const stack: [string, number, number, number, number][] = [
-    ["kOrders", 0, 0, 12, 6], ["kProtected", 12, 0, 12, 6],
-    ["kCaptured", 0, 6, 12, 6], ["kHeld", 12, 6, 12, 6],
-    ["cTime", 0, 12, 24, 14], ["cMoney", 0, 26, 24, 14], ["cLayers", 0, 40, 24, 14],
-    ["feed", 0, 54, 24, 28], ["detail", 0, 82, 24, 30],
+    ...kpis,
+    ["cTime", 0, y, 24, 14], ["cMoney", 0, y + 14, 24, 14], ["cLayers", 0, y + 28, 24, 14],
+    ["feed", 0, y + 42, 24, 28], ["detail", 0, y + 70, 24, 30],
   ];
   const widgetLayout = Object.fromEntries(
     stack.map(([id, x, y, w, h]) => [id, { xTrack: x, yTrack: y, xSpan: w, ySpan: h }]),
@@ -189,7 +198,6 @@ const PHONE: AgReportState = (() => {
   } as unknown as AgReportState;
 })();
 
-const IS_PHONE = typeof window !== "undefined" && window.innerWidth < 760;
 const INITIAL = IS_PHONE ? PHONE : DESKTOP;
 
 /** `[key, ready]`. Studio is mounted only once `ready`: the provider applies the
