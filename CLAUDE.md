@@ -857,6 +857,46 @@ playground where a visitor writes the injection and a real agent reads it.
   straight to a log finished in about a minute. Likely a child process holding the
   pipe; not reproduced, not proven.
 
+### PayPal Hackathon — Day 4 (2026-11-10/11) — submission hygiene
+
+No new features.
+
+- **MIT `LICENSE`**: Arya Ambekar, Aaryaman Mishra, Ishan Ambekar. `pyproject.toml`
+  keeps `license = { text = "MIT" }`; the bare-string form is rejected by older build
+  tools. **No team name**: "ENIGMA" and the institution are gone from the repo.
+- **Tag `baseline-pre-hackathon` = `10c1830`** (7 Nov, the last Mastercard-entry
+  commit; `71f0f54` on 8 Nov is the first PayPal one), pushed. Everything built for
+  PayPal is <https://github.com/ambekararya2005/Paypal-AI-Hackathon-/compare/baseline-pre-hackathon...main>.
+- **README rewritten for PayPal judges**: the gap (no AUTHORIZE intent, `pay_order`
+  captures, no void), one payment-flow diagram, a sandbox evidence table (Day 1 A/B/C,
+  Day 2 D–G, the Day 3 local and deployed playground runs), "built during the
+  hackathon", and every offline number under one heading labelled "offline,
+  synthetic 1M-payment evaluation". The live L1 numbers (0.627 / 0.463) are not in it.
+  **Vault is "flow built; live demo uses the card path"**: the only setup token on disk
+  is `pending` (8 Nov, India account), so no end-to-end approval has happened.
+- **The README's L0 list was wrong**: it named "untrusted domain", which is switched
+  off; the ninth clause is `mandate_missing`. The old "~25×" over-sampling figure was
+  in no pinned source (the console itself reports 22% against 1.16%), so the README no
+  longer gives a number.
+- **Phone KPIs**: below 480 px the four tiles stack full width, so a dollar total
+  never truncates ("$1,238…" at 412 px before). Values stay exact; Studio's value tile
+  has no tooltip, which ruled out a compact "$1.2k".
+- **Checklist, reported not built**: with `MANTIS_LIVE_DISABLED=1` the playground says
+  "Live runs are switched off on this deployment" and a forced live run gets 409 with
+  the three replays; the 6th live run in an hour gets 429 "5 live runs per hour per
+  visitor; try again in 60 min, or replay a recorded attack", shown verbatim in the UI.
+  `/health` does **not** report caps or the kill switch and stays that way;
+  `/api/limits` does, and the README's judges box points there.
+- **Render back on a paid plan: Starter (0.5 CPU / 512 MB, $7/mo) plus the 1 GB
+  `mantis-runtime` disk at `/var/data`**, from the $50 credit (about $8.50 to 15 Dec).
+  Starter, not Standard, because the measured peak is 164 MB. The site no longer sleeps
+  and runtime state survives deploys. The upgrade was made in the dashboard first and
+  `render.yaml` pushed after it to match, because a Blueprint sync overwrites any
+  dashboard setting that conflicts with the file. Render documents **no
+  dollar-threshold billing alert**. Its only spend limit caps build-pipeline minutes
+  and stops builds when hit, so there is no $20 alert. `DEPLOY.md` (the old Hugging
+  Face runbook) is now a pointer to `docs/deploy_render.md`.
+
 ### Day 5 findings
 
 - **The bindings bug that would have cost L3 four fifths of its recall.**
