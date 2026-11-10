@@ -54,10 +54,22 @@ def _gate() -> PaymentGate:
             from mantis.paypal.gate import PaymentGate
 
             try:
-                _GATE = PaymentGate()
+                from mantis.api.log_routes import attach
+
+                _GATE = attach(PaymentGate(), "api")
             except ConfigError as exc:
                 raise HTTPException(503, str(exc)) from exc
         return _GATE
+
+
+def _gate_for(order_id: str) -> PaymentGate:
+    """The gate holding ``order_id``: the API's own, or a playground run's."""
+    from mantis.api.playground import gates
+
+    for gate in (_gate(), *gates()):
+        if order_id in gate.records:
+            return gate
+    return _gate()  # raises the usual 404 from .get()
 
 
 def _raise(exc: Exception) -> None:
@@ -160,7 +172,7 @@ def submit(request: GateRequest) -> GateResponse:
 def consent_page(order_id: str) -> HTMLResponse:
     """The human-consent page: mandate, order, reasons, highlighted injected span,
     Approve (capture) / Deny (void). See :mod:`mantis.api.consent`."""
-    gate = _gate()
+    gate = _gate_for(order_id)
     try:
         record = gate.get(order_id)
     except Exception as exc:
@@ -173,7 +185,7 @@ def consent_page(order_id: str) -> HTMLResponse:
 @router.get("/gate/{order_id}", response_model=GateResponse)
 def get_record(order_id: str) -> GateResponse:
     try:
-        record = _gate().get(order_id)
+        record = _gate_for(order_id).get(order_id)
     except Exception as exc:
         _raise(exc)
         raise
@@ -184,7 +196,8 @@ def get_record(order_id: str) -> GateResponse:
 def consent(order_id: str, request: ConsentRequest) -> GateResponse:
     """A human resolves a held order: approve captures, deny voids."""
     try:
-        record = _gate().consent(order_id, approve=request.approve, signer=request.signer)
+        record = _gate_for(order_id).consent(order_id, approve=request.approve,
+                                             signer=request.signer)
     except Exception as exc:
         _raise(exc)
         raise

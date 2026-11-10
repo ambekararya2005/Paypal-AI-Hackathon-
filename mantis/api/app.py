@@ -58,6 +58,8 @@ from fastapi.responses import FileResponse
 from sse_starlette.sse import EventSourceResponse
 
 from mantis.api.gate import router as gate_router
+from mantis.api.guards import GuardMiddleware
+from mantis.api.log_routes import router as log_router
 from mantis.api.models import (
     ArenaResponse,
     AtlasCardDetail,
@@ -74,6 +76,8 @@ from mantis.api.models import (
     SimulateResponse,
     ZeroDayRow,
 )
+from mantis.api.playground import router as playground_router
+from mantis.api.receipts import router as receipts_router
 from mantis.api.store import STORE
 from mantis.atlas.loader import ATLAS, DISCOVERED
 from mantis.core.events import SCHEMA_VERSION
@@ -138,7 +142,36 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+# The log router first: "/gate/log" must win over "/gate/{order_id}".
+app.include_router(log_router)
+app.include_router(receipts_router)
+app.include_router(playground_router)
 app.include_router(gate_router)
+# Public-deployment guards: per-IP rate limit and body-size limit on every API
+# route. Daily spend caps and the kill switch are in mantis.core.quota.
+app.add_middleware(GuardMiddleware)
+
+
+@app.get("/client-config", tags=["meta"])
+def client_config() -> dict[str, object]:
+    """Browser-side configuration, read at runtime so it lives in the host's env.
+
+    Only the AG Studio licence key: a *browser* key, shipped to every visitor's
+    page by design (AG Studio checks it client-side), so serving it here discloses
+    nothing a visitor would not have anyway. Never add a server secret to this.
+    """
+    from mantis.core.env import setting
+
+    key = setting("AG_STUDIO_LICENSE_KEY") or setting("VITE_AG_STUDIO_LICENSE_KEY")
+    return {"ag_studio_license_key": key or None}
+
+
+@app.get("/limits", tags=["meta"])
+def limits() -> dict[str, object]:
+    """Today's live-call counters, the caps, and whether live calls are disabled."""
+    from mantis.core.quota import snapshot
+
+    return snapshot()
 
 
 # ------------------------------------------------------------------- health --

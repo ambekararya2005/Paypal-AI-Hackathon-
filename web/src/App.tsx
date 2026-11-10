@@ -17,12 +17,16 @@ import { useEffect, useState } from "react";
 import Atlas from "./Atlas";
 import Console from "./Console";
 import Fidelity from "./Fidelity";
+import OpsDashboard from "./ops/OpsDashboard";
+import Playground from "./playground/Playground";
 import Results from "./Results";
 import { API_BASE } from "./api";
 
-type Tab = "console" | "results" | "atlas" | "fidelity";
+type Tab = "ops" | "attack" | "console" | "results" | "atlas" | "fidelity";
 
 const TABS: [Tab, string][] = [
+  ["ops", "MANTIS Ops"],
+  ["attack", "Attack MANTIS"],
   ["console", "Live console"],
   ["results", "Results"],
   ["atlas", "Attack atlas"],
@@ -30,6 +34,8 @@ const TABS: [Tab, string][] = [
 ];
 
 const SCREENS: Record<Tab, () => JSX.Element> = {
+  ops: OpsDashboard,
+  attack: Playground,
   console: Console,
   results: Results,
   atlas: Atlas,
@@ -37,7 +43,16 @@ const SCREENS: Record<Tab, () => JSX.Element> = {
 };
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>("console");
+  // Deep links: #attack opens the playground, #ops the dashboard, and so on.
+  const fromHash = (): Tab => {
+    const h = window.location.hash.replace("#", "").split("?")[0] as Tab;
+    return TABS.some(([id]) => id === h) ? h : "ops";
+  };
+  const [tab, setTabState] = useState<Tab>(fromHash);
+  const setTab = (t: Tab) => {
+    setTabState(t);
+    if (fromHash() !== t) window.history.replaceState(null, "", `#${t}`);
+  };
   const [health, setHealth] = useState<{ atlas_cards: number; schema_version: string } | null>(null);
 
   useEffect(() => {
