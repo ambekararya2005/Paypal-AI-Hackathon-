@@ -15,6 +15,10 @@ const PROXY = {
 
 export default defineConfig({
   plugins: [react()],
+  // Read VITE_* from the repo-root .env (only VITE_-prefixed names reach the
+  // bundle). Locally that is VITE_AG_STUDIO_LICENSE_KEY; the Docker build has no
+  // .env, and the deployed console fetches the key from /api/client-config.
+  envDir: "..",
   // The same proxy on both servers. Without it on `preview`, a judge who runs
   // the production build locally gets a page that loads and then fails every
   // fetch, which looks far more broken than it is.

@@ -1018,3 +1018,10 @@ table.sig.levels td:first-child {
   line-height: 1.6;
   font-size: 11.5px;
 }
+
+/* Small screens: the header wraps instead of crushing the tabs. */
+@media (max-width: 760px) {
+  .topbar { flex-wrap: wrap; gap: 8px; }
+  .brand .sub, .topbar .hint { display: none; }
+  .tabs { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+}
