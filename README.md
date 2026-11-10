@@ -18,6 +18,34 @@
 
 ---
 
+## ▶️ Try it (PayPal AI Hackathon)
+
+**Live: <https://MANTIS-URL.onrender.com>** — free, no login, PayPal **sandbox** only, up until 15 Dec 2026.
+
+An AI agent may only **authorize** a PayPal order. MANTIS scores it and is the only thing allowed to **capture** (approve) or **void** (decline) it; anything in between is **held** for the human.
+
+| Open | What you'll see |
+|---|---|
+| [**MANTIS Ops**](https://MANTIS-URL.onrender.com/#ops) | An AG Studio dashboard over every decision the gate made: KPIs, charts, and our custom order-feed and order-detail widgets. Expand an order to see what the agent read, the injected sentence highlighted, the mandate it signed, and **Verify** the receipt against PayPal. |
+| [**Attack MANTIS**](https://MANTIS-URL.onrender.com/#attack) | Write a poisoned product review. A real AI agent (gpt-4.1-mini) shops our fake store, reads it, and tries to pay on the PayPal sandbox. Watch MANTIS capture, void or hold. 5 live runs per hour per visitor. |
+| [**A recorded attack**](https://MANTIS-URL.onrender.com/#attack?replay=giftcard) | The same, replayed offline: a fake review talks the agent into a $400 gift card; MANTIS voids it. |
+
+**MANTIS as an MCP server** (Claude Desktop): PayPal's own hosted MCP tools behind the gate, with no tool that can capture, pay, refund or void. Setup and a 2-minute demo script: [`docs/mcp.md`](docs/mcp.md).
+
+**Run it yourself, offline, no keys** (Python 3.11 / 3.12 / 3.14 tested):
+
+```bash
+pip install -e .
+python -m mantis.paypal demo --mode mock     # Day 1: the authorization gate, 3 scenarios
+python -m mantis.agent demo                  # Day 2: the LLM agent vs the gate, 4 scenarios (cached)
+python -m mantis.api                         # the console + API on http://127.0.0.1:8000
+```
+
+With your own sandbox and LLM keys in `.env` (see [`.env.example`](.env.example)), add `--mode live`.
+Deploying: [`docs/deploy_render.md`](docs/deploy_render.md).
+
+---
+
 ## ⚡ MANTIS in 30 seconds
 
 | | |

@@ -37,23 +37,31 @@ python -m mantis.paypal.mcp_proxy --list
 
 `--list` prints exactly the eight tools above.
 
-## Claude Desktop (Windows)
+## Claude Desktop (Windows and macOS)
 
 1. In Claude Desktop: **Settings → Developer → Edit Config**. This opens the right
-   file even for the Microsoft Store build (whose config lives under
-   `%LOCALAPPDATA%\Packages\Claude_…\LocalCache\Roaming\Claude\`).
-2. Paste the block from [`docs/claude_desktop_config.json`](claude_desktop_config.json),
-   with `command` set to *your* `python.exe` (run `where python` to find it).
+   file on either OS, including the Windows Microsoft Store build (whose config lives
+   under `%LOCALAPPDATA%\Packages\Claude_…\LocalCache\Roaming\Claude\`).
+2. Paste the block from [`docs/claude_desktop_config.json`](claude_desktop_config.json)
+   and replace the `command` placeholder with the **absolute path of the Python you
+   installed MANTIS into** (`pip install -e ".[agent]"`). Claude Desktop does not read
+   your shell's PATH, so a bare `python` usually fails. Find the path with:
+
+   | OS | Command | Typical result → value for `"command"` |
+   |---|---|---|
+   | Windows | `where python` | `C:\Users\you\AppData\Local\Programs\Python\Python312\python.exe` → `"C:\\Users\\you\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"` (double the backslashes in JSON) |
+   | macOS | `which python3` | `/opt/homebrew/bin/python3` or `/Users/you/.venv/bin/python` → `"/opt/homebrew/bin/python3"` |
+
    Keep `"MANTIS_PAYPAL_MODE": "mock"` for a keyless demo; `"live"` uses the PayPal
    sandbox and the keys in the repo's `.env`.
-3. **Quit Claude Desktop fully** (tray icon → Quit) and reopen it.
+3. **Quit Claude Desktop fully** (Windows: tray icon → Quit; macOS: ⌘Q) and reopen it.
 4. In a new chat, the tools menu should list **mantis-paypal-gate** with eight tools.
 
 ```json
 {
   "mcpServers": {
     "mantis-paypal-gate": {
-      "command": "C:\\Python314\\python.exe",
+      "command": "<ABSOLUTE PATH TO YOUR PYTHON>",
       "args": ["-m", "mantis.paypal.mcp_proxy"],
       "env": {
         "MANTIS_PAYPAL_MODE": "mock",
