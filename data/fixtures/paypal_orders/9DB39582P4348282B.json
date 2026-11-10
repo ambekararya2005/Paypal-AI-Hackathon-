@@ -1,0 +1,249 @@
+{
+  "create_time": "2026-11-09T03:25:55Z",
+  "id": "9DB39582P4348282B",
+  "intent": "AUTHORIZE",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9DB39582P4348282B",
+      "method": "GET",
+      "rel": "self"
+    }
+  ],
+  "payment_source": {
+    "card": {
+      "bin_details": {},
+      "brand": "VISA",
+      "expiry": "2030-12",
+      "last_digits": "1111",
+      "name": "MANTIS Sandbox Buyer",
+      "type": "UNKNOWN"
+    }
+  },
+  "purchase_units": [
+    {
+      "amount": {
+        "breakdown": {
+          "discount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "handling": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "insurance": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "item_total": {
+            "currency_code": "USD",
+            "value": "22.03"
+          },
+          "shipping": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "shipping_discount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "currency_code": "USD",
+        "value": "22.03"
+      },
+      "custom_id": "f02da940ff6b16c49627ffb2a5887f1c73004268af78cfd58286a96e68127316",
+      "description": "FreshMart order via MANTIS agent",
+      "items": [
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Whole milk 1 gal",
+          "quantity": "1",
+          "sku": "FM-MILK",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "4.29"
+          }
+        },
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Large eggs, dozen",
+          "quantity": "1",
+          "sku": "FM-EGGS",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "3.89"
+          }
+        },
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Whole wheat bread",
+          "quantity": "1",
+          "sku": "FM-BREAD",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "3.49"
+          }
+        },
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Bananas, 2 lb",
+          "quantity": "1",
+          "sku": "FM-BANANA",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "1.38"
+          }
+        },
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Chicken breast, 2 lb",
+          "quantity": "1",
+          "sku": "FM-CHICKEN",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "8.98"
+          }
+        }
+      ],
+      "payee": {
+        "email_address": "<scrubbed>",
+        "merchant_id": "<scrubbed>"
+      },
+      "payments": {
+        "authorizations": [
+          {
+            "amount": {
+              "currency_code": "USD",
+              "value": "22.03"
+            },
+            "create_time": "2026-11-09T03:25:55Z",
+            "custom_id": "f02da940ff6b16c49627ffb2a5887f1c73004268af78cfd58286a96e68127316",
+            "expiration_time": "2026-12-08T03:25:55Z",
+            "id": "5F9914151T186622G",
+            "links": [
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5F9914151T186622G",
+                "method": "GET",
+                "rel": "self"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5F9914151T186622G/capture",
+                "method": "POST",
+                "rel": "capture"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5F9914151T186622G/void",
+                "method": "POST",
+                "rel": "void"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5F9914151T186622G/reauthorize",
+                "method": "POST",
+                "rel": "reauthorize"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9DB39582P4348282B",
+                "method": "GET",
+                "rel": "up"
+              }
+            ],
+            "network_transaction_reference": {
+              "id": "097097174702835",
+              "network": "VISA"
+            },
+            "processor_response": {
+              "cvv_code": "M",
+              "response_code": "0000"
+            },
+            "seller_protection": {
+              "status": "NOT_ELIGIBLE"
+            },
+            "status": "CAPTURED",
+            "update_time": "2026-11-09T03:26:01Z"
+          }
+        ],
+        "captures": [
+          {
+            "amount": {
+              "currency_code": "USD",
+              "value": "22.03"
+            },
+            "create_time": "2026-11-09T03:26:01Z",
+            "custom_id": "f02da940ff6b16c49627ffb2a5887f1c73004268af78cfd58286a96e68127316",
+            "disbursement_mode": "INSTANT",
+            "final_capture": true,
+            "id": "3RU17753TR397835B",
+            "links": [
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/captures/3RU17753TR397835B",
+                "method": "GET",
+                "rel": "self"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/captures/3RU17753TR397835B/refund",
+                "method": "POST",
+                "rel": "refund"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5F9914151T186622G",
+                "method": "GET",
+                "rel": "up"
+              }
+            ],
+            "network_transaction_reference": {
+              "id": "097097174702835",
+              "network": "VISA"
+            },
+            "processor_response": {
+              "cvv_code": "M",
+              "response_code": "0000"
+            },
+            "seller_protection": {
+              "status": "NOT_ELIGIBLE"
+            },
+            "seller_receivable_breakdown": {
+              "gross_amount": {
+                "currency_code": "USD",
+                "value": "22.03"
+              },
+              "net_amount": {
+                "currency_code": "USD",
+                "value": "20.97"
+              },
+              "paypal_fee": {
+                "currency_code": "USD",
+                "value": "1.06"
+              }
+            },
+            "status": "COMPLETED",
+            "update_time": "2026-11-09T03:26:01Z"
+          }
+        ]
+      },
+      "reference_id": "m-freshmart",
+      "soft_descriptor": "TEST STORE"
+    }
+  ],
+  "status": "COMPLETED",
+  "update_time": "2026-11-09T03:25:55Z"
+}

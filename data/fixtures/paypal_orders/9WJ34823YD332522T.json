@@ -1,0 +1,132 @@
+{
+  "create_time": "2026-11-09T03:26:28Z",
+  "id": "9WJ34823YD332522T",
+  "intent": "AUTHORIZE",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9WJ34823YD332522T",
+      "method": "GET",
+      "rel": "self"
+    }
+  ],
+  "payment_source": {
+    "card": {
+      "bin_details": {},
+      "brand": "VISA",
+      "expiry": "2030-12",
+      "last_digits": "1111",
+      "name": "MANTIS Sandbox Buyer",
+      "type": "UNKNOWN"
+    }
+  },
+  "purchase_units": [
+    {
+      "amount": {
+        "breakdown": {
+          "handling": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "insurance": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "item_total": {
+            "currency_code": "USD",
+            "value": "1.79"
+          },
+          "shipping": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "shipping_discount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "currency_code": "USD",
+        "value": "1.79"
+      },
+      "custom_id": "92c309118a27c4564fdd6d3a3858512baad39ebd7e449bdc2b9d9f39a60eb642",
+      "description": "GreenLeaf Market order via MANTIS agent",
+      "items": [
+        {
+          "category": "PHYSICAL_GOODS",
+          "name": "Organic bananas, 2 lb",
+          "quantity": "1",
+          "sku": "GL-BANANA",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "1.79"
+          }
+        }
+      ],
+      "payee": {
+        "email_address": "<scrubbed>",
+        "merchant_id": "<scrubbed>"
+      },
+      "payments": {
+        "authorizations": [
+          {
+            "amount": {
+              "currency_code": "USD",
+              "value": "1.79"
+            },
+            "create_time": "2026-11-09T03:26:28Z",
+            "custom_id": "92c309118a27c4564fdd6d3a3858512baad39ebd7e449bdc2b9d9f39a60eb642",
+            "expiration_time": "2026-12-08T03:26:28Z",
+            "id": "0N625462GB767283G",
+            "links": [
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/0N625462GB767283G",
+                "method": "GET",
+                "rel": "self"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/0N625462GB767283G/capture",
+                "method": "POST",
+                "rel": "capture"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/0N625462GB767283G/void",
+                "method": "POST",
+                "rel": "void"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/0N625462GB767283G/reauthorize",
+                "method": "POST",
+                "rel": "reauthorize"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9WJ34823YD332522T",
+                "method": "GET",
+                "rel": "up"
+              }
+            ],
+            "network_transaction_reference": {
+              "id": "097334889149727",
+              "network": "VISA"
+            },
+            "processor_response": {
+              "cvv_code": "M",
+              "response_code": "0000"
+            },
+            "seller_protection": {
+              "status": "NOT_ELIGIBLE"
+            },
+            "status": "VOIDED",
+            "update_time": "2026-11-09T03:26:32Z"
+          }
+        ]
+      },
+      "reference_id": "m-greenleaf",
+      "soft_descriptor": "TEST STORE"
+    }
+  ],
+  "status": "COMPLETED",
+  "update_time": "2026-11-09T03:26:28Z"
+}

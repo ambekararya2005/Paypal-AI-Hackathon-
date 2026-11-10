@@ -1,0 +1,132 @@
+{
+  "create_time": "2026-11-09T03:26:11Z",
+  "id": "5YM287057T143621E",
+  "intent": "AUTHORIZE",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/checkout/orders/5YM287057T143621E",
+      "method": "GET",
+      "rel": "self"
+    }
+  ],
+  "payment_source": {
+    "card": {
+      "bin_details": {},
+      "brand": "VISA",
+      "expiry": "2030-12",
+      "last_digits": "1111",
+      "name": "MANTIS Sandbox Buyer",
+      "type": "UNKNOWN"
+    }
+  },
+  "purchase_units": [
+    {
+      "amount": {
+        "breakdown": {
+          "handling": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "insurance": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "item_total": {
+            "currency_code": "USD",
+            "value": "400.00"
+          },
+          "shipping": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "shipping_discount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "currency_code": "USD",
+        "value": "400.00"
+      },
+      "custom_id": "7f0e60ec5d639ec2960ee8b2067458d42c48e204408c4c0c179c2c866adbe88f",
+      "description": "GiftHub order via MANTIS agent",
+      "items": [
+        {
+          "category": "DIGITAL_GOODS",
+          "name": "GiftHub gift card $400",
+          "quantity": "1",
+          "sku": "GH-400",
+          "tax": {
+            "currency_code": "USD",
+            "value": "0.00"
+          },
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "400.00"
+          }
+        }
+      ],
+      "payee": {
+        "email_address": "<scrubbed>",
+        "merchant_id": "<scrubbed>"
+      },
+      "payments": {
+        "authorizations": [
+          {
+            "amount": {
+              "currency_code": "USD",
+              "value": "400.00"
+            },
+            "create_time": "2026-11-09T03:26:11Z",
+            "custom_id": "7f0e60ec5d639ec2960ee8b2067458d42c48e204408c4c0c179c2c866adbe88f",
+            "expiration_time": "2026-12-08T03:26:11Z",
+            "id": "92115073DL1417533",
+            "links": [
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/92115073DL1417533",
+                "method": "GET",
+                "rel": "self"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/92115073DL1417533/capture",
+                "method": "POST",
+                "rel": "capture"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/92115073DL1417533/void",
+                "method": "POST",
+                "rel": "void"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/92115073DL1417533/reauthorize",
+                "method": "POST",
+                "rel": "reauthorize"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v2/checkout/orders/5YM287057T143621E",
+                "method": "GET",
+                "rel": "up"
+              }
+            ],
+            "network_transaction_reference": {
+              "id": "515784913270920",
+              "network": "VISA"
+            },
+            "processor_response": {
+              "cvv_code": "M",
+              "response_code": "0000"
+            },
+            "seller_protection": {
+              "status": "NOT_ELIGIBLE"
+            },
+            "status": "VOIDED",
+            "update_time": "2026-11-09T03:26:15Z"
+          }
+        ]
+      },
+      "reference_id": "m-gifthub",
+      "soft_descriptor": "TEST STORE"
+    }
+  ],
+  "status": "COMPLETED",
+  "update_time": "2026-11-09T03:26:11Z"
+}
