@@ -60,8 +60,7 @@ COPY docs ./docs
 COPY --from=web /web/dist ./web/dist
 
 # Writable state (gate log, receipts, quota counters, playground candidates).
-# On Render's free plan this is the container's own filesystem (reset when the
-# service sleeps or redeploys); on a paid plan a persistent disk mounts here.
+# On Render a persistent disk mounts here; locally it is the container's own.
 ENV PORT=7860 \
     PYTHONUNBUFFERED=1 \
     MANTIS_RUNTIME_DIR=/var/data

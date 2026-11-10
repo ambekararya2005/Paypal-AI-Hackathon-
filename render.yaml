@@ -1,4 +1,4 @@
-# Render Blueprint: MANTIS, one web service (PayPal AI Hackathon).
+# Render Blueprint: MANTIS, one always-on web service (PayPal AI Hackathon).
 #
 # Render -> New -> Blueprint -> this repo. Values marked `sync: false` are asked
 # for once in the dashboard and never stored in git. See docs/deploy_render.md.
@@ -6,17 +6,21 @@ services:
   - type: web
     name: mantis
     runtime: docker
-    # Free: no card needed. Measured 51 MB idle, 164 MB after a dashboard load,
-    # a playground replay and a Verify, against 512 MB. It sleeps after 15 idle
-    # minutes and wakes on the next request, and it has no persistent disk.
-    # Paid upgrade (never sleeps, state survives restarts): `plan: standard` plus
-    #   disk: {name: mantis-runtime, mountPath: /var/data, sizeGB: 1}
-    plan: free
+    # Starter (0.5 CPU / 512 MB, $7/mo, from the hackathon credit). Measured 51 MB
+    # idle and 164 MB after a dashboard load, a playground replay and a Verify.
+    # Paid, so it never sleeps, and it can carry the disk below.
+    plan: starter
     # US: the PayPal sandbox and the LLM router are both US-hosted.
     region: oregon
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health
     autoDeploy: true
+    # Gate log, receipts, quota counters, playground candidates: survive restarts
+    # and deploys. A disk means one instance and a few seconds' gap per deploy.
+    disk:
+      name: mantis-runtime
+      mountPath: /var/data
+      sizeGB: 1
     envVars:
       # -- behaviour -----------------------------------------------------------
       - key: MANTIS_PAYPAL_MODE
@@ -26,7 +30,7 @@ services:
       - key: MANTIS_LIVE_DISABLED
         value: "0"             # kill switch: set to 1 to replay recorded runs only
       - key: MANTIS_RUNTIME_DIR
-        value: /var/data       # the container's own filesystem on free: reset on sleep
+        value: /var/data       # the persistent disk above
       - key: MANTIS_WARM
         value: "1"             # fit the scorers at startup, not on a woken visitor's clock
       - key: MANTIS_STORE_VARIANT
