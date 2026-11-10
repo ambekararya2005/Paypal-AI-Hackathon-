@@ -20,7 +20,7 @@
 
 ## ▶️ Try it (PayPal AI Hackathon)
 
-**Live: <https://MANTIS-URL.onrender.com>** — free, no login, PayPal **sandbox** only, up until 15 Dec 2026.
+**Live: <https://MANTIS-URL.onrender.com>** — free, no login, PayPal **sandbox** only, up until 15 Dec 2026. It runs on Render's free plan, so if nobody has visited for 15 minutes the first page load takes about a minute while it wakes up.
 
 An AI agent may only **authorize** a PayPal order. MANTIS scores it and is the only thing allowed to **capture** (approve) or **void** (decline) it; anything in between is **held** for the human.
 

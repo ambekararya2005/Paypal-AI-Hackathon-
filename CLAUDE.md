@@ -727,9 +727,13 @@ AG Studio ops dashboard (the AG Grid sponsor prize), and an "Attack MANTIS"
 playground where a visitor writes the injection and a real agent reads it.
 
 - **Deploy** (`render.yaml`, `Dockerfile`, `docs/deploy_render.md`): one Docker
-  service, Standard instance (never sleeps), Oregon, 1 GB persistent disk at
-  `/var/data` (`MANTIS_RUNTIME_DIR`: gate log, receipts, quota counters, playground
-  candidates). Two-stage image: node builds `web/dist`, **`python:3.12-slim`** runs
+  service on Render's **free** plan, Oregon. `MANTIS_RUNTIME_DIR=/var/data` (gate
+  log, receipts, quota counters, playground candidates) is the container's own
+  filesystem, reset when the service sleeps (15 idle minutes) or redeploys; the
+  seeded orders, their receipts and the recorded replays are in the image and always
+  survive. Planned as Standard + a 1 GB disk; Render would not take a card for the
+  hackathon credit, so free it is — 164 MB measured against 512 MB, and the upgrade
+  is two lines of `render.yaml`. Two-stage image: node builds `web/dist`, **`python:3.12-slim`** runs
   the new `server` extra (exactly what the gate imports: numpy, pandas<3,
   scikit-learn, openai; no LightGBM). 267 MB. Secrets only in Render env vars
   (`sync: false`); `.env` is in `.dockerignore`. The site gzips (the console is
