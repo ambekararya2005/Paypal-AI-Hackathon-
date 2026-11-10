@@ -720,6 +720,115 @@ served as an MCP proxy in front of PayPal's own hosted MCP server.
   (a SyntaxError each, caught by ruff). Multi-line code edits go through the
   editor, not shell-quoted Python.
 
+### PayPal Hackathon - Day 3 (2026-11-09/10) — hosted, AG Studio, playground
+
+MANTIS becomes something a judge opens in a browser: one Render web service, an
+AG Studio ops dashboard (the AG Grid sponsor prize), and an "Attack MANTIS"
+playground where a visitor writes the injection and a real agent reads it.
+
+- **Deploy** (`render.yaml`, `Dockerfile`, `docs/deploy_render.md`): one Docker
+  service, Standard instance (never sleeps), Oregon, 1 GB persistent disk at
+  `/var/data` (`MANTIS_RUNTIME_DIR`: gate log, receipts, quota counters, playground
+  candidates). Two-stage image: node builds `web/dist`, **`python:3.12-slim`** runs
+  the new `server` extra (exactly what the gate imports: numpy, pandas<3,
+  scikit-learn, openai; no LightGBM). 267 MB. Secrets only in Render env vars
+  (`sync: false`); `.env` is in `.dockerignore`. The site gzips (the console is
+  7.6 MB with AG Studio, 2.2 MB on the wire).
+- **Guards** (`mantis/core/quota.py`, `mantis/api/guards.py`): kill switch
+  `MANTIS_LIVE_DISABLED=1` refuses every live LLM and PayPal call and degrades an
+  env-chosen `live` to mock; daily caps (`MANTIS_PUBLIC=1`: 100 playground runs,
+  2,500 LLM calls, 1,500 PayPal calls per UTC day, on disk, check-and-increment
+  under one lock); 60 writes + 300 reads per IP per minute; 32 KB bodies; 5 live
+  playground runs per IP per hour; 1,500-character playground pages. `/api/limits`
+  shows the counters.
+- **Gate log** (`mantis/api/gate_log.py`, `log_routes.py`): `GET /api/gate/log`
+  (+ `/{order_id}`, `/{order_id}/visitor-text`), fed by `PaymentGate.listeners` on
+  every decision and consent, appended to a JSONL the reader **tails**, so a gate in
+  another process (MCP proxy, CLI demo) shows up too. Seeded from the six real Day 2
+  sandbox orders (`data/fixtures/gate_log_seed.jsonl`,
+  `scripts/build_gate_log_seed.py`). Rows carry layer chips (L0, gate, budget, L3,
+  judge, unvetted, L1, **taint**), a risk score, $ protected / captured / held, and the
+  latency split agent / judge / score / PayPal.
+- **MANTIS Ops = AG Studio 3.1** (`web/src/ops/`): Studio owns layout, KPI tiles,
+  charts, filters and a MANTIS theme in light and dark (Theming API, named modes on
+  an `ag-theme-mode` ancestor; `?theme=` override, else OS preference). Two custom
+  widgets via `createWidgets`: the **order feed** (AG Grid **Community** only — risk
+  bar, decision pill, layer chips, PayPal state badge, $ protected, latency split —
+  with **full-width detail rows** instead of Enterprise master-detail) and the
+  **order detail** (provenance with the injected span highlighted by string
+  splitting, never injected HTML; mandate CAN / CANNOT; receipt + Verify). The feed
+  asks Studio for the order ids that pass its filters (`widgetApi.getData` with
+  `onDataUpdated`). Licence: `AgStudioProvider licenseKey`, read at runtime from
+  `/api/client-config` (Render `AG_STUDIO_LICENSE_KEY`) with
+  `VITE_AG_STUDIO_LICENSE_KEY` as the local fallback; unlicensed it still renders.
+  No Enterprise grid or chart feature anywhere — the Studio licence does not cover
+  Enterprise inside custom widgets. A separate one-column Studio layout for phones.
+- **Verify** (`mantis/api/receipts.py`): `GET /api/receipts/{order_id}/verify`
+  recomputes `sha256(receipt)` and compares it with the `custom_id` PayPal holds —
+  live sandbox when allowed, else the API gate's mock state, else the scrubbed
+  recorded order (`data/fixtures/paypal_orders/`, the six seeded orders, all
+  verified matching against the sandbox). Mismatch names which side changed.
+- **Attack MANTIS** (`mantis/api/playground.py`, `web/src/playground/`): the visitor
+  edits one FreshMart review (store variant `custom`), picks one of three tasks, and
+  `gpt-4.1-mini` (standard profile) shops the fake store through a **per-run gate**
+  on the sandbox; steps stream by 1 s polling; the outcome says plainly whether the
+  agent resisted. Live LLM calls cache on the runtime disk, never in `data/cache/`.
+  Blocked or judge-flagged attacks go to `<runtime>/playground/attacks.jsonl` as
+  **candidate** cards (links stripped, never auto-added). Kill-switched or capped:
+  three recorded attacks replay offline (`#attack?replay=giftcard`). Held playground
+  orders are consentable on the normal consent page.
+- README "Try it" section; `docs/claude_desktop_config.json` now a placeholder with
+  Windows and macOS examples in `docs/mcp.md`.
+
+### PayPal Day 3 gate
+
+- Python **3.12** (clean container, no `.env`): full suite green; the deployment
+  image runs on 3.12.16 and served health, limits, the gate log and a mock gate
+  round trip (decline + void, 5 ms scoring) with no keys. **388 passed** on Python 3.14
+  locally and on a clean `python:3.11-slim` container (3.11.18). A local 3.11 venv is
+  blocked by Windows Smart App Control (DLL load refused), hence the container.
+- Live playground attack, end to end on the sandbox (34 s): the agent read the
+  template review and **added the $400 GiftHub card itself**; GiftHub
+  `0AP15593HN928250X` DECLINE (L0 + budget + judge) → voided; FreshMart
+  `9NN25514DL3945410` REVIEW (judge + taint) → held → consent page → human approved →
+  captured; judge quoted the review verbatim; one candidate card written.
+- Verify: all six seeded orders **match** (recorded and live sandbox); tampered
+  receipt and non-committing order both mismatch.
+- Dashboard checked by headless-Edge screenshots, desktop and 412 px phone, dark and
+  light, no AG Studio or AG Grid console errors; licensed run prints no licence banner.
+- Public URL: **pending** the Blueprint deploy (`docs/deploy_render.md`).
+
+### PayPal Day 3 findings
+
+- **A clean clone could not replay the agent.** With no `.env`, `LLM_MODEL_AGENT`
+  fell back to the code default `openai/gpt-5-mini` — the model whose cache was
+  deleted on Day 2 — and every agent turn missed. The local `.env` hid it; the
+  Python 3.12 container (no `.env`) caught it. The default is now `gpt-4.1-mini`,
+  and the lesson is HARD RULE 4's: test the clean clone, not the laptop.
+- **The run cap would have been silently ignored on Render.** `quota.caps()`
+  derived the variable name from the kind (`MANTIS_CAP_RUN`) while `render.yaml`
+  sets `MANTIS_CAP_RUNS`. A guard test caught it; names are now spelled out.
+- **A 60-requests-per-minute limit would have cut off one open tab.** The dashboard
+  polls the log every 2 s and the playground polls a run every 1 s — 90/min from a
+  single visitor. Found when the live-run test's own polling was refused. Reads
+  (GET, cheap, in memory) now get 300/min; writes (anything that can spend) 60/min.
+- **AG Studio drops widgets whose fields it cannot resolve at mount.** Mounted on an
+  empty data source before the first poll, the canvas came up blank; Studio is now
+  mounted after the first rows (and after the licence lookup, because the provider
+  applies the key at mount). Its state validator also rejected the feed's mapping
+  until the field declared `supportedRoles: ["category"]`, `intent: "category"`.
+- **Studio colours series in data order**, so a `legendKey` on decision once painted
+  *approve* red. Decisions are now three fixed numeric series against a palette whose
+  first three colours are green / amber / red.
+- **`studioMinWidth` defaults to 600 px**, which pushes a phone layout off-screen; it
+  is 320 on the MANTIS theme, with a phone-specific widget layout.
+- **Render Workflow skipped**: receipts live on this service's disk and a Render disk
+  attaches to one service only, so a scheduled re-verification job could not read
+  them. Verify is on demand instead.
+- **Two full-suite runs never returned when piped through `tail`**; every run written
+  straight to a log finished in about a minute. Likely a child process holding the
+  pipe; not reproduced, not proven.
+
 ### Day 5 findings
 
 - **The bindings bug that would have cost L3 four fifths of its recall.**
