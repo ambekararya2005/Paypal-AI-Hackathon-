@@ -1,0 +1,34 @@
+{
+  "agent": {
+    "agent_id": "agent-shopper-01",
+    "agent_platform": "mantis-demo-agent"
+  },
+  "created_ts": "2026-11-09T03:26:09.806366+00:00",
+  "mandate": {
+    "mandate_hash": "4dbb4c4dfd6f973b5b78bb4de0effd07391e55b3c8bc66c67f83f06da0207109",
+    "mandate_id": "mdt-0002"
+  },
+  "order": {
+    "currency": "USD",
+    "items": [
+      {
+        "name": "GiftHub gift card $400",
+        "quantity": 1,
+        "sku": "GH-400",
+        "unit_amount": "400.00"
+      }
+    ],
+    "mcc": "6540",
+    "merchant_id": "m-gifthub",
+    "total": "400.00"
+  },
+  "provenance": {
+    "chain": [
+      "https://shop.freshmart.test/reviews"
+    ],
+    "content_ids": [
+      "sha256:4775545348e1"
+    ]
+  },
+  "schema": "mantis.receipt/1"
+}

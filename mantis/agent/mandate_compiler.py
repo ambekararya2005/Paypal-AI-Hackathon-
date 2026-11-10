@@ -192,24 +192,48 @@ class MandateCompiler:
                                ttl_seconds=int(days) * 86_400),
             description=text.strip(), budget_total=budget_d,
         )
-        until = (now + timedelta(days=int(days))).strftime("%a %d %b %Y")
-        what = " and ".join(c.replace("_", " ") for c in categories)
-        where = ", ".join(merchants) if merchants else "any store"
-        can = [f"buy {what} (MCC {', '.join(CATEGORY_MCC[c] for c in categories)})",
-               f"shop at {where}",
-               f"spend up to ${cap_d} per order"
-               + (f", ${budget_d} in total" if budget_d else ""),
-               f"act until {until}"]
-        cannot = [f"buy anything other than {what}",
-                  f"spend more than ${cap_d} on one order",
-                  f"act after {until}",
-                  "capture, refund or void a payment (only the gate and you can)"]
-        if merchants:
-            cannot.insert(1, f"shop anywhere except {where}")
-        if budget_d:
-            cannot.insert(-2, f"spend more than ${budget_d} in total")
+        can, cannot = describe(request, now)
         return CompileResult("ok", text, request=request, can=can, cannot=cannot,
                              source=source, latency_ms=latency_ms, raw=raw)
+
+
+_MCC_NAMES: Final[dict[str, str]] = {mcc: name.replace("_", " ")
+                                     for name, mcc in CATEGORY_MCC.items()}
+_MERCHANT_NAMES: Final[dict[str, str]] = {mid: name for name, mid in MERCHANT_IDS.items()}
+
+
+def describe(request: MandateRequest, issued: datetime) -> tuple[list[str], list[str]]:
+    """"Agent CAN / CANNOT" for any mandate request, compiled or hand-built.
+
+    Used by the compiler's echo and by the gate log's mandate column, so the two
+    can never describe the same mandate differently.
+    """
+    scope = request.scope
+    what = " and ".join(_MCC_NAMES.get(m, f"MCC {m}") for m in scope.categories) or "anything"
+    merchants = [_MERCHANT_NAMES.get(m, m) for m in scope.allowed_merchants]
+    where = ", ".join(merchants) if merchants else "any store"
+    cap = Decimal(str(scope.max_amount)).quantize(Decimal("0.01")) if scope.max_amount else None
+    budget = request.budget_total
+    until = ((issued + timedelta(seconds=scope.ttl_seconds)).strftime("%a %d %b %Y")
+             if scope.ttl_seconds else None)
+    can = [f"buy {what}" + (f" (MCC {', '.join(scope.categories)})" if scope.categories else ""),
+           f"shop at {where}"]
+    if cap is not None:
+        total = f", ${budget:.2f} in total" if budget else ""
+        can.append(f"spend up to ${cap} per order{total}")
+    if until:
+        can.append(f"act until {until}")
+    cannot = [f"buy anything other than {what}"] if scope.categories else []
+    if merchants:
+        cannot.append(f"shop anywhere except {where}")
+    if cap is not None:
+        cannot.append(f"spend more than ${cap} on one order")
+    if budget:
+        cannot.append(f"spend more than ${budget:.2f} in total")
+    if until:
+        cannot.append(f"act after {until}")
+    cannot.append("capture, refund or void a payment (only the gate and you can)")
+    return can, cannot
 
 
 def _dedupe(items: list[str]) -> list[str]:

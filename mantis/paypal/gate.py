@@ -35,6 +35,7 @@ from __future__ import annotations
 import json
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from decimal import Decimal
@@ -99,6 +100,13 @@ class GateRecord:
     paypal_ms: float = 0.0
     #: Wall-clock of the LLM judge, reported apart from ``latency_ms``.
     judge_ms: float = 0.0
+    #: The agent's own deliberation before it asked to pay (LLM time), measured by
+    #: the tool loop and carried on the event as ``deliberation_latency_ms``.
+    agent_ms: float = 0.0
+    #: Where the order came from: api, playground, mcp, demo, seed.
+    source: str = "api"
+    #: ISO time the gate decided.
+    decided_at: str = ""
     consent: dict[str, Any] | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
     #: The basket, for the consent page.
@@ -130,6 +138,11 @@ class PaymentGate:
         #: receipt, same PayPal-Request-Id, same order id — is counted once.
         self._committed: dict[str, tuple[str, Decimal]] = {}
         self._budget_lock = threading.Lock()
+        #: Tag written on every record this gate makes (see :attr:`GateRecord.source`).
+        self.source = "api"
+        #: Called with every record after it is decided and after every consent.
+        #: The gate log subscribes here; a listener's failure never fails a payment.
+        self.listeners: list[Callable[[GateRecord], None]] = []
 
     @property
     def mode(self) -> str:
@@ -260,6 +273,9 @@ class PaymentGate:
                     "unit_amount": f"{i.unit_amount:.2f}"} for i in intent.items],
             all_reasons=[r.as_dict() for r in result.all_reasons],
             evidence=result.evidence,
+            agent_ms=float(context.deliberation_latency_ms or 0),
+            source=self.source,
+            decided_at=_iso(),
         )
         self.records[record.order_id] = record
         self._receipts[record.order_id] = receipt
@@ -357,6 +373,11 @@ class PaymentGate:
         (directory / f"{record.receipt_hash}.gate.json").write_text(
             json.dumps(record.as_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
+        for listener in self.listeners:
+            try:
+                listener(record)
+            except Exception:
+                continue
 
 
 def _default_judge(mode: str) -> InjectionJudge | None:

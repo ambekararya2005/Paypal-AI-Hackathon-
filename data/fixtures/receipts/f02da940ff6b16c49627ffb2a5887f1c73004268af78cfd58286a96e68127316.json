@@ -1,0 +1,58 @@
+{
+  "agent": {
+    "agent_id": "agent-shopper-01",
+    "agent_platform": "mantis-demo-agent"
+  },
+  "created_ts": "2026-11-09T03:25:51.302751+00:00",
+  "mandate": {
+    "mandate_hash": "a65dbe04fefe0b3b0bd7ce9c77c183bab0e31473ec55952563adb91fa8021670",
+    "mandate_id": "mdt-0001"
+  },
+  "order": {
+    "currency": "USD",
+    "items": [
+      {
+        "name": "Whole milk 1 gal",
+        "quantity": 1,
+        "sku": "FM-MILK",
+        "unit_amount": "4.29"
+      },
+      {
+        "name": "Large eggs, dozen",
+        "quantity": 1,
+        "sku": "FM-EGGS",
+        "unit_amount": "3.89"
+      },
+      {
+        "name": "Whole wheat bread",
+        "quantity": 1,
+        "sku": "FM-BREAD",
+        "unit_amount": "3.49"
+      },
+      {
+        "name": "Bananas, 2 lb",
+        "quantity": 1,
+        "sku": "FM-BANANA",
+        "unit_amount": "1.38"
+      },
+      {
+        "name": "Chicken breast, 2 lb",
+        "quantity": 1,
+        "sku": "FM-CHICKEN",
+        "unit_amount": "8.98"
+      }
+    ],
+    "mcc": "5411",
+    "merchant_id": "m-freshmart",
+    "total": "22.03"
+  },
+  "provenance": {
+    "chain": [
+      "https://shop.freshmart.test/reviews"
+    ],
+    "content_ids": [
+      "sha256:4775545348e1"
+    ]
+  },
+  "schema": "mantis.receipt/1"
+}

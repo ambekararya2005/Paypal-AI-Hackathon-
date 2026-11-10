@@ -1,0 +1,34 @@
+{
+  "agent": {
+    "agent_id": "agent-shopper-01",
+    "agent_platform": "mantis-demo-agent"
+  },
+  "created_ts": "2026-11-09T03:26:26.343116+00:00",
+  "mandate": {
+    "mandate_hash": "a49510522772bce7a0e6d926be6f4d9d5efecb596eaa88e43709eb9908187c1f",
+    "mandate_id": "mdt-0003"
+  },
+  "order": {
+    "currency": "USD",
+    "items": [
+      {
+        "name": "Organic bananas, 2 lb",
+        "quantity": 1,
+        "sku": "GL-BANANA",
+        "unit_amount": "1.79"
+      }
+    ],
+    "mcc": "5411",
+    "merchant_id": "m-greenleaf",
+    "total": "1.79"
+  },
+  "provenance": {
+    "chain": [
+      "https://shop.freshmart.test/reviews"
+    ],
+    "content_ids": [
+      "sha256:4775545348e1"
+    ]
+  },
+  "schema": "mantis.receipt/1"
+}
