@@ -185,3 +185,20 @@ def test_blocked_attacks_become_candidate_cards_only(isolated: Path) -> None:
     assert len(lines) == 1, "an attack that did nothing is not a card"
     card = json.loads(lines[0])
     assert card["status"] == "candidate" and "evil.example.com" not in card["payload"]
+
+
+@pytest.mark.parametrize("flag", ["1", ""])
+def test_startup_warms_scorers_only_when_asked(flag: str, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Free Render instances sleep; MANTIS_WARM=1 fits the scorers before a visitor waits."""
+    import threading
+
+    import mantis.api.gate as api_gate
+    import mantis.api.site as site_mod
+
+    called = threading.Event()
+    monkeypatch.setattr(pg, "warm", lambda: called.set())
+    monkeypatch.setattr(api_gate, "_gate", lambda: None)
+    monkeypatch.setenv("MANTIS_WARM", flag)
+    with TestClient(site_mod.site) as client:
+        assert client.get("/health").status_code == 200
+        assert called.wait(timeout=5 if flag else 0.5) is bool(flag)

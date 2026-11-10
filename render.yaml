@@ -27,6 +27,8 @@ services:
         value: "0"             # kill switch: set to 1 to replay recorded runs only
       - key: MANTIS_RUNTIME_DIR
         value: /var/data       # the container's own filesystem on free: reset on sleep
+      - key: MANTIS_WARM
+        value: "1"             # fit the scorers at startup, not on a woken visitor's clock
       - key: MANTIS_STORE_VARIANT
         value: poisoned
       - key: MANTIS_CAP_RUNS

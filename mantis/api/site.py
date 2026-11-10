@@ -30,6 +30,11 @@ refusing to start — a missing frontend should not take the API down with it.
 
 from __future__ import annotations
 
+import os
+import threading
+import time
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Final
 
@@ -73,7 +78,34 @@ class SPAStaticFiles(StaticFiles):
             raise
 
 
+def _warm() -> None:
+    """Build the API gate and the playground scorer before the first visitor needs them.
+
+    Each fits L3 on first use, which takes tens of seconds on a free Render
+    instance's CPU share. Runs in a daemon thread, so ``/health`` answers at once.
+    """
+    started = time.perf_counter()
+    try:
+        from mantis.api.gate import _gate
+        from mantis.api.playground import warm
+
+        warm()
+        _gate()
+        print(f"[warm] scorers ready in {time.perf_counter() - started:.1f}s", flush=True)
+    except Exception as exc:  # a failed warm-up must never take the server down
+        print(f"[warm] skipped: {exc!r}", flush=True)
+
+
+@asynccontextmanager
+async def _lifespan(_app: FastAPI) -> AsyncIterator[None]:
+    # Mounted sub-apps get no lifespan in Starlette, so this lives on the outer app.
+    if os.environ.get("MANTIS_WARM", "").strip().lower() in {"1", "true", "yes", "on"}:
+        threading.Thread(target=_warm, name="mantis-warm", daemon=True).start()
+    yield
+
+
 site = FastAPI(
+    lifespan=_lifespan,
     title="MANTIS console",
     version=api_app.version,
     description=(

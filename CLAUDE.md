@@ -800,9 +800,33 @@ playground where a visitor writes the injection and a real agent reads it.
   receipt and non-committing order both mismatch.
 - Dashboard checked by headless-Edge screenshots, desktop and 412 px phone, dark and
   light, no AG Studio or AG Grid console errors; licensed run prints no licence banner.
-- Public URL: **pending** the Blueprint deploy (`docs/deploy_render.md`).
+- **Public URL: <https://mantis-ze19.onrender.com>** (Render free plan, Oregon). Checked
+  from outside on 2026-11-10: health, limits (caps on, kill switch off), licence key
+  served, six seeded orders in the log, Verify `5YM287057T143621E` matching against the
+  **live sandbox**. A recorded replay landed in the grid (19 s, scorer fit included),
+  then a **live playground attack on the deployment** (26 s): GiftHub
+  `2LC118578D3940212` DECLINE (L0 + budget + judge) → voided, FreshMart
+  `04428335S0350114A` REVIEW (judge + taint) → held, consent page 200 with the visitor's
+  sentence highlighted, Verify on the new order matching. Phone layout checked under
+  real mobile emulation (412 px): `scrollWidth == innerWidth` on Ops and Attack.
 
 ### PayPal Day 3 findings
+
+- **Render would not take a card, so the deploy is on the free plan.** Memory is not
+  the constraint (51 MB idle, 164 MB working, 512 MB available). What it costs: a
+  sleep after 15 idle minutes, and no disk, so runtime state (new log rows, their
+  receipts, candidate cards, held orders, quota counters) resets on wake. Everything a
+  judge needs first is in the image. The upgrade back is two lines of `render.yaml`.
+- **A cold scorer put 15-30 s on the first visitor after every wake.** The first
+  `GET /api/gate/{id}` on the fresh deployment timed out at 30 s while L3 fitted on
+  the free CPU share; the second took 0.4 s. `MANTIS_WARM=1` now fits the gate's and
+  the playground's scorers in a daemon thread from the outer app's lifespan (a
+  mounted sub-app gets none), so `/health` still answers at once.
+- **A desktop browser cannot measure a phone layout.** Headless Edge with
+  `--window-size=412,…` keeps a ~500 px minimum window and crops the screenshot, which
+  made the playground look clipped on the right. Under DevTools mobile emulation the
+  same page is exactly 412 px wide. Phone checks go through
+  `Emulation.setDeviceMetricsOverride`, not a window size.
 
 - **A clean clone could not replay the agent.** With no `.env`, `LLM_MODEL_AGENT`
   fell back to the code default `openai/gpt-5-mini` — the model whose cache was

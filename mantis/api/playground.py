@@ -122,18 +122,29 @@ def gates() -> list[Any]:  # Any: PaymentGate
         return list(_GATES)
 
 
-def _new_gate(paypal_mode: str | None, llm_mode: str, source: str) -> Any:  # Any: PaymentGate
-    """A gate per run: no state shared between concurrent runs but the fitted scorer."""
+def warm() -> None:
+    """Fit the shared scorer now instead of on a visitor's first run.
+
+    On Render's free plan the service sleeps after 15 idle minutes, so without
+    this the first run after every wake would pay the fit on the visitor's clock.
+    ``mantis.api.site`` calls it from a background thread when ``MANTIS_WARM=1``.
+    """
     global _SCORER
-    from mantis.api.gate_log import LOG
-    from mantis.api.log_routes import mandate_summary
     from mantis.defense.live import LiveScorer
-    from mantis.paypal.config import load_config
-    from mantis.paypal.gate import PaymentGate
 
     with _LOCK:
         if _SCORER is None:
             _SCORER = LiveScorer(use_l1=False)
+
+
+def _new_gate(paypal_mode: str | None, llm_mode: str, source: str) -> Any:  # Any: PaymentGate
+    """A gate per run: no state shared between concurrent runs but the fitted scorer."""
+    from mantis.api.gate_log import LOG
+    from mantis.api.log_routes import mandate_summary
+    from mantis.paypal.config import load_config
+    from mantis.paypal.gate import PaymentGate
+
+    warm()
     scorer = copy.copy(_SCORER)
     scorer.judge = _judge(llm_mode)
     gate = PaymentGate(load_config(paypal_mode), scorer=scorer)
