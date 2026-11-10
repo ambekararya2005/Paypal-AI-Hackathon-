@@ -11,8 +11,7 @@
 ![LightGBM](https://img.shields.io/badge/LightGBM-SHAP-0B1F3A?style=for-the-badge)
 ![FastAPI](https://img.shields.io/badge/FastAPI-React-0B1F3A?style=for-the-badge&logo=fastapi&logoColor=white)
 ![No GPU](https://img.shields.io/badge/No_GPU-No_API_key-16A34A?style=for-the-badge)
-
-**Team ENIGMA** · Arya Ambekar · Ishan Ambekar · Aaryaman Mishra · 
+ · Arya Ambekar · Ishan Ambekar · Aaryaman Mishra · 
 
 </div>
 
