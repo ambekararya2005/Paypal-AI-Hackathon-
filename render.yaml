@@ -1,21 +1,57 @@
-# Render blueprint for the MANTIS API.
+# Render Blueprint: MANTIS, one always-on web service (PayPal AI Hackathon).
 #
-# The console is a static site and belongs on Vercel; this deploys only the
-# backend. Both free tiers are enough, because the API does no model work at
-# request time — it reads committed JSON and a parsed RESULTS.md. The dyno needs
-# to hold ~1 MB of pre-scored feed in memory and nothing else.
-#
-# One caveat worth knowing before the demo: Render's free tier sleeps after
-# ~15 minutes idle and takes ~30 s to wake. Hit the URL once before you present.
+# Render -> New -> Blueprint -> this repo. Values marked `sync: false` are asked
+# for once in the dashboard and never stored in git. See docs/deploy_render.md.
 services:
   - type: web
-    name: mantis-api
-    runtime: python
-    plan: free
-    region: singapore
-    buildCommand: pip install -e .
-    startCommand: python -m mantis.api --host 0.0.0.0
+    name: mantis
+    runtime: docker
+    # Standard (2 GB): the gate loads pandas + scikit-learn and the playground
+    # runs agents concurrently. Paid, so it never sleeps for a judge.
+    plan: standard
+    # US: the PayPal sandbox and the LLM router are both US-hosted.
+    region: oregon
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /health
+    autoDeploy: true
+    disk:
+      name: mantis-runtime
+      mountPath: /var/data
+      sizeGB: 1
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.11.9"
+      # -- behaviour -----------------------------------------------------------
+      - key: MANTIS_PAYPAL_MODE
+        value: live            # the PayPal SANDBOX; production is not configurable
+      - key: MANTIS_PUBLIC
+        value: "1"             # daily caps on
+      - key: MANTIS_LIVE_DISABLED
+        value: "0"             # kill switch: set to 1 to replay recorded runs only
+      - key: MANTIS_RUNTIME_DIR
+        value: /var/data
+      - key: MANTIS_STORE_VARIANT
+        value: poisoned
+      - key: MANTIS_CAP_RUNS
+        value: "100"
+      - key: MANTIS_RATE_PER_MIN
+        value: "60"
+      - key: LLM_PROVIDER
+        value: fastrouter
+      - key: FASTROUTER_BASE_URL
+        value: https://api.fastrouter.ai/api/v1
+      - key: LLM_MODEL_AGENT
+        value: openai/gpt-4.1-mini
+      - key: LLM_MODEL_JUDGE
+        value: anthropic/claude-sonnet-4.6
+      - key: LLM_MODEL_COMPILER
+        value: anthropic/claude-sonnet-4.6
+      # -- secrets: entered once in the Render dashboard -----------------------
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: FASTROUTER_API_KEY
+        sync: false
+      - key: AG_STUDIO_LICENSE_KEY
+        sync: false
+      - key: MANTIS_MANDATE_KEY
+        generateValue: true    # HMAC key for mandate signatures, random per service

@@ -81,6 +81,10 @@ data/generated/*
 # lets MockClient run from a clean clone with no keys (HARD RULE 4).
 data/receipts/
 data/models/
+# Day 3 runtime state: gate log, quota counters, playground candidates. On Render
+# this is the persistent disk (MANTIS_RUNTIME_DIR=/var/data).
+data/runtime/
+data/playground/
 
 # Never commit credentials. The repo must not need any.
 .env

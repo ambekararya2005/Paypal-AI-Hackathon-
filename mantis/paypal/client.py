@@ -237,6 +237,9 @@ class LiveClient:
 
     def _call(self, method: str, path: str, *, body: dict[str, Any] | None = None,
               request_id: str | None = None) -> dict[str, Any]:
+        from mantis.core.quota import spend
+
+        spend("paypal")  # kill switch + daily cap on the public deployment
         headers = {
             "Authorization": f"Bearer {self._access_token()}",
             "Content-Type": "application/json",

@@ -68,7 +68,10 @@ LlmMode = Literal["mock", "live"]
 DEFAULT_PARAMS: Final[dict[str, Any]] = {"temperature": 0, "seed": 1337, "max_tokens": 1500}
 
 _DEFAULT_MODELS: Final[dict[str, str]] = {
-    "agent": "openai/gpt-5-mini",
+    # Must match the model the committed agent cache was recorded with: a clean
+    # clone has no .env, so this default *is* the replay key. It said gpt-5-mini
+    # after the Day 2 switch and replay missed on every turn (caught on 3.12).
+    "agent": "openai/gpt-4.1-mini",
     "judge": "anthropic/claude-sonnet-4.6",
     "compiler": "anthropic/claude-sonnet-4.6",
 }
@@ -270,6 +273,9 @@ class LlmChat:
         if self.mode != "live":
             raise CacheMissError(self.role, key)
 
+        from mantis.core.quota import spend
+
+        spend("llm")  # kill switch + daily cap on the public deployment; raises if refused
         provider = self._provider or _make_provider(self.settings)
         self._provider = provider
         request = {"messages": messages, "tools": tools or [],

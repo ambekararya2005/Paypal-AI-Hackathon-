@@ -18,3 +18,9 @@ data/generated/*.pkl
 # reads them. They are not in the image and they are not in the repo.
 data/reference/*.csv
 data/reference/*.zip
+# Secrets and per-machine state never enter the build context, let alone the image.
+.env
+data/runtime
+data/receipts
+data/models
+data/playground

@@ -69,6 +69,23 @@ serve = [
     "sse-starlette>=2.0",
 ]
 
+# The PayPal Hackathon deployment (Render): the console plus the live gate, the
+# LLM judge, the shopping agent and the playground. Measured, not guessed: these
+# are exactly the third-party packages importing PaymentGate + LiveScorer +
+# InjectionJudge + Shopper + MandateCompiler pulls in (scipy via scikit-learn).
+# No LightGBM: the hosted gate pins L1 off. No pyarrow, matplotlib, shap.
+server = [
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "sse-starlette>=2.0",
+    "numpy>=1.26",
+    "pandas>=2.2,<3",
+    "scikit-learn>=1.4",
+    "openai>=1.40",
+]
+
 [tool.setuptools.packages.find]
 include = ["mantis*"]
 

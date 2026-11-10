@@ -36,6 +36,7 @@ from typing import Final
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from starlette.middleware.gzip import GZipMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.staticfiles import StaticFiles
@@ -82,6 +83,10 @@ site = FastAPI(
     docs_url="/api-docs",
     openapi_url="/api-openapi.json",
 )
+# The console bundle is ~7.6 MB with AG Studio in it (~2.2 MB gzipped), and
+# StaticFiles does not compress. On a judge's phone that is the difference
+# between a page and a spinner.
+site.add_middleware(GZipMiddleware, minimum_size=1024)
 
 # Mounted before the catch-all static mount: Starlette matches routes in the
 # order they were added, so `/` would otherwise swallow every API path.

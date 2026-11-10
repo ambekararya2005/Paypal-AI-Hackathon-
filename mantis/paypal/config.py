@@ -117,6 +117,13 @@ def load_config(mode: str | None = None, *, env_file: Path = ENV_FILE) -> PayPal
     # "sandbox" is accepted as a spelling of "live": live *is* the sandbox here,
     # and a user who writes the environment's real name should not get an error.
     chosen = "live" if chosen == "sandbox" else chosen
+    # The kill switch (MANTIS_LIVE_DISABLED=1) degrades an *environment* choice of
+    # live to mock, so the public site keeps answering from recorded responses. An
+    # explicit mode="live" from code is honoured and refused at the first call.
+    from mantis.core.quota import live_disabled, runtime_dir
+
+    if mode is None and chosen == "live" and live_disabled():
+        chosen = "mock"
     if chosen not in ("mock", "live"):
         raise ConfigError(
             f"MANTIS_PAYPAL_MODE must be 'mock' or 'live' (alias 'sandbox'), got {chosen!r}"
@@ -126,6 +133,9 @@ def load_config(mode: str | None = None, *, env_file: Path = ENV_FILE) -> PayPal
         mode=chosen,  # type: ignore[arg-type]  # narrowed by the check above
         client_id=get("PAYPAL_CLIENT_ID"),
         client_secret=get("PAYPAL_CLIENT_SECRET"),
+        # On Render, MANTIS_RUNTIME_DIR is the persistent disk; receipts outlive deploys.
+        receipt_dir=(runtime_dir() / "receipts") if os.environ.get("MANTIS_RUNTIME_DIR")
+        else RECEIPT_DIR,
         mandate_key=get("MANTIS_MANDATE_KEY", DEFAULT_MANDATE_KEY),
         test_card=get("MANTIS_PAYPAL_TEST_CARD", DEFAULT_TEST_CARD),
     )
