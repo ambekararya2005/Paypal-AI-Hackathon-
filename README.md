@@ -21,11 +21,16 @@ An AI agent may only **authorize** a PayPal order. MANTIS scores it and is the o
 
 | Open | What you'll see |
 |---|---|
-| [**MANTIS Ops**](https://mantis-ze19.onrender.com/#ops) | An AG Studio dashboard over every decision the gate made: KPIs, charts, and our custom order-feed and order-detail widgets. Expand an order to see what the agent read, the injected sentence highlighted, the mandate it signed, and **Verify** the receipt against PayPal. |
-| [**Attack MANTIS**](https://mantis-ze19.onrender.com/#attack) | Write a poisoned product review. A real AI agent (gpt-4.1-mini) shops our fake store, reads it, and tries to pay on the PayPal sandbox. Watch MANTIS capture, void or hold. 5 live runs per hour per visitor. |
-| [**A recorded attack**](https://mantis-ze19.onrender.com/#attack?replay=giftcard) | The same, replayed offline: a fake review talks the agent into a $400 gift card; MANTIS voids it. |
+| [**Overview**](https://mantis-ze19.onrender.com/#/overview) | Where to start: a getting-started checklist, totals from the gate log, the latest orders and anything waiting for review. |
+| [**Orders**](https://mantis-ze19.onrender.com/#/orders) | An AG Studio dashboard over every decision the gate made: KPIs, charts, and our custom order-feed and order-detail widgets built on AG Grid Community. |
+| [**Order detail**](https://mantis-ze19.onrender.com/#/orders/5YM287057T143621E) | One order, laid out like a payment page: the $400 GiftHub order MANTIS voided, its timeline, the injected sentence highlighted, the mandate it broke, and the printable receipt. |
+| [**Review queue**](https://mantis-ze19.onrender.com/#/review) | Orders MANTIS held for a person. **Review** opens the consent page: approve captures, deny voids. |
+| [**Playground**](https://mantis-ze19.onrender.com/#/playground) | Write a poisoned product review. A real AI agent (gpt-4.1-mini) shops our fake store, reads it, and tries to pay on the PayPal sandbox. Watch MANTIS capture, void or hold. 5 live runs per hour per visitor. |
+| [**A recorded attack**](https://mantis-ze19.onrender.com/#/playground?replay=giftcard) | The same, replayed offline: a fake review talks the agent into a $400 gift card; MANTIS voids it. |
+| [**Verify**](https://mantis-ze19.onrender.com/#/verify?id=5YM287057T143621E) | Recompute an order's receipt hash and compare it with the `custom_id` PayPal holds for that order. |
+| [**MCP Server**](https://mantis-ze19.onrender.com/#/mcp) | MANTIS as an MCP server for Claude Desktop: PayPal's own hosted MCP tools behind the gate, with no tool that can capture, pay, refund or void. Setup and a 2-minute demo script: [`docs/mcp.md`](docs/mcp.md). |
 
-**MANTIS as an MCP server** (Claude Desktop): PayPal's own hosted MCP tools behind the gate, with no tool that can capture, pay, refund or void. Setup and a 2-minute demo script: [`docs/mcp.md`](docs/mcp.md).
+Older links (`#ops`, `#attack`, `#console`, `#results`, `#atlas`, `#fidelity`) still work and redirect to the new pages.
 
 **Run it yourself, offline, no keys** (Python 3.11 / 3.12 / 3.14 tested):
 
@@ -45,9 +50,20 @@ Deploying: [`docs/deploy_render.md`](docs/deploy_render.md).
 |---|---|
 | **Access** | No login, no account. Everything runs on the **PayPal sandbox**; no real money and no real store is ever touched. |
 | **Live playground runs** | **5 per visitor (IP) per hour**, **100 per day** across the site. Each one is a real gpt-4.1-mini agent and real sandbox orders. |
-| **Recorded replays** | Any time, no daily cap: the three buttons under *Attack MANTIS*, or the *recorded attack* link above. **If the live cap is hit, the recorded replays show the same flow**, decision for decision. |
+| **Recorded replays** | Any time, no daily cap: the three replay links on the *Playground*, or the *recorded attack* link above. **If the live cap is hit, the recorded replays show the same flow**, decision for decision. |
 | **Remaining runs** | [`/api/limits`](https://mantis-ze19.onrender.com/api/limits) shows today's usage, the caps, what is left, and whether the kill switch is on. |
 | **MCP demo** | `pip install -e ".[agent]"`, paste [`docs/claude_desktop_config.json`](docs/claude_desktop_config.json) into Claude Desktop (fix the Python path), restart, then follow the six prompts in [`docs/mcp.md`](docs/mcp.md#the-video-script-about-2-minutes): compile a mandate, get talked into a $400 gift card (voided), buy milk (held), approve or deny on the consent page, ask for a capture (no tool can). |
+
+---
+
+## PayPal, AI and sponsor tools we used
+
+- **PayPal:** Orders v2 (AUTHORIZE only, with the receipt hash in `custom_id`), Payments v2 (capture and void, by MANTIS only), PayPal's hosted MCP server behind our gating proxy, Orders GET for Verify, and Vault (flow built; live demo uses the card path).
+- **AI:** gpt-4.1-mini (the shopping agent) and Claude Sonnet 4.6 (the injection judge and the mandate compiler), via FastRouter; LightGBM and scikit-learn for the risk model, which can only tighten a decision.
+- **AG Grid:** the Orders page is built in AG Studio (layout, Studio charts, custom theme), with two custom widgets on AG Grid Community: the order feed with custom cell renderers, and the order-detail panel.
+- **APIMatic:** we used the APIMatic Context Plugin for PayPal inside Claude Code for accurate PayPal API context while building the gate.
+- **Render:** deployed from a Blueprint (`render.yaml`) as a Docker service with a health check, env-var secrets, and a Starter instance with a 1 GB persistent disk.
+- **Claude Code:** the team's pair programmer; 395 tests, ruff clean.
 
 ---
 
@@ -93,7 +109,7 @@ flowchart TD
 
 ## Live sandbox evidence
 
-Every row is a real PayPal **sandbox** order, scored by MANTIS and then captured, voided or held on PayPal. The six Day 2 orders are the seeded rows in [MANTIS Ops](https://mantis-ze19.onrender.com/#ops), and **Verify** on each one recomputes the receipt hash and matches it against the `custom_id` PayPal holds.
+Every row is a real PayPal **sandbox** order, scored by MANTIS and then captured, voided or held on PayPal. The six Day 2 orders are the seeded rows in [Orders](https://mantis-ze19.onrender.com/#/orders), and [**Verify**](https://mantis-ze19.onrender.com/#/verify) on each one recomputes the receipt hash and matches it against the `custom_id` PayPal holds.
 
 | Run | Scenario | Sandbox id | MANTIS decision | On PayPal |
 |---|---|---|---|---|
@@ -122,8 +138,9 @@ G is the case a rule cannot catch: FreshMart, groceries, under the cap. No L0 cl
 - **The authorization gate.** An agent may only authorize; MANTIS captures, voids or holds. PayPal orders map onto our transaction schema, a sha256 receipt goes into `custom_id`, and a mock PayPal state machine (built from recorded sandbox traffic) lets a clean clone run with no keys.
 - **A real AI agent and an injection judge.** gpt-4.1-mini shops a fake store through the gate. Claude Sonnet 4.6 reads every page the agent read and must quote the injected sentence verbatim, or its verdict is discarded. There's also a mandate budget, session taint and a consent page.
 - **Mandates from one sentence, and MANTIS as an MCP server.** The mandate compiler turns "groceries this week, max $50/order, $150 total, only FreshMart" into a signed mandate. The MCP proxy puts PayPal's hosted MCP tools behind the gate with no tool that can move money.
-- **MANTIS Ops on AG Studio.** Studio layout, KPI tiles, charts and theming, with our custom widgets inside: an AG Grid Community order feed with full-width detail rows, and an order-detail and provenance view with **Verify** against PayPal.
-- **Attack MANTIS, deployed.** Visitors write the injection and a real agent reads it on the sandbox. It runs as a public Render service with per-IP limits, daily caps, a kill switch and recorded replays.
+- **Orders on AG Studio.** Studio layout, KPI tiles, charts and theming, with our custom widgets inside: an AG Grid Community order feed with full-width detail rows, and an order-detail and provenance view with **Verify** against PayPal.
+- **A payments dashboard around it.** Overview, a payment-style order detail page, a review queue, receipt verification and the MCP setup, all reading the live gate log.
+- **The Playground, deployed.** Visitors write the injection and a real agent reads it on the sandbox. It runs as a public Render service with per-IP limits, daily caps, a kill switch and recorded replays.
 
 MANTIS began as our Mastercard AI Innovation Challenge entry: an offline synthetic fraud detector with no payment integration. Everything PayPal, agent, judge, MCP, dashboard and deployment is new.
 
@@ -237,7 +254,7 @@ The question every fraud team asks is *"what about attacks we haven't seen yet?"
 
 ### See the offline console
 
-The [**Live console**](https://mantis-ze19.onrender.com/#console) tab replays 600 pre-scored synthetic payments one at a time: a risk index, which layers fired, the decision, and the **three features that drove it**. Rows turn red or green when the true outcome arrives. The scored event and the ground truth are **separate objects on the wire**, so the UI cannot colour a row before the score arrives. Fraud is over-sampled so something happens while you watch, and the console header states the true rate. *Results*, *Attack atlas* and *Fidelity* hold the rest.
+The [**Live console**](https://mantis-ze19.onrender.com/#/research/console) tab under *Offline research* replays 600 pre-scored synthetic payments one at a time: a risk index, which layers fired, the decision, and the **three features that drove it**. Rows turn red or green when the true outcome arrives. The scored event and the ground truth are **separate objects on the wire**, so the UI cannot colour a row before the score arrives. Fraud is over-sampled so something happens while you watch, and the console header states the true rate. *Results*, *Attack atlas* and *Fidelity* hold the rest.
 
 ### Offline pipeline
 
@@ -283,7 +300,7 @@ mantis/
 ├── foundry/    # calibrated population, attack injectors, LLM content, fidelity
 ├── loop/       # evolutionary adversary + retraining arena
 └── core/       # event schema, paths, quotas
-web/            # React + Vite: MANTIS Ops (AG Studio), Attack MANTIS, offline console
+web/            # React + Vite: Overview, Orders (AG Studio), order detail, Playground, Verify, offline research
 RESULTS.md      # every offline number, generated by the run
 ```
 
@@ -293,6 +310,6 @@ RESULTS.md      # every offline number, generated by the run
 
 **PayPal gave agents a wallet. MANTIS gives them a conscience.**
 
-Built by Arya Ambekar, Aaryaman Mishra and Ishan Ambekar
+Team: Arya Ambekar, Aaryaman Mishra, Ishan Ambekar
 
 </div>
