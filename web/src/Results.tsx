@@ -26,19 +26,19 @@ import {
 } from "recharts";
 import { type ArenaResponse, type ResultsResponse, fetchArena, fetchResults } from "./api";
 
-const AXIS = { stroke: "#5a6a80", fontSize: 11 };
-const GRID = "#1f2836";
-const BLUE = "#22d3ee";
-const RED = "#f59e0b";
+const AXIS = { stroke: "#8f8e89", fontSize: 11 };
+const GRID = "#e6e5e1";
+const BLUE = "#1d6b48";
+const RED = "#8a5a00";
 
 const TOOLTIP = {
   contentStyle: {
-    background: "#0d1117",
-    border: "1px solid #2c3849",
+    background: "#ffffff",
+    border: "1px solid #d4d3ce",
     borderRadius: 8,
     fontSize: 12,
   },
-  labelStyle: { color: "#8b9bb0" },
+  labelStyle: { color: "#5f5e5a" },
 };
 
 function num(text: string | undefined): number {
@@ -185,7 +185,7 @@ function FprCurve({ results }: { results: ResultsResponse }) {
             <YAxis domain={[0, 0.8]} {...AXIS} />
             <Tooltip {...TOOLTIP} />
             <Line type="monotone" dataKey="fused" stroke={BLUE} strokeWidth={2.5} dot={{ r: 3.5 }} />
-            <Line type="monotone" dataKey="L1" stroke="#0e7490" strokeWidth={2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="L1" stroke="#5f5e5a" strokeWidth={2} dot={{ r: 3 }} />
             <Line type="monotone" dataKey="L3" stroke={RED} strokeWidth={1.5} strokeDasharray="4 3" dot={{ r: 2.5 }} />
           </LineChart>
         </ResponsiveContainer>
@@ -232,7 +232,7 @@ function FamilyRecall({ results }: { results: ResultsResponse }) {
           </BarChart>
         </ResponsiveContainer>
         <div className="note" style={{ marginTop: 10 }}>
-          Cyan: the family is in training. Amber: it is not. Supervised detection collapses
+          Green: the family is in training. Ochre: it is not. Supervised detection collapses
           on attacks it has never seen — that gap is the problem the closed loop exists to
           answer, and publishing it is the reason the recovery table above means anything.
         </div>
@@ -300,13 +300,13 @@ function PerCard({ results }: { results: ResultsResponse }) {
             <Tooltip {...TOOLTIP} />
             <Bar dataKey="fused" radius={[3, 3, 0, 0]}>
               {data.map((d) => (
-                <Cell key={d.card} fill={d.family === "F1" ? BLUE : "#0e7490"} />
+                <Cell key={d.card} fill={d.family === "F1" ? BLUE : "#8f8e89"} />
               ))}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
         <div className="note" style={{ marginTop: 10 }}>
-          Cyan is the agentic family F1, the rail this project is about. The weak cards are
+          Green is the agentic family F1, the rail this project is about. The weak cards are
           reported rather than dropped: F4-27 and F6-39 are where the next detection work
           is, and the adversarial loop names them independently by finding them easy to
           evade.

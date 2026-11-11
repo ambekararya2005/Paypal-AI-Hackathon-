@@ -105,12 +105,12 @@ export function OrderFeedWidget(params: AgWidgetParams) {
   }, [rows, allowed, open]);
 
   const columnDefs = useMemo<ColDef<FeedRow>[]>(() => [
-    { headerName: "Time", field: "ts" as never, width: 96, valueFormatter: (p) => time(String(p.value ?? "")), sort: "desc" },
+    { headerName: "Time", field: "ts" as never, width: 118, valueFormatter: (p) => time(String(p.value ?? "")), sort: "desc" },
     { headerName: "Merchant", field: "merchant_id" as never, width: 132, cellRenderer: Merchant },
-    { headerName: "Decision", field: "decision" as never, width: 112, cellRenderer: DecisionPill },
+    { headerName: "Decision", field: "decision" as never, width: 92, cellRenderer: DecisionPill },
     { headerName: "Risk", field: "risk" as never, width: 84, cellRenderer: RiskBar },
-    { headerName: "Caught by", field: "layers_fired" as never, width: 146, cellRenderer: LayerChips, sortable: false, cellDataType: false },
-    { headerName: "PayPal", field: "final_state" as never, width: 176, cellRenderer: PayPalBadge },
+    { headerName: "Stopped by", field: "layers_fired" as never, width: 150, cellRenderer: LayerChips, sortable: false, cellDataType: false },
+    { headerName: "PayPal", field: "final_state" as never, width: 170, cellRenderer: PayPalBadge },
     { headerName: "Money", field: "total" as never, width: 118, cellRenderer: Protected, type: "rightAligned" },
     { headerName: "Latency", headerTooltip: "agent · judge · score · PayPal", field: "latency" as never, width: 120, cellRenderer: LatencySplit, sortable: false, cellDataType: false },
     { headerName: "Judge quote", field: "judge_quote" as never, flex: 1, minWidth: 170, cellRenderer: JudgeQuote },

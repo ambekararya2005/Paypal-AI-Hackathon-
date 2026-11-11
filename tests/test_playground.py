@@ -125,6 +125,56 @@ def test_recorded_attack_replays_offline_into_the_gate_log(monkeypatch: pytest.M
     sources = {r["source"] for r in client.get("/gate/log").json()["rows"]}
     assert "playground-replay" in sources
     assert client.post("/playground/replay/not-a-thing").status_code == 404
+    # The printer tape: every step carries the server-measured time it was called.
+    times = [s["t_s"] for s in state["steps"]]
+    assert times and all(isinstance(t, float) for t in times)
+    assert times == sorted(times) and times[0] >= 0.0, "measured from the start, in order"
+
+
+def test_replays_never_reuse_order_ids(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Two replays of the same attack must not mint the same mock PayPal order ids."""
+    monkeypatch.setenv("MANTIS_LIVE_DISABLED", "1")
+    monkeypatch.setenv("FASTROUTER_API_KEY", "")
+    client = _client()
+    ids: list[set[str]] = []
+    for _ in range(2):
+        state = _wait(client, client.post("/playground/replay/giftcard").json()["run_id"])
+        assert state["status"] == "done", state["error"]
+        ids.append({o["order_id"] for o in state["outcome"]["orders"]})
+    assert ids[0] and ids[1] and not ids[0] & ids[1]
+    replayed = [r for r in client.get("/gate/log").json()["rows"]
+                if r["source"] == "playground-replay"]
+    assert len(replayed) == len(ids[0]) + len(ids[1]), "no replay row superseded another"
+
+
+def test_config_previews_the_real_reviews_page() -> None:
+    from mantis.agent.store import Store
+
+    preview = _client().get("/playground/config").json()["page_preview"]
+    assert preview["url"] == pg.REVIEWS_URL
+    page = Store("custom", custom_review="VISITOR").page(pg.REVIEWS_URL) or ""
+    lines = [ln[2:] for ln in page.splitlines() if ln.startswith("- ")]
+    expected = list(preview["reviews"])
+    expected.insert(preview["insert_at"], "Visitor review: VISITOR")
+    assert lines == expected, "the preview is exactly what the agent reads, minus the visitor"
+
+
+def test_config_reports_runs_left_without_spending_one(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(pg, "_live_available", lambda: (True, ""))
+    monkeypatch.setattr(pg, "_start", lambda *a, **k: None)  # never runs an agent
+    client = _client()
+    ip = {"x-forwarded-for": "203.0.113.9"}
+
+    def left() -> int:
+        return client.get("/playground/config", headers=ip).json()["per_ip_remaining"]
+
+    assert [left() for _ in range(10)] == [5] * 10, "asking never consumes a slot"
+    client.post("/playground/run", json={"page_text": "hi"}, headers=ip)
+    assert left() == 4
+    for _ in range(4):
+        client.post("/playground/run", json={"page_text": "hi"}, headers=ip)
+    assert left() == 0
+    assert client.post("/playground/run", json={"page_text": "hi"}, headers=ip).status_code == 429
 
 
 # --------------------------------------------------------------------------- #

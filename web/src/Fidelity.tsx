@@ -34,18 +34,18 @@ import {
   fetchLatency,
 } from "./api";
 
-const AXIS = { stroke: "#5a6a80", fontSize: 11 };
-const GRID = "#1f2836";
-const BLUE = "#22d3ee";
-const RED = "#f59e0b";
+const AXIS = { stroke: "#8f8e89", fontSize: 11 };
+const GRID = "#e6e5e1";
+const BLUE = "#1d6b48";
+const RED = "#8a5a00";
 const TOOLTIP = {
   contentStyle: {
-    background: "#0d1117",
-    border: "1px solid #2c3849",
+    background: "#ffffff",
+    border: "1px solid #d4d3ce",
     borderRadius: 8,
     fontSize: 12,
   },
-  labelStyle: { color: "#8b9bb0" },
+  labelStyle: { color: "#5f5e5a" },
 };
 
 const LEVEL_LABELS: [string, string, number][] = [
@@ -154,7 +154,7 @@ function Marginals({ card }: { card: FidelityResponse }) {
             <XAxis dataKey="feature" {...AXIS} interval={0} angle={-20} textAnchor="end" height={64} />
             <YAxis scale="log" domain={[0.5, 2000]} {...AXIS} />
             <Tooltip {...TOOLTIP} formatter={(v: number) => `${v.toFixed(1)}x noise`} />
-            <ReferenceLine y={1} stroke="#8b9bb0" strokeDasharray="4 3" />
+            <ReferenceLine y={1} stroke="#5f5e5a" strokeDasharray="4 3" />
             <Bar dataKey="ratio">
               {data.map((row) => (
                 <Cell key={row.feature} fill={row.ratio > 3 ? RED : BLUE} />

@@ -2,97 +2,96 @@
  * Cell renderers for the MANTIS order feed (AG Grid Community, inside an AG Studio
  * custom widget). Each one answers a question an operator asks at a glance:
  * how risky, what was decided, which layer caught it, what PayPal did, and how
- * much money did not move.
+ * much money did not move. Status uses the app's badges; layers are plain words;
+ * the order id links to its order page.
  */
 
 import type { ICellRendererParams } from "ag-grid-community";
+import { LAYER_WORDS } from "../app/data";
+import { orderHref } from "../app/router";
+import { StatusBadge } from "../app/ui";
 import type { LogRow } from "./store";
 import { MERCHANTS, money } from "./store";
 
 type P = ICellRendererParams<LogRow>;
 
-/** Layer chip legend: label, tooltip. Order is the order they are shown in. */
+/** Layer legend: id, label, tooltip. Order is the order they are shown in. */
 export const LAYERS: [string, string, string][] = [
-  ["L0", "L0", "Protocol clause: the order breaks the signed mandate"],
-  ["budget", "budget", "Gate clause: the mandate's total budget is spent"],
-  ["gate", "gate", "Gate clause: the order does not match its receipt"],
-  ["judge", "judge", "LLM injection judge: an instruction aimed at the agent, quoted"],
-  ["L3", "L3", "Text classifier: the page looks like an injection"],
-  ["unvetted", "unvetted", "A page nobody could vouch for: held, fail closed"],
-  ["L1", "L1", "Supervised model escalated the decision"],
-  ["taint", "taint", "Session taint: in scope, but the agent read an injected page"],
+  ["L0", "Mandate rules", "Protocol clause: the order breaks the signed mandate"],
+  ["budget", "Budget", "Gate clause: the mandate's total budget is spent"],
+  ["gate", "Receipt check", "Gate clause: the order does not match its receipt"],
+  ["judge", "Injection judge", "LLM injection judge: an instruction aimed at the agent, quoted"],
+  ["L3", "Text classifier", "Text classifier: the page looks like an injection"],
+  ["unvetted", "Unvetted page", "A page nobody could vouch for: held, fail closed"],
+  ["L1", "Risk model", "Supervised model escalated the decision"],
+  ["taint", "Session taint", "Session taint: in scope, but the agent read an injected page"],
 ];
 
+/** A thin 2 px line: risk as a share of the cell. */
 export function RiskBar({ value }: P) {
   const risk = typeof value === "number" ? value : 0;
   const pct = Math.round(risk * 100);
-  const tone = risk >= 0.85 ? "hi" : risk >= 0.5 ? "mid" : "lo";
   return (
     <div className="ops-risk" title={`risk ${pct}%`}>
-      <div className={`ops-risk-fill ${tone}`} style={{ width: `${Math.max(4, pct)}%` }} />
-      <span className="ops-risk-num">{pct}</span>
+      <span className="ops-risk-num num">{pct}</span>
+      <div className="ops-risk-track">
+        <div className="ops-risk-fill" style={{ width: `${Math.max(2, pct)}%` }} />
+      </div>
     </div>
   );
 }
 
+const DECISION: Record<string, string> = { approve: "Approve", review: "Review", challenge: "Challenge", decline: "Decline" };
+
+/** The gate's decision, as a word; the status badge in the PayPal column carries colour. */
 export function DecisionPill({ value }: P) {
   const v = String(value ?? "");
-  return <span className={`ops-pill ops-pill-${v}`}>{v.toUpperCase()}</span>;
+  return <span className="ops-decision">{DECISION[v] ?? v}</span>;
 }
 
 export function LayerChips({ data }: P) {
   if (!data) return null;
   const fired = new Set(data.layers_fired);
-  if (fired.size === 0) {
-    return <span className="ops-chip ops-chip-clear" title="every check passed">clear</span>;
-  }
+  if (fired.size === 0) return <span className="ops-faint" title="every check passed">—</span>;
+  const shown = LAYERS.filter(([id]) => fired.has(id));
   return (
-    <span className="ops-chips">
-      {LAYERS.filter(([id]) => fired.has(id)).map(([id, label, tip]) => (
-        <span key={id} className={`ops-chip ops-chip-${id}`} title={tip}>
-          {label}
-        </span>
-      ))}
+    <span className="ops-layers" title={shown.map(([, , tip]) => tip).join("\n")}>
+      {shown.map(([id]) => LAYER_WORDS[id] ?? id).join(", ")}
     </span>
   );
 }
 
-const STATE_LABEL: Record<string, string> = {
-  captured: "CAPTURED",
-  voided: "VOIDED",
-  held: "HELD",
-  authorized: "AUTHORIZED",
-};
-
+/** Status badge (click to expand the row's detail) and the order id, linked to its page. */
 export function PayPalBadge({ data, context }: P & { context: { toggle: (id: string) => void } }) {
   if (!data) return null;
-  const s = data.final_state;
   return (
-    <button
-      type="button"
-      className={`ops-pp ops-pp-${s}`}
-      onClick={() => context.toggle(data.order_id)}
-      title={`PayPal sandbox order ${data.order_id} — click for provenance, mandate and receipt`}
-    >
-      <span className="ops-pp-dot" />
-      {STATE_LABEL[s] ?? s.toUpperCase()}
-      {/* last 6: the full id is in the tooltip and the detail view */}
-      <span className="ops-pp-id">…{data.order_id.slice(-6)}</span>
-    </button>
+    <span className="ops-pp">
+      <button
+        type="button"
+        className="ops-pp-btn"
+        onClick={() => context.toggle(data.order_id)}
+        title="Expand provenance, mandate and receipt"
+      >
+        <StatusBadge state={data.final_state} />
+      </button>
+      <a className="ops-pp-id mono" href={orderHref(data.order_id)} title={`Open order ${data.order_id}`} onClick={(e) => e.stopPropagation()}>
+        …{data.order_id.slice(-6)}
+      </a>
+    </span>
   );
 }
 
 export function Protected({ data }: P) {
   if (!data) return null;
   if (data.protected_usd > 0) {
-    return <span className="ops-money ops-money-protected" title="blocked: never moved">
-      ⛨ {money(data.protected_usd, data.currency)}
-    </span>;
+    return (
+      <span className="ops-money num" title="blocked before capture: never moved">
+        {money(data.protected_usd, data.currency)}
+      </span>
+    );
   }
-  if (data.captured_usd > 0) {
-    return <span className="ops-money ops-money-captured">{money(data.captured_usd, data.currency)}</span>;
-  }
-  return <span className="ops-money ops-money-held">{money(data.held_usd, data.currency)} held</span>;
+  if (data.captured_usd > 0) return <span className="ops-money num">{money(data.captured_usd, data.currency)}</span>;
+  return <span className="ops-money num">{money(data.held_usd, data.currency)}</span>;
 }
 
 export function Merchant({ data }: P) {
