@@ -1,4 +1,4 @@
-/** Claude Desktop (MCP): run MANTIS as an MCP proxy in front of PayPal's hosted tools. */
+/** MCP Server: run MANTIS as an MCP proxy in front of PayPal's hosted tools. */
 
 import { GITHUB } from "../data";
 import { CopyButton, PageHead, Panel } from "../ui";
@@ -35,7 +35,7 @@ export default function Mcp() {
   return (
     <>
       <PageHead
-        title="Claude Desktop (MCP)"
+        title="MCP Server"
         sub="MANTIS runs as an MCP server over stdio. Claude Desktop, or any MCP client, gets PayPal's tools with the gate in front of them."
       />
       <div className="m-stack">

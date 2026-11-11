@@ -130,7 +130,6 @@ button.primary:hover { background:var(--accent-hover); }
 button:disabled { opacity:.5; cursor:default; }
 button:focus-visible, a:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 #result { margin-top:10px; font-weight:500; }
-.foot { margin-top:12px; font-size:12.5px; color:var(--text-2); text-align:center; }
 @media (max-width:520px) {
   main { margin-top:16px; }
   .actions button { flex:1 1 100%; }
@@ -250,7 +249,6 @@ the funds.</p>
 <button class="primary" id="approve"{disabled}>Approve and capture</button></div>
 <div id="result" role="status"></div></div>
 </div>
-<p class="foot">Arya Ambekar, Aaryaman Mishra, Ishan Ambekar</p>
 </main>
 <script>
 const orderId = {payload};

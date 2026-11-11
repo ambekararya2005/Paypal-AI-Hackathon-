@@ -7,7 +7,7 @@
  *   #/review              held orders waiting on a person
  *   #/playground          write an attack, watch a real agent run (?replay=giftcard)
  *   #/verify?id=…         recompute a receipt hash and compare it with PayPal's
- *   #/mcp                 Claude Desktop (MCP): MANTIS as an MCP server
+ *   #/mcp                 MCP Server: MANTIS as an MCP server (Claude Desktop)
  *   #/research/:tab       the pre-hackathon offline research screens
  *
  * Old links (#ops, #attack, #console, #results, #atlas, #fidelity, #home) are
@@ -45,7 +45,7 @@ function crumbsFor(route: Route): Crumb[] {
     case "verify":
       return [["Verify receipt"]];
     case "mcp":
-      return [["Claude Desktop (MCP)"]];
+      return [["MCP Server"]];
     case "research":
       return [["Offline research", "#/research/console"], [TAB_LABEL[route.tab]]];
     default:

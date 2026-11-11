@@ -85,7 +85,7 @@ function Sidebar({ route, onNavigate }: { route: Route; onNavigate: () => void }
     { href: "#/review", label: "Review queue", icon: <TimerIcon />, active: route.name === "review", badge: held },
     { href: "#/playground", label: "Playground", icon: <PlayIcon />, active: route.name === "playground" },
     { href: "#/verify", label: "Verify receipt", icon: <CheckCircledIcon />, active: route.name === "verify" },
-    { href: "#/mcp", label: "Claude Desktop (MCP)", icon: <CodeIcon />, active: route.name === "mcp" },
+    { href: "#/mcp", label: "MCP Server", icon: <CodeIcon />, active: route.name === "mcp" },
   ];
   const research: NavItem[] = [
     { href: "#/research/console", label: "Offline research", icon: <BarChartIcon />, active: route.name === "research" },
@@ -244,16 +244,6 @@ export default function Shell({ route, crumbs, children }: { route: Route; crumb
             </a>
           </header>
           <main className="m-content">{children}</main>
-          <footer className="m-foot">
-            <span>Arya Ambekar, Aaryaman Mishra, Ishan Ambekar</span>
-            <span>Vault flow built; live demo uses the card path</span>
-            <span>
-              <a href={GITHUB} target="_blank" rel="noreferrer">
-                GitHub
-              </a>{" "}
-              · MIT licence
-            </span>
-          </footer>
         </div>
       </div>
       <ToastHost />

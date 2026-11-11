@@ -334,15 +334,6 @@ mark {
   box-sizing: border-box;
   padding: 24px 32px 48px;
 }
-.m-foot {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-  padding: 16px 32px 24px;
-  border-top: 1px solid var(--border);
-  font-size: 12.5px;
-  color: var(--text-2);
-}
 
 /* drawer (phones) */
 .m-drawer-wrap {
@@ -1203,9 +1194,6 @@ select.m-input {
   }
   .m-content {
     padding: 16px 16px 32px;
-  }
-  .m-foot {
-    padding: 14px 16px 20px;
   }
   .m-hide-sm {
     display: none;
