@@ -149,6 +149,11 @@ def _new_gate(paypal_mode: str | None, llm_mode: str, source: str) -> Any:  # An
     scorer.judge = _judge(llm_mode)
     gate = PaymentGate(load_config(paypal_mode), scorer=scorer)
     gate.source = source
+    if getattr(gate._client, "mode", "") == "mock":
+        # Its own id space per run. With MockClient's shared default seed every replay
+        # minted the same order ids, so a later replay's row superseded an earlier
+        # one in the gate log and the consent page could find the wrong order.
+        gate._client._seed = uuid.uuid4().int & 0xFFFFFFFF
 
     def log(record: Any) -> None:  # Any: GateRecord
         # Mark the visitor's page before it reaches the shared log.
@@ -300,9 +305,15 @@ def _start(run: Run, variant: str, llm_mode: str, paypal_mode: str | None) -> No
 
 
 @router.get("/playground/config")
-def config() -> dict[str, Any]:
+def config(request: Request) -> dict[str, Any]:
+    from mantis.agent.store import reviews_preview
+
     live, why = _live_available()
     return {
+        # What the visitor's review will sit among, so the page preview is the real page.
+        "page_preview": reviews_preview(),
+        # A peek at this visitor's hourly window; asking never consumes a slot.
+        "per_ip_remaining": _PER_IP.remaining(client_ip(request)),
         "template": TEMPLATE,
         "max_chars": MAX_PAGE_CHARS,
         "tasks": [{"id": k, "text": v} for k, v in TASKS.items()],
@@ -354,6 +365,8 @@ def get_run(run_id: str) -> dict[str, Any]:
     if run.tools is not None:
         for entry in list(run.tools.log):
             steps.append({"tool": entry["tool"], "args": entry["args"],
-                          "result": str(entry["result"])[:240]})
+                          "result": str(entry["result"])[:240],
+                          # None when the entry predates the field: never estimated.
+                          "t_s": entry.get("t_s")})
     return {"run_id": run.run_id, "kind": run.kind, "status": run.status, "error": run.error,
             "task": run.task, "steps": steps, "outcome": run.outcome}

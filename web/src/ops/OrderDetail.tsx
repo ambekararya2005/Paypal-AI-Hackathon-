@@ -12,6 +12,8 @@
  */
 
 import { useState } from "react";
+import { orderHref } from "../app/router";
+import { StatusBadge } from "../app/ui";
 import type { Evidence, LogRow } from "./store";
 import { MERCHANTS, apiBase, money, opsStore, useOps } from "./store";
 
@@ -58,7 +60,7 @@ function Page({ page, orderId }: { page: Evidence; orderId: string }) {
             : page.l3 != null
               ? `L3 ${page.l3.toFixed(2)}`
               : ""}
-          {page.judge ? ` · judge: ${page.judge.injected ? "INJECTION" : page.judge.injected === false ? "clean" : "no opinion"}` : ""}
+          {page.judge ? ` · judge: ${page.judge.injected ? "injection" : page.judge.injected === false ? "clean" : "no opinion"}` : ""}
           {page.visitor_authored ? " · visitor-written" : ""}
         </span>
       </div>
@@ -95,14 +97,14 @@ function VerifyBox({ row }: { row: LogRow }) {
       </div>
       <button type="button" className="ops-btn" onClick={() => opsStore.verify(row.order_id)}
               disabled={result === "pending"}>
-        {result === "pending" ? "Verifying…" : "Verify against PayPal"}
+        {result === "pending" ? "Checking PayPal…" : "Verify receipt"}
       </button>
       {result && result !== "pending" && (
         result === "error" ? (
           <div className="ops-verify bad">Could not verify (no receipt on this server).</div>
         ) : (
           <div className={`ops-verify ${result.match ? "ok" : "bad"}`}>
-            {result.match ? "✔ MATCH" : "✘ MISMATCH"} — custom_id{" "}
+            {result.match ? "Matches PayPal" : "Mismatch"} · custom_id{" "}
             <code>{(result.custom_id ?? "none").slice(0, 16)}…</code> ({result.source}).{" "}
             {result.detail}
           </div>
@@ -127,9 +129,11 @@ export function OrderDetailView({ row }: { row: LogRow }) {
         {row.mandate ? (
           <>
             <p className="ops-faint">“{row.mandate.description}”</p>
+            <div className="ops-list-label">Allowed</div>
             <ul className="ops-can">
               {row.mandate.can.map((c) => <li key={c}>{c}</li>)}
             </ul>
+            <div className="ops-list-label">Not allowed</div>
             <ul className="ops-cannot">
               {row.mandate.cannot.map((c) => <li key={c}>{c}</li>)}
             </ul>
@@ -141,18 +145,20 @@ export function OrderDetailView({ row }: { row: LogRow }) {
         <ul className="ops-reasons">
           {row.reasons.map((r) => (
             <li key={r.code + r.detail}>
-              <span className={`ops-chip ops-chip-${r.layer === "L3-judge" ? "judge" : r.layer}`}>{r.layer}</span>{" "}
-              <code>{r.code}</code> {r.detail}
+              <span className="ops-reason-layer">{r.layer}</span> <code>{r.code}</code> {r.detail}
             </li>
           ))}
         </ul>
         <h4>The money</h4>
         <p>
           {money(row.total, row.currency)} at {MERCHANTS[row.merchant_id] ?? row.merchant_id} ·{" "}
-          {row.decision.toUpperCase()} → {row.paypal_action} → <b>{row.final_state}</b>
+          {row.decision} → {row.paypal_action} → <StatusBadge state={row.final_state} />
           {row.consent ? ` (human ${row.consent.approve ? "approved" : "denied"})` : ""}
         </p>
         <VerifyBox row={row} />
+        <p>
+          <a href={orderHref(row.order_id)}>Open order page →</a>
+        </p>
       </section>
     </div>
   );
@@ -165,8 +171,8 @@ export function OrderDetailWidget() {
   return (
     <div className="ops-widget-scroll">
       <div className="ops-detail-title">
-        <span className={`ops-pill ops-pill-${row.decision}`}>{row.decision.toUpperCase()}</span>
-        <code>{row.order_id}</code>
+        <StatusBadge state={row.final_state} />
+        <a className="mono" href={orderHref(row.order_id)}>{row.order_id}</a>
         {row.judge_quote && <span className="ops-quote">“{row.judge_quote}”</span>}
       </div>
       <OrderDetailView row={row} />

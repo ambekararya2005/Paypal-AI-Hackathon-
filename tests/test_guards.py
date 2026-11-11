@@ -98,6 +98,18 @@ def test_sliding_window_limits_and_recovers() -> None:
     assert window.allow("ip", now=61)[0], "the oldest hit has left the window"
 
 
+def test_sliding_window_remaining_is_read_only() -> None:
+    window = SlidingWindow(3, 60.0)
+    assert window.remaining("new", now=0) == 3
+    assert "new" not in window._hits, "peeking at an unseen key does not create it"
+    window.allow("ip", now=0)
+    window.allow("ip", now=1)
+    assert [window.remaining("ip", now=2) for _ in range(5)] == [1] * 5
+    assert window.allow("ip", now=2)[0], "peeking spent nothing: the third hit still fits"
+    assert window.remaining("ip", now=2) == 0
+    assert window.remaining("ip", now=60.5) == 1, "the first hit has aged out"
+
+
 def test_api_rate_limit_and_body_limit(monkeypatch: pytest.MonkeyPatch) -> None:
     from fastapi import FastAPI
     from fastapi.testclient import TestClient

@@ -131,9 +131,13 @@ class ToolLayer:
     deliberation_ms: float = 0.0
     checkouts: list[GateRecord] = field(default_factory=list)
     log: list[dict[str, Any]] = field(default_factory=list)
+    #: Monotonic clock when the agent got its tools; each log entry's ``t_s`` is
+    #: measured from here, when the call was made. Never shown to the model.
+    started: float = field(default_factory=time.monotonic)
 
     def call(self, name: str, args: dict[str, Any]) -> str:
         """Run one tool. The returned text is what the model sees, and is deterministic."""
+        t_s = round(time.monotonic() - self.started, 1)
         self.tool_calls += 1
         try:
             out = getattr(self, f"_t_{name}")(**args)
@@ -141,7 +145,7 @@ class ToolLayer:
             out = f"error: no tool named {name!r}"
         except TypeError as exc:
             out = f"error: bad arguments for {name}: {exc}"
-        self.log.append({"tool": name, "args": args, "result": out[:300]})
+        self.log.append({"tool": name, "args": args, "result": out[:300], "t_s": t_s})
         return out
 
     # -- tools -------------------------------------------------------------- #

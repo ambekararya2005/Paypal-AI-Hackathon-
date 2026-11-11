@@ -1,95 +1,92 @@
 /**
- * Shell and tab router.
+ * MANTIS: the app. A hash router with real paths inside one shell.
  *
- * Four screens, one per judging criterion that has a visual answer: the live
- * console (efficacy, watched happening), the results (efficacy and novelty, as
- * numbers), the atlas (diversity), and the fidelity scorecard (fidelity, plus the
- * latency figure that finishes the feasibility argument).
+ *   #/overview            Overview (default)
+ *   #/orders              Orders: the AG Studio dashboard over the gate log
+ *   #/orders/:id          one order, laid out like a payment page
+ *   #/review              held orders waiting on a person
+ *   #/playground          write an attack, watch a real agent run (?replay=giftcard)
+ *   #/verify?id=…         recompute a receipt hash and compare it with PayPal's
+ *   #/mcp                 Claude Desktop (MCP): MANTIS as an MCP server
+ *   #/research/:tab       the pre-hackathon offline research screens
  *
- * Still deliberately not a router library — four tabs and a piece of state is the
- * whole requirement, and CLAUDE.md §5 says nothing heavier than the chart library.
- * The tab order is the order the argument is made in: here is the thing working,
- * here is what it scores, here is the taxonomy it scores against, here is why you
- * should believe the data underneath any of it.
+ * Old links (#ops, #attack, #console, #results, #atlas, #fidelity, #home) are
+ * redirected in router.ts. Not a router library: CLAUDE.md §5 says nothing
+ * heavier than the chart library.
  */
 
-import { useEffect, useState } from "react";
-import Atlas from "./Atlas";
-import Console from "./Console";
-import Fidelity from "./Fidelity";
 import OpsDashboard from "./ops/OpsDashboard";
 import Playground from "./playground/Playground";
-import Results from "./Results";
-import { API_BASE } from "./api";
+import Shell, { type Crumb } from "./app/Shell";
+import { shortId } from "./app/data";
+import Mcp from "./app/pages/Mcp";
+import OrderDetail from "./app/pages/OrderDetail";
+import Overview from "./app/pages/Overview";
+import Research from "./app/pages/Research";
+import ReviewQueue from "./app/pages/ReviewQueue";
+import VerifyPage from "./app/pages/VerifyPage";
+import { useRoute, type Route } from "./app/router";
+import { Empty } from "./app/ui";
 
-type Tab = "ops" | "attack" | "console" | "results" | "atlas" | "fidelity";
+const TAB_LABEL = { console: "Live console", results: "Results", atlas: "Attack atlas", fidelity: "Fidelity" };
 
-const TABS: [Tab, string][] = [
-  ["ops", "MANTIS Ops"],
-  ["attack", "Attack MANTIS"],
-  ["console", "Live console"],
-  ["results", "Results"],
-  ["atlas", "Attack atlas"],
-  ["fidelity", "Fidelity"],
-];
+function crumbsFor(route: Route): Crumb[] {
+  switch (route.name) {
+    case "overview":
+      return [["Overview"]];
+    case "orders":
+      return [["Orders"]];
+    case "order":
+      return [["Orders", "#/orders"], [shortId(route.id)]];
+    case "review":
+      return [["Review queue"]];
+    case "playground":
+      return [["Playground"]];
+    case "verify":
+      return [["Verify receipt"]];
+    case "mcp":
+      return [["Claude Desktop (MCP)"]];
+    case "research":
+      return [["Offline research", "#/research/console"], [TAB_LABEL[route.tab]]];
+    default:
+      return [["Not found"]];
+  }
+}
 
-const SCREENS: Record<Tab, () => JSX.Element> = {
-  ops: OpsDashboard,
-  attack: Playground,
-  console: Console,
-  results: Results,
-  atlas: Atlas,
-  fidelity: Fidelity,
-};
+function Page({ route }: { route: Route }) {
+  switch (route.name) {
+    case "overview":
+      return <Overview />;
+    case "orders":
+      return <OpsDashboard />;
+    case "order":
+      return <OrderDetail key={route.id} id={route.id} />;
+    case "review":
+      return <ReviewQueue />;
+    case "playground":
+      return <Playground />;
+    case "verify":
+      return <VerifyPage id={route.id} />;
+    case "mcp":
+      return <Mcp />;
+    case "research":
+      return <Research tab={route.tab} />;
+    default:
+      return (
+        <Empty title="Page not found">
+          <p>
+            Nothing lives at <span className="mono">#{route.path}</span>. <a href="#/overview">Go to Overview →</a>
+          </p>
+        </Empty>
+      );
+  }
+}
 
 export default function App() {
-  // Deep links: #attack opens the playground, #ops the dashboard, and so on.
-  const fromHash = (): Tab => {
-    const h = window.location.hash.replace("#", "").split("?")[0] as Tab;
-    return TABS.some(([id]) => id === h) ? h : "ops";
-  };
-  const [tab, setTabState] = useState<Tab>(fromHash);
-  const setTab = (t: Tab) => {
-    setTabState(t);
-    if (fromHash() !== t) window.history.replaceState(null, "", `#${t}`);
-  };
-  const [health, setHealth] = useState<{ atlas_cards: number; schema_version: string } | null>(null);
-
-  useEffect(() => {
-    fetch(`${API_BASE}/health`)
-      .then((r) => r.json())
-      .then(setHealth)
-      .catch(() => setHealth(null));
-  }, []);
-
+  const route = useRoute();
   return (
-    <div className="app">
-      <header className="topbar">
-        <div className="brand">
-          <h1>MANTIS</h1>
-          <span className="sub">MANDATE FIREWALL · AGENTIC COMMERCE</span>
-        </div>
-        {health && (
-          <span className="hint num">
-            schema v{health.schema_version} · {health.atlas_cards} attack cards
-          </span>
-        )}
-        <nav className="tabs">
-          {TABS.map(([id, label]) => (
-            <button
-              key={id}
-              className={`tab ${tab === id ? "on" : ""}`}
-              onClick={() => setTab(id)}
-            >
-              {label}
-            </button>
-          ))}
-        </nav>
-      </header>
-      <main className="main">{(() => {
-        const Screen = SCREENS[tab];
-        return <Screen />;
-      })()}</main>
-    </div>
+    <Shell route={route} crumbs={crumbsFor(route)}>
+      <Page route={route} />
+    </Shell>
   );
 }

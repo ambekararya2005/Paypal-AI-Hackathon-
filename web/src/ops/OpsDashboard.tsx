@@ -22,11 +22,14 @@ import { OrderDetailWidget } from "./OrderDetail";
 import { OrderFeedWidget } from "./OrderFeed";
 import { LAYERS } from "./renderers";
 import { MERCHANTS, apiBase, money, opsStore, useOps, type LogRow } from "./store";
+import { PageHead } from "../app/ui";
 import { mantisStudioTheme, type Mode } from "./theme";
 import "./ops.css";
 
 const POLL_MS = 2000;
-const ICON = { url: "data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 1l6 3v4c0 4-3 6-6 7-3-1-6-3-6-7V4z" fill="#22d3ee"/></svg>') };
+/** Studio requires an icon for a custom widget type; it shows only in edit mode, which
+ *  this page never enters. A plain square outline in the text colour. */
+const ICON = { url: "data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" fill="none" stroke="#5f5e5a"/></svg>') };
 
 /** Flat rows for Studio's data engine: one per order, one per (order, layer) catch. */
 function toSources(rows: LogRow[]) {
@@ -134,12 +137,14 @@ const DESKTOP: AgReportState = {
         },
         cMoney: {
           type: "column-chart-grouped",
-          format: titledLegend("$ protected vs $ captured, by merchant"),
+          format: titledLegend("$ captured vs $ protected, by merchant"),
           dataMapping: {
             categoryKey: [{ id: "orders.merchant" }],
+            // Captured first so it takes the palette's ok colour; money blocked before
+            // capture takes the next one, never the colour that means "captured".
             valueKey: [
-              { id: "orders.protected_usd", aggregation: "sum" },
               { id: "orders.captured_usd", aggregation: "sum" },
+              { id: "orders.protected_usd", aggregation: "sum" },
             ],
           },
         },
@@ -240,11 +245,10 @@ function usePollLog() {
   }, []);
 }
 
-/** `?theme=light|dark` wins; otherwise the visitor's OS preference. */
+/** `?theme=dark` opts into the dark mode; light is the default. */
 function initialMode(): Mode {
   const q = new URLSearchParams(window.location.search).get("theme");
-  if (q === "light" || q === "dark") return `mantis-${q}`;
-  return window.matchMedia?.("(prefers-color-scheme: light)").matches ? "mantis-light" : "mantis-dark";
+  return q === "dark" ? "mantis-dark" : "mantis-light";
 }
 
 export default function OpsDashboard() {
@@ -299,18 +303,20 @@ export default function OpsDashboard() {
     // `ag-theme-mode` marks the ancestor whose data-ag-theme-mode Studio and the
     // grids follow; without the class the attribute is ignored.
     <div className="ops ag-theme-mode" data-ag-theme-mode={mode}>
-      <div className="ops-bar">
-        <div>
-          <h2>MANTIS Ops</h2>
-          <span className="ops-sub">
-            every authorization the gate decided · {rows.length} orders · {money(totals.protected)} protected ·{" "}
-            {money(totals.captured)} captured · live, every 2 s
-          </span>
-        </div>
-        <button type="button" className="ops-btn" onClick={() => setMode(mode === "mantis-dark" ? "mantis-light" : "mantis-dark")}>
-          {mode === "mantis-dark" ? "☀ Light" : "☾ Dark"}
-        </button>
-      </div>
+      <PageHead
+        title="Orders"
+        sub={
+          <>
+            Every authorization the gate decided: {rows.length} orders, {money(totals.protected)} blocked before capture,{" "}
+            {money(totals.captured)} captured. Updates every 2 s.
+          </>
+        }
+        actions={
+          <button type="button" className="m-btn" onClick={() => setMode(mode === "mantis-dark" ? "mantis-light" : "mantis-dark")}>
+            {mode === "mantis-dark" ? "Light mode" : "Dark mode"}
+          </button>
+        }
+      />
       <div className="ops-studio">
         {version < 0 || !licenceReady ? (
           // Studio resolves initialState's field references against the data it is

@@ -96,3 +96,6 @@ kaggle.json
 # committed, because HARD RULE 4 says a clean clone must not need them.
 data/reference/*.csv
 data/reference/*.zip
+
+# --- Local screenshots (UI review) -----------------------------------------
+scratch/

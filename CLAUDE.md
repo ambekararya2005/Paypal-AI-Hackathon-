@@ -897,6 +897,41 @@ No new features.
   and stops builds when hit, so there is no $20 alert. `DEPLOY.md` (the old Hugging
   Face runbook) is now a pointer to `docs/deploy_render.md`.
 
+### PayPal Hackathon — Day 5 (UI) (2026-11-11)
+
+The public site becomes a payments dashboard: app shell, sidebar, real hash paths,
+tables that click through to detail pages. Branch `redesign`; no gate, scoring or
+PayPal-flow change.
+
+- **Shell** (`web/src/app/`): test-mode banner, 232 px sidebar (a drawer below 768
+  px) with a Review-queue count and a live-runs meter, top bar with breadcrumbs,
+  order search (`/`) and "Run test attack"; `g o` opens Orders. Routes
+  `#/overview`, `#/orders[/:id]`, `#/review`, `#/playground`, `#/verify?id=`,
+  `#/mcp` (was `#/developers/mcp`, redirected), `#/research/:tab`; the old `#ops`, `#attack`, `#console`,
+  `#results`, `#atlas`, `#fidelity`, `#home` are rewritten in place (`router.ts`).
+- **Tokens** in `web/src/tokens.css` only: white content, warm-grey sidebar, one
+  green accent, four status pairs (Captured / Held / Voided / Authorized), IBM Plex
+  Sans and Mono self-hosted at fixed `/fonts/` URLs by a Vite plugin so the
+  server-rendered consent page loads the same files. Icons: `@radix-ui/react-icons`.
+- **New pages**: Overview (checklist, summary strip, recent orders, review queue),
+  order detail (timeline from the log's own timestamps and latency split, why, pages
+  read, mandate, raw event, details, printable `<Receipt/>`), Review queue, Verify
+  receipt, Developers / MCP. Orders is the AG Studio dashboard **re-themed only**
+  (layout and widgets unchanged). Research is the four old screens as sub-tabs.
+  Consent page restyled as a 560 px payment prompt; escaping unchanged.
+- **API, additive**: `t_s` on every agent step (server-measured, never estimated),
+  `per_ip_remaining` and `page_preview` on `/playground/config` (a read-only peek;
+  it never spends a slot).
+- **Found and fixed: replays reused order ids.** Every per-run playground gate built
+  a `MockClient` with the same default seed, so two replays minted identical mock
+  order ids; the later row superseded the earlier one in the gate log and the
+  consent page could find a different order than the log showed. Each replay gate
+  now gets its own id space; `test_replays_never_reuse_order_ids` pins it. The CLI
+  demo's deterministic ids are unchanged.
+- **Not done**: the JS bundle grew ~59 KB beyond the fonts (the new pages
+  themselves; Radix icons tree-shake to a few KB); the Day 7 single-event latency fix
+  is still outstanding.
+
 ### Day 5 findings
 
 - **The bindings bug that would have cost L3 four fifths of its recall.**

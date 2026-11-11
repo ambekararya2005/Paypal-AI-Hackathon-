@@ -14,126 +14,35 @@
  */
 
 :root {
-  --bg: #07090d;
-  --panel: #0d1117;
-  --panel-2: #131a24;
-  --line: #1f2836;
-  --line-bright: #2c3849;
+  /* Mapped onto the app tokens (tokens.css). --bg, --mono and --sans come from there. */
+  --panel: var(--bg);
+  --panel-2: var(--surface-2);
+  --line: var(--border);
+  --line-bright: var(--border-2);
 
-  --ink: #e6edf6;
-  --ink-dim: #8b9bb0;
-  --ink-faint: #5a6a80;
+  --ink: var(--text);
+  --ink-dim: var(--text-2);
+  --ink-faint: var(--text-3);
 
-  --blue: #22d3ee; /* the defence */
-  --blue-dim: #0e7490;
-  --red: #f59e0b; /* the adversary */
-  --red-dim: #92400e;
+  --blue: var(--accent); /* the defence */
+  --blue-dim: var(--accent);
+  --red: var(--warn-fg); /* the adversary */
+  --red-dim: var(--warn-bg);
 
-  --approve: #3f6b52;
-  --challenge: #b58324;
-  --review: #c2620f;
-  --decline: #dc2626;
-
-  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
-  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --approve: var(--ok-fg);
+  --challenge: var(--warn-fg);
+  --review: var(--warn-fg);
+  --decline: var(--bad-fg);
 }
 
 * {
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-}
-
 /* Numbers must never reflow as they tick. Every figure in this UI is tabular. */
 .num {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-}
-
-/* ------------------------------------------------------------------ shell -- */
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
-
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, #0b0f16, #080b11);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-
-.brand {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-}
-
-.brand h1 {
-  margin: 0;
-  font-size: 17px;
-  letter-spacing: 0.14em;
-  font-weight: 700;
-}
-
-.brand .sub {
-  color: var(--ink-faint);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-}
-
-.tabs {
-  display: flex;
-  gap: 4px;
-  margin-left: auto;
-}
-
-.tab {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--ink-dim);
-  padding: 6px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  font-family: inherit;
-}
-
-.tab:hover {
-  color: var(--ink);
-  background: var(--panel-2);
-}
-
-.tab.on {
-  color: var(--blue);
-  border-color: var(--blue-dim);
-  background: #0a1d24;
-}
-
-.main {
-  padding: 18px 20px 40px;
-  max-width: 1560px;
-  width: 100%;
-  margin: 0 auto;
 }
 
 /* ------------------------------------------------------------------ panel -- */
@@ -184,14 +93,14 @@ body {
   padding: 8px 18px;
   border-radius: 6px;
   border: 1px solid var(--blue-dim);
-  background: #0a1d24;
+  background: var(--accent-tint);
   color: var(--blue);
   cursor: pointer;
   font-weight: 600;
 }
 
 .btn:hover:not(:disabled) {
-  background: #0d2831;
+  background: var(--accent-tint);
 }
 
 .btn:disabled {
@@ -201,7 +110,7 @@ body {
 
 .btn.stop {
   border-color: var(--red-dim);
-  background: #2a1a05;
+  background: var(--warn-bg);
   color: var(--red);
 }
 
@@ -266,7 +175,7 @@ label.field {
 }
 
 .tally.approve .v {
-  color: #6ea582;
+  color: var(--ok-fg);
 }
 .tally.challenge .v {
   color: var(--challenge);
@@ -312,7 +221,7 @@ label.field {
 
 .auth.sel {
   border-color: var(--blue-dim);
-  background: #0c1a20;
+  background: var(--accent-tint);
 }
 
 .auth.d-approve {
@@ -384,7 +293,7 @@ label.field {
 .rail.agentic {
   color: var(--blue);
   border-color: var(--blue-dim);
-  background: #08191f;
+  background: var(--accent-tint);
 }
 
 .badge {
@@ -395,11 +304,11 @@ label.field {
   padding: 4px 0;
   border-radius: 5px;
   text-align: center;
-  color: #080b10;
+  color: #ffffff;
 }
 
 .badge.approve {
-  background: #4d7f61;
+  background: var(--ok-fg);
 }
 .badge.challenge {
   background: var(--challenge);
@@ -423,19 +332,19 @@ label.field {
 }
 
 .outcome.hit {
-  color: #6ea582;
-  border-color: #2c4a38;
-  background: #0d1a13;
+  color: var(--ok-fg);
+  border-color: var(--border-2);
+  background: var(--ok-bg);
 }
 .outcome.miss {
   color: var(--red);
   border-color: var(--red-dim);
-  background: #1d1305;
+  background: var(--warn-bg);
 }
 .outcome.fp {
   color: var(--review);
-  border-color: #5c3a16;
-  background: #1c1207;
+  border-color: var(--border-2);
+  background: var(--warn-bg);
 }
 .outcome.ok {
   color: var(--ink-faint);
@@ -474,7 +383,7 @@ label.field {
 
 .track {
   height: 7px;
-  background: #0a0e14;
+  background: var(--surface-2);
   border: 1px solid var(--line);
   border-radius: 4px;
   overflow: hidden;
@@ -482,12 +391,12 @@ label.field {
 
 .fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--blue-dim), var(--blue));
+  background: var(--accent);
   transition: width 240ms ease-out;
 }
 
 .fill.none {
-  background: repeating-linear-gradient(45deg, #1a2430, #1a2430 4px, #131a24 4px, #131a24 8px);
+  background: var(--border);
 }
 
 .contrib {
@@ -513,7 +422,7 @@ label.field {
   color: var(--red);
 }
 .contrib .w.neg {
-  color: #6ea582;
+  color: var(--ok-fg);
 }
 
 .contrib .f {
@@ -527,7 +436,7 @@ label.field {
 
 .l0-fired {
   border: 1px solid var(--decline);
-  background: #1a0a0a;
+  background: var(--bad-bg);
   border-radius: 7px;
   padding: 9px 11px;
   margin-bottom: 12px;
@@ -608,7 +517,7 @@ label.field {
 
 .rrow.loop {
   border-color: var(--blue);
-  background: linear-gradient(90deg, #0a1d24, var(--panel-2));
+  background: var(--accent-tint);
 }
 .rrow.loop .big {
   color: var(--blue);
@@ -865,12 +774,12 @@ table.data tr:last-child td {
 }
 
 .badge.rail-b {
-  background: #1c2c3a;
+  background: var(--border-2);
   color: var(--ink-dim);
 }
 
 .badge.layer-b {
-  background: #0a2730;
+  background: var(--accent-tint);
   color: var(--blue);
 }
 
@@ -881,7 +790,7 @@ table.data tr:last-child td {
 
 .badge.ref-b {
   background: var(--blue-dim);
-  color: #dff6fb;
+  color: var(--text);
 }
 
 /* The card drawer. A dialog rather than a route, because the atlas is one screen

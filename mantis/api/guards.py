@@ -70,6 +70,20 @@ class SlidingWindow:
                     self._hits.pop(stale, None)
             return True, 0.0
 
+    def remaining(self, key: str, *, now: float | None = None) -> int:
+        """How many more hits ``key`` may make right now. Read-only: records nothing.
+
+        It neither appends a hit nor creates a deque for an unseen key, so asking
+        cannot consume a slot or grow the table.
+        """
+        now = time.monotonic() if now is None else now
+        with self._lock:
+            hits = self._hits.get(key)
+            if not hits:
+                return self.limit
+            live = sum(1 for t in hits if now - t < self.window_s)
+            return max(0, self.limit - live)
+
 
 def _rate_per_min() -> int:
     raw = os.environ.get("MANTIS_RATE_PER_MIN", "").strip()
